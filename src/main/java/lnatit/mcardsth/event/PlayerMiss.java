@@ -1,6 +1,7 @@
 package lnatit.mcardsth.event;
 
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.item.instantCard;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -34,7 +35,6 @@ public class PlayerMiss
         {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) livingEntity;
             ItemStack itemStack = getItemStack(serverPlayerEntity, ItemReg.EXTEND.get());
-
 
             if (itemStack == null)
                 return;
