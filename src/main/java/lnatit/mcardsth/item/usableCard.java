@@ -8,7 +8,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class usableCard extends Item
+public class usableCard extends AbstractCard
 {
     public usableCard()
     {

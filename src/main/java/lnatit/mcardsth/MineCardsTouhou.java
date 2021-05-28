@@ -14,7 +14,6 @@ public class MineCardsTouhou
 
     public MineCardsTouhou()
     {
-        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ItemReg.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 }
