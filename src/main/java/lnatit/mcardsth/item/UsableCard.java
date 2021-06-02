@@ -8,16 +8,16 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class attributeCard extends AbstractCard
+public class UsableCard extends AbstractCard
 {
-    public attributeCard()
+    public UsableCard()
     {
-        super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.EPIC));
+        super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.RARE));
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        return null;
+        return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 }

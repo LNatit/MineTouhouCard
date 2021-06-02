@@ -14,8 +14,8 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     static Factory factory = new Factory();
     private byte life;
     private byte spell;
-    private byte life_fragment;
-    private byte spell_fragment;
+    private byte lifeFragment;
+    private byte spellFragment;
     private float power;
     private PlayerEntity player;
 
@@ -23,8 +23,8 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     {
         this.life = 2;
         this.spell = 3;
-        this.life_fragment = 0;
-        this.spell_fragment = 0;
+        this.lifeFragment = 0;
+        this.spellFragment = 0;
         if (!player.world.isRemote)
             this.player = player;
         else this.player = null;
@@ -95,27 +95,27 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
 
     public boolean addLifeFragment()
     {
-        if (this.life_fragment < 2)
+        if (this.lifeFragment < 2)
         {
-            this.life_fragment++;
+            this.lifeFragment++;
             return true;
         } else
         {
             boolean flag = this.Extend();
             if (flag)
-                this.life_fragment = 0;
+                this.lifeFragment = 0;
             return flag;
         }
     }
 
     public void addSpellFragment()
     {
-        if (this.spell_fragment < 2)
-            this.spell_fragment++;
+        if (this.spellFragment < 2)
+            this.spellFragment++;
         else
         {
             this.addSpell();
-            this.spell_fragment = 0;
+            this.spellFragment = 0;
         }
     }
 
@@ -135,15 +135,13 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     {
         CompoundNBT nbt = new CompoundNBT();
 
-        nbt.putByte("life", this.life);
-        nbt.putByte("spell", this.spell);
-        nbt.putByte("life_fragment", this.life_fragment);
-        nbt.putByte("spell_fragment", this.spell_fragment);
-        nbt.putFloat("power", this.power);
+        nbt.putByte("Life", this.life);
+        nbt.putByte("Spell", this.spell);
+        nbt.putByte("LifeFragment", this.lifeFragment);
+        nbt.putByte("SpellFragment", this.spellFragment);
+        nbt.putFloat("Power", this.power);
 
-        boolean flag = (player != null);
-        nbt.putBoolean("flag", flag);
-        if (flag)
+        if (player != null)
             nbt.putUniqueId("UUID", this.player.getUniqueID());
 
         return nbt;
@@ -152,13 +150,13 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     @Override
     public void deserializeNBT(CompoundNBT nbt)
     {
-        this.life = nbt.getByte("life");
-        this.spell = nbt.getByte("spell");
-        this.life_fragment = nbt.getByte("life_fragment");
-        this.spell_fragment = nbt.getByte("spell_fragment");
-        this.power = nbt.getFloat("power");
+        this.life = nbt.getByte("Life");
+        this.spell = nbt.getByte("Spell");
+        this.lifeFragment = nbt.getByte("LifeFragment");
+        this.spellFragment = nbt.getByte("SpellFragment");
+        this.power = nbt.getFloat("Power");
 
-        if (nbt.getBoolean("flag"))
+        if (nbt.contains("UUID"))
         {
             UUID uniqueId = nbt.getUniqueId("UUID");
         }

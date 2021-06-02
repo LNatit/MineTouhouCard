@@ -1,6 +1,8 @@
 package lnatit.mcardsth.item;
 
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
@@ -8,9 +10,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class abilityCard extends AbstractCard
+public class InstantCard extends AbstractCard
 {
-    public abilityCard()
+    public InstantCard()
     {
         super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.RARE));
     }
@@ -20,4 +22,6 @@ public class abilityCard extends AbstractCard
     {
         return null;
     }
+
+
 }

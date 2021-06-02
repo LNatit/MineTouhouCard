@@ -8,9 +8,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class optionCard extends AbstractCard
+public class AbilityCard extends AbstractCard
 {
-    public optionCard()
+    public AbilityCard()
     {
         super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.RARE));
     }

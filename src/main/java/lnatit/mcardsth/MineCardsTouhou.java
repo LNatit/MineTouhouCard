@@ -1,5 +1,6 @@
 package lnatit.mcardsth;
 
+import lnatit.mcardsth.entity.EntityTypeReg;
 import lnatit.mcardsth.item.ItemReg;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -15,5 +16,6 @@ public class MineCardsTouhou
     public MineCardsTouhou()
     {
         ItemReg.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        EntityTypeReg.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 }

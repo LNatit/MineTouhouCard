@@ -8,11 +8,11 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class instantCard extends AbstractCard
+public class AttributeCard extends AbstractCard
 {
-    public instantCard()
+    public AttributeCard()
     {
-        super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.RARE));
+        super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.EPIC));
     }
 
     @Override

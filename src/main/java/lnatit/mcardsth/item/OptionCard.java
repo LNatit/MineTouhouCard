@@ -8,9 +8,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class usableCard extends AbstractCard
+public class OptionCard extends AbstractCard
 {
-    public usableCard()
+    public OptionCard()
     {
         super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.RARE));
     }
@@ -18,6 +18,6 @@ public class usableCard extends AbstractCard
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        return null;
     }
 }

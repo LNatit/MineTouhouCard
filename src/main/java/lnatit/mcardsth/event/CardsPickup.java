@@ -2,18 +2,19 @@ package lnatit.mcardsth.event;
 
 import lnatit.mcardsth.capabilities.PlayerProperties;
 import lnatit.mcardsth.item.AbstractCard;
-import lnatit.mcardsth.item.instantCard;
+import lnatit.mcardsth.item.InstantCard;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static lnatit.mcardsth.capabilities.PlayerPropertiesProvider.CPP_DEFAULT;
-import static lnatit.mcardsth.item.ItemReg.*;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class CardsPickup
 {
     @SubscribeEvent
@@ -23,36 +24,41 @@ public class CardsPickup
         Item item = event.getItem().getItem().getItem();
         if (item instanceof AbstractCard)
         {
-            if (item instanceof instantCard)
-            {
-
-            }
+            if (item instanceof InstantCard)
+                instantCardHandler(player, (InstantCard) item);
         }
+
     }
 
-    public static void instantCardHandler(PlayerEntity player, instantCard card)
+    public static void instantCardHandler(PlayerEntity player, InstantCard card)
     {
-        if (EXTEND.get().equals(card))
+        if (card.getRegistryName() != null)
         {
-            playerGetExtend(player);
-        } else if (BOMB.get().equals(card))
-        {
-            playerGetBomb(player);
-        } else if (EXTEND2.get().equals(card))
-        {
-            playerGetExtend2(player);
-        } else if (BOMB2.get().equals(card))
-        {
-            playerGetBomb2(player);
-        } else if (PENDULUM.get().equals(card))
-        {
-            playerGetPendulum(player);
-        } else if (DANGO.get().equals(card))
-        {
-            playerGetDango(player);
-        } else if (MOKOU.get().equals(card))
-        {
-            playerGetMokou(player);
+            String cardName = card.getRegistryName().getPath();
+            switch (cardName)
+            {
+                case "extend":
+                    playerGetExtend(player);
+                    break;
+                case "bomb":
+                    playerGetBomb(player);
+                    break;
+                case "extend2":
+                    playerGetExtend2(player);
+                    break;
+                case "bomb2":
+                    playerGetBomb2(player);
+                    break;
+                case "pendulum":
+                    playerGetPendulum(player);
+                    break;
+                case "dango":
+                    playerGetDango(player);
+                    break;
+                case "mokou":
+                    playerGetMokou(player);
+                    break;
+            }
         }
     }
 
@@ -82,7 +88,7 @@ public class CardsPickup
 
     public static void playerGetPendulum(PlayerEntity player)
     {
-
+        player.giveExperiencePoints(50);
     }
 
     public static void playerGetDango(PlayerEntity player)

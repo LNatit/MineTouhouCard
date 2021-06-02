@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static lnatit.mcardsth.capabilities.PlayerPropertiesProvider.CPP_DEFAULT;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class CommonEventHandler
 {
     @SubscribeEvent
