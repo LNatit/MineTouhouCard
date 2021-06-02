@@ -11,6 +11,8 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
@@ -107,6 +109,11 @@ public class InstantCardEntity extends Entity
             this.setCard(ItemStack.read(compound.getCompound("Item")));
     }
 
+    public int getAge()
+    {
+        return age;
+    }
+
     public ItemStack getCard()
     {
         return this.dataManager.get(CARD);
@@ -116,6 +123,11 @@ public class InstantCardEntity extends Entity
     {
         if (card.getItem() instanceof InstantCard)
             this.dataManager.set(CARD, card);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public float getItemHover(float partialTicks) {
+        return ((float)this.getAge() + partialTicks) / 20.0F + this.hoverStart;
     }
 
     @Override

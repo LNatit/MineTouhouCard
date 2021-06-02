@@ -2,6 +2,7 @@ package lnatit.mcardsth.event;
 
 import lnatit.mcardsth.entity.EntityTypeReg;
 import lnatit.mcardsth.entity.InstantCardRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,6 +18,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public static void onClientSetUpEvent(FMLClientSetupEvent event)
     {
-        RenderingRegistry.registerEntityRenderingHandler(EntityTypeReg.INSTANT_CARD.get(), InstantCardRenderer::new);
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityTypeReg.INSTANT_CARD.get(), (EntityRendererManager manager) -> new InstantCardRenderer(manager, Minecraft.getInstance().getItemRenderer()));
     }
 }
