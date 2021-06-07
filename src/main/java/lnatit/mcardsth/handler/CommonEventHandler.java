@@ -1,7 +1,7 @@
-package lnatit.mcardsth.event;
+package lnatit.mcardsth.handler;
 
-import lnatit.mcardsth.capabilities.PlayerProperties;
-import lnatit.mcardsth.capabilities.PlayerPropertiesProvider;
+import lnatit.mcardsth.capability.PlayerProperties;
+import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -12,7 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
-import static lnatit.mcardsth.capabilities.PlayerPropertiesProvider.CPP_DEFAULT;
+import static lnatit.mcardsth.capability.PlayerPropertiesProvider.CPP_DEFAULT;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class CommonEventHandler

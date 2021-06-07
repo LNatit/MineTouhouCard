@@ -1,4 +1,4 @@
-package lnatit.mcardsth.event;
+package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.entity.EntityTypeReg;
 import lnatit.mcardsth.entity.InstantCardRenderer;
@@ -12,13 +12,15 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
-@Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEventHandler
 {
     @SubscribeEvent
     public static void onClientSetUpEvent(FMLClientSetupEvent event)
     {
-
-        RenderingRegistry.registerEntityRenderingHandler(EntityTypeReg.INSTANT_CARD.get(), (EntityRendererManager manager) -> new InstantCardRenderer(manager, Minecraft.getInstance().getItemRenderer()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTypeReg.INSTANT_CARD.get(),
+                (EntityRendererManager manager) ->
+                        new InstantCardRenderer(manager, Minecraft.getInstance().getItemRenderer())
+        );
     }
 }

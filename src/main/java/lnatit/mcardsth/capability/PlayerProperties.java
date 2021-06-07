@@ -1,6 +1,8 @@
-package lnatit.mcardsth.capabilities;
+package lnatit.mcardsth.capability;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -141,9 +143,6 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         nbt.putByte("SpellFragment", this.spellFragment);
         nbt.putFloat("Power", this.power);
 
-        if (player != null)
-            nbt.putUniqueId("UUID", this.player.getUniqueID());
-
         return nbt;
     }
 
@@ -155,23 +154,11 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         this.lifeFragment = nbt.getByte("LifeFragment");
         this.spellFragment = nbt.getByte("SpellFragment");
         this.power = nbt.getFloat("Power");
-
-        if (nbt.contains("UUID"))
-        {
-            UUID uniqueId = nbt.getUniqueId("UUID");
-        }
-        /*
-        TODO 逻辑未完成：
-         反序列化时要考虑玩家不在线的情况
-        */
     }
 
-    public void sync()
+    public void sync(PlayerEntity playerIn)
     {
-        if (this.player != null)
-        {
 
-        }
     }
 
     static class Factory implements Callable<PlayerProperties>

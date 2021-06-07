@@ -1,4 +1,4 @@
-package lnatit.mcardsth.capabilities;
+package lnatit.mcardsth.capability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;

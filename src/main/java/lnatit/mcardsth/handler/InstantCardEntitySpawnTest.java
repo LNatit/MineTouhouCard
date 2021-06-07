@@ -1,4 +1,4 @@
-package lnatit.mcardsth.event;
+package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.entity.InstantCardEntity;
 import lnatit.mcardsth.item.InstantCard;

@@ -1,4 +1,4 @@
-package lnatit.mcardsth.event;
+package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.item.ItemReg;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -16,16 +16,17 @@ import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.GameRules;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
-import static lnatit.mcardsth.event.EntityUtils.*;
+import static lnatit.mcardsth.handler.EntityUtils.*;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class PlayerMiss
 {
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void LifeUsed(LivingDeathEvent event)
     {
         LivingEntity livingEntity = event.getEntityLiving();

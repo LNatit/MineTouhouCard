@@ -1,18 +1,17 @@
-package lnatit.mcardsth.event;
+package lnatit.mcardsth.handler;
 
-import lnatit.mcardsth.capabilities.PlayerProperties;
+import lnatit.mcardsth.capability.PlayerProperties;
+import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.InstantCard;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
-import static lnatit.mcardsth.capabilities.PlayerPropertiesProvider.CPP_DEFAULT;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class CardsPickup
@@ -64,25 +63,25 @@ public class CardsPickup
 
     public static void playerGetExtend(PlayerEntity player)
     {
-        LazyOptional<PlayerProperties> cap = player.getCapability(CPP_DEFAULT);
+        LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         cap.ifPresent(PlayerProperties::Extend);
     }
 
     public static void playerGetBomb(PlayerEntity player)
     {
-        LazyOptional<PlayerProperties> cap = player.getCapability(CPP_DEFAULT);
+        LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         cap.ifPresent(PlayerProperties::addSpell);
     }
 
     public static void playerGetExtend2(PlayerEntity player)
     {
-        LazyOptional<PlayerProperties> cap = player.getCapability(CPP_DEFAULT);
+        LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         cap.ifPresent(PlayerProperties::addLifeFragment);
     }
 
     public static void playerGetBomb2(PlayerEntity player)
     {
-        LazyOptional<PlayerProperties> cap = player.getCapability(CPP_DEFAULT);
+        LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         cap.ifPresent(PlayerProperties::addSpellFragment);
     }
 
@@ -93,13 +92,13 @@ public class CardsPickup
 
     public static void playerGetDango(PlayerEntity player)
     {
-        LazyOptional<PlayerProperties> cap = player.getCapability(CPP_DEFAULT);
+        LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         cap.ifPresent((playerProperties) -> playerProperties.collectPower(0.50F));
     }
 
     public static void playerGetMokou(PlayerEntity player)
     {
-        LazyOptional<PlayerProperties> cap = player.getCapability(CPP_DEFAULT);
+        LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         for (int i = 0; i < 3; i++)
             cap.ifPresent(PlayerProperties::Extend);
     }

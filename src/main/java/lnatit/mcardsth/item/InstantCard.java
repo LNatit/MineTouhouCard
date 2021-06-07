@@ -20,7 +20,7 @@ public class InstantCard extends AbstractCard
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        return null;
+        return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
 
