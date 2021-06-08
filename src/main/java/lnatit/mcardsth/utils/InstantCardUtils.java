@@ -5,43 +5,49 @@ import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import lnatit.mcardsth.entity.InstantCardEntity;
 import lnatit.mcardsth.item.InstantCard;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
+
 public class InstantCardUtils
 {
-    public static void instantCardHandler(PlayerEntity player, InstantCard card)
+    public static boolean instantCardHandler(@Nonnull PlayerEntity player, InstantCard card)
     {
+        boolean flag = false;
+
         if (card.getRegistryName() != null)
         {
             String cardName = card.getRegistryName().getPath();
+
             switch (cardName)
             {
                 case "extend":
-                    playerGetExtend(player);
+                    flag = playerGetExtend(player);
                     break;
                 case "bomb":
-                    playerGetBomb(player);
+                    flag = playerGetBomb(player);
                     break;
                 case "extend2":
-                    playerGetExtend2(player);
+                    flag = playerGetExtend2(player);
                     break;
                 case "bomb2":
-                    playerGetBomb2(player);
+                    flag = playerGetBomb2(player);
                     break;
                 case "pendulum":
-                    playerGetPendulum(player);
+                    flag = playerGetPendulum(player);
                     break;
                 case "dango":
-                    playerGetDango(player);
+                    flag = playerGetDango(player);
                     break;
                 case "mokou":
-                    playerGetMokou(player);
+                    flag = playerGetMokou(player);
                     break;
             }
         }
+
+        return flag;
     }
 
     public static void triggerItemPickupTrigger(PlayerEntity playerIn, InstantCardEntity cardEntity)
@@ -51,45 +57,56 @@ public class InstantCardUtils
             CriteriaTriggers.THROWN_ITEM_PICKED_UP_BY_ENTITY.test((ServerPlayerEntity) playerentity, cardEntity.getCard(), playerIn);
     }
 
-    public static void playerGetExtend(PlayerEntity player)
+    public static boolean playerGetExtend(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::Extend);
+        PlayerProperties playerProperties = cap.orElse(null);
+        boolean flag = playerProperties.Extend((ServerPlayerEntity) player);
+        return flag;
     }
 
-    public static void playerGetBomb(PlayerEntity player)
+    public static boolean playerGetBomb(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::addSpell);
+        cap.ifPresent(playerProperties -> playerProperties.addSpell((ServerPlayerEntity) player));
+        return true;
     }
 
-    public static void playerGetExtend2(PlayerEntity player)
+    public static boolean playerGetExtend2(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::addLifeFragment);
+        PlayerProperties playerProperties = cap.orElse(null);
+        boolean flag = playerProperties.addLifeFragment((ServerPlayerEntity) player);
+        return flag;
     }
 
-    public static void playerGetBomb2(PlayerEntity player)
+    public static boolean playerGetBomb2(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::addSpellFragment);
+        cap.ifPresent(playerProperties -> playerProperties.addSpellFragment((ServerPlayerEntity) player));
+        return true;
     }
 
-    public static void playerGetPendulum(PlayerEntity player)
+    public static boolean playerGetPendulum(PlayerEntity player)
     {
         player.giveExperiencePoints(50);
+        return true;
     }
 
-    public static void playerGetDango(PlayerEntity player)
+    public static boolean playerGetDango(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent((playerProperties) -> playerProperties.collectPower(0.50F));
+        cap.ifPresent((playerProperties) -> playerProperties.collectPower((ServerPlayerEntity) player, 0.50F));
+        return true;
     }
 
-    public static void playerGetMokou(PlayerEntity player)
+    public static boolean playerGetMokou(PlayerEntity player)
     {
+        boolean flag = false;
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
+        PlayerProperties playerProperties = cap.orElse(null);
         for (int i = 0; i < 3; i++)
-            cap.ifPresent(PlayerProperties::Extend);
+            flag = playerProperties.Extend((ServerPlayerEntity) player) || flag;
+        return flag;
     }
 }

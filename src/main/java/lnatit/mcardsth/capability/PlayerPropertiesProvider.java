@@ -23,7 +23,7 @@ public class PlayerPropertiesProvider implements ICapabilitySerializable<Compoun
 
     public PlayerPropertiesProvider(PlayerEntity player)
     {
-        this.defaultInstance.initProperties(player);
+        this.defaultInstance.initProperties();
     }
 
     @Nonnull

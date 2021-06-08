@@ -3,6 +3,7 @@ package lnatit.mcardsth.entity;
 
 import lnatit.mcardsth.event.InstantCardPickupEvent;
 import lnatit.mcardsth.item.InstantCard;
+import lnatit.mcardsth.utils.InstantCardUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -30,7 +31,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-import static lnatit.mcardsth.utils.InstantCardUtils.instantCardHandler;
 import static lnatit.mcardsth.utils.InstantCardUtils.triggerItemPickupTrigger;
 
 /**
@@ -259,10 +259,11 @@ public class InstantCardEntity extends Entity
             if (this.pickupDelay > 0) return;
             InstantCard card = (InstantCard) this.getCard().getItem();
 
-            if (MinecraftForge.EVENT_BUS.post(new InstantCardPickupEvent(entityIn, card)))
-                return;
+//            if (MinecraftForge.EVENT_BUS.post(new InstantCardPickupEvent(entityIn, card)))
+//                return;
 
-            instantCardHandler(entityIn, card);
+            if (!InstantCardUtils.instantCardHandler(entityIn, card))
+                return;
             this.remove();
 
             entityIn.addStat(Stats.ITEM_PICKED_UP.get(card), 1);

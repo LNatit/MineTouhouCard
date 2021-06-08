@@ -5,6 +5,7 @@ import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.InstantCard;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -64,25 +65,25 @@ public class CardsPickup
     public static void playerGetExtend(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::Extend);
+        cap.ifPresent(playerProperties -> playerProperties.Extend((ServerPlayerEntity) player));
     }
 
     public static void playerGetBomb(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::addSpell);
+        cap.ifPresent(playerProperties -> playerProperties.addSpell((ServerPlayerEntity) player));
     }
 
     public static void playerGetExtend2(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::addLifeFragment);
+        cap.ifPresent(playerProperties -> playerProperties.addLifeFragment((ServerPlayerEntity) player));
     }
 
     public static void playerGetBomb2(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(PlayerProperties::addSpellFragment);
+        cap.ifPresent(playerProperties -> playerProperties.addSpellFragment((ServerPlayerEntity) player));
     }
 
     public static void playerGetPendulum(PlayerEntity player)
@@ -93,13 +94,13 @@ public class CardsPickup
     public static void playerGetDango(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent((playerProperties) -> playerProperties.collectPower(0.50F));
+        cap.ifPresent((playerProperties) -> playerProperties.collectPower((ServerPlayerEntity) player, 0.50F));
     }
 
     public static void playerGetMokou(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         for (int i = 0; i < 3; i++)
-            cap.ifPresent(PlayerProperties::Extend);
+            cap.ifPresent(playerProperties -> playerProperties.Extend((ServerPlayerEntity) player));
     }
 }

@@ -1,5 +1,6 @@
 package lnatit.mcardsth.item;
 
+import lnatit.mcardsth.utils.InstantCardUtils;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
@@ -20,7 +21,11 @@ public class InstantCard extends AbstractCard
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        if (handIn == Hand.MAIN_HAND)
+        {
+            return InstantCardUtils.instantCardHandler(playerIn, (InstantCard) playerIn.getHeldItem(handIn).getItem()) ? ActionResult.resultConsume(playerIn.getHeldItem(handIn)) : ActionResult.resultFail(playerIn.getHeldItem(handIn));
+        } else
+            return ActionResult.resultPass(playerIn.getHeldItem(handIn));
     }
 
 

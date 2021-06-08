@@ -1,12 +1,12 @@
 package lnatit.mcardsth.capability;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
+import lnatit.mcardsth.network.NetworkManager;
+import lnatit.mcardsth.network.nbtPacket;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
-import java.util.UUID;
+import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
 
 public class PlayerProperties implements INBTSerializable<CompoundNBT>
@@ -19,65 +19,69 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     private byte lifeFragment;
     private byte spellFragment;
     private float power;
-    private PlayerEntity player;
 
-    public void initProperties(PlayerEntity player)
+    public void initProperties()
     {
         this.life = 2;
         this.spell = 3;
         this.lifeFragment = 0;
         this.spellFragment = 0;
-        if (!player.world.isRemote)
-            this.player = player;
-        else this.player = null;
+        System.out.println("capability init!!!");
     }
 
-    public boolean Extend()
+    public boolean Extend(@Nullable ServerPlayerEntity player)
     {
         checkLife();
         if (this.life == MAX_LIFE)
             return false;
         else this.life++;
+        if (player != null)
+            sync(player);
         return true;
     }
 
-    public void addSpell()
+    public void addSpell(ServerPlayerEntity player)
     {
         this.spell++;
+        sync(player);
     }
 
-    public void collectPower(float points)
+    public void collectPower(ServerPlayerEntity player, float points)
     {
         if (points + this.power <= MAX_POWER) {
             this.power += points;
         } else {
             this.power = MAX_POWER;
         }
+        sync(player);
     }
 
-    public boolean canHit()
+    public boolean canHit(ServerPlayerEntity player)
     {
         if (this.life == 0)
             return false;
         else this.life--;
+        sync(player);
         return true;
     }
 
-    public boolean canSpell()
+    public boolean canSpell(ServerPlayerEntity player)
     {
         if (this.spell == 0)
             return false;
         else this.spell--;
+        sync(player);
         return true;
     }
 
-    public void losePower(float points)
+    public void losePower(ServerPlayerEntity player, float points)
     {
         if (points <= this.power) {
             this.power -= points;
         } else {
             this.power = 0.0f;
         }
+        sync(player);
     }
 
     public byte getLife()
@@ -95,7 +99,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         return this.power;
     }
 
-    public boolean addLifeFragment()
+    public boolean addLifeFragment(ServerPlayerEntity player)
     {
         if (this.lifeFragment < 2)
         {
@@ -103,20 +107,20 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
             return true;
         } else
         {
-            boolean flag = this.Extend();
+            boolean flag = this.Extend(null);
             if (flag)
                 this.lifeFragment = 0;
             return flag;
         }
     }
 
-    public void addSpellFragment()
+    public void addSpellFragment(ServerPlayerEntity player)
     {
         if (this.spellFragment < 2)
             this.spellFragment++;
         else
         {
-            this.addSpell();
+            this.addSpell(player);
             this.spellFragment = 0;
         }
     }
@@ -125,11 +129,6 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     {
         if (this.life > MAX_LIFE)
             this.life = MAX_LIFE;
-    }
-
-    private boolean isRemote()
-    {
-        return this.player == null;
     }
 
     @Override
@@ -156,9 +155,9 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         this.power = nbt.getFloat("Power");
     }
 
-    public void sync(PlayerEntity playerIn)
+    public void sync(ServerPlayerEntity playerIn)
     {
-
+//        NetworkManager.serverSendToPlayer(new nbtPacket(serializeNBT()), playerIn);
     }
 
     static class Factory implements Callable<PlayerProperties>

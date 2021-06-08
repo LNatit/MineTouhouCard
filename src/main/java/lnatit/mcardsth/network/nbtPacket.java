@@ -1,11 +1,12 @@
 package lnatit.mcardsth.network;
 
+import lnatit.mcardsth.capability.PlayerPropertiesProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.SharedSeedRandom;
+import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class nbtPacket
@@ -28,13 +29,17 @@ public class nbtPacket
     }
 
     /**
-     * TODO unfinished
+     * Half-finished
      */
     public static void handle(nbtPacket packet, Supplier<NetworkEvent.Context> contextSupplier)
     {
-        contextSupplier.get().enqueueWork(() -> {
-
-        });
+        if (contextSupplier.get().getDirection().equals(NetworkDirection.PLAY_TO_CLIENT))
+        {
+            contextSupplier.get().enqueueWork(() -> {
+                if (Minecraft.getInstance().player != null)
+                    Minecraft.getInstance().player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT).ifPresent(cap -> cap.deserializeNBT(packet.nbt));
+            });
+        }
 
         contextSupplier.get().setPacketHandled(true);
     }
