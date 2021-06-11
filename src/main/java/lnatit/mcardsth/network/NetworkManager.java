@@ -19,7 +19,7 @@ public class NetworkManager
             PROTOCOL_VERSION::equals
     );
 
-    public static void registerPacket(String[] args)
+    public static void registerPacket()
     {
         INSTANCE.registerMessage(0, nbtPacket.class, nbtPacket::encode, nbtPacket::decode, nbtPacket::handle);
     }

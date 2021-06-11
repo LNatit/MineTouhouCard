@@ -6,6 +6,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
+@Deprecated
 @Cancelable
 @Event.HasResult
 public class InstantCardPickupEvent extends PlayerEvent

@@ -61,14 +61,13 @@ public class InstantCardUtils
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         PlayerProperties playerProperties = cap.orElse(null);
-        boolean flag = playerProperties.Extend((ServerPlayerEntity) player);
-        return flag;
+        return playerProperties.Extend(player);
     }
 
     public static boolean playerGetBomb(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(playerProperties -> playerProperties.addSpell((ServerPlayerEntity) player));
+        cap.ifPresent(playerProperties -> playerProperties.addSpell(player));
         return true;
     }
 
@@ -76,14 +75,13 @@ public class InstantCardUtils
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         PlayerProperties playerProperties = cap.orElse(null);
-        boolean flag = playerProperties.addLifeFragment((ServerPlayerEntity) player);
-        return flag;
+        return playerProperties.addLifeFragment(player);
     }
 
     public static boolean playerGetBomb2(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent(playerProperties -> playerProperties.addSpellFragment((ServerPlayerEntity) player));
+        cap.ifPresent(playerProperties -> playerProperties.addSpellFragment(player));
         return true;
     }
 
@@ -96,7 +94,7 @@ public class InstantCardUtils
     public static boolean playerGetDango(PlayerEntity player)
     {
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        cap.ifPresent((playerProperties) -> playerProperties.collectPower((ServerPlayerEntity) player, 0.50F));
+        cap.ifPresent((playerProperties) -> playerProperties.collectPower(player, 0.50F));
         return true;
     }
 
@@ -106,7 +104,7 @@ public class InstantCardUtils
         LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
         PlayerProperties playerProperties = cap.orElse(null);
         for (int i = 0; i < 3; i++)
-            flag = playerProperties.Extend((ServerPlayerEntity) player) || flag;
+            flag = playerProperties.Extend(player) || flag;
         return flag;
     }
 }

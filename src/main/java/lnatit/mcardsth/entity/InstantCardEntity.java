@@ -4,6 +4,7 @@ package lnatit.mcardsth.entity;
 import lnatit.mcardsth.event.InstantCardPickupEvent;
 import lnatit.mcardsth.item.InstantCard;
 import lnatit.mcardsth.utils.InstantCardUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -250,6 +251,7 @@ public class InstantCardEntity extends Entity
 
     /**
      * TODO overwrite the method
+     *      send packet to play animation
      */
     @Override
     public void onCollideWithPlayer(PlayerEntity entityIn)
@@ -258,6 +260,7 @@ public class InstantCardEntity extends Entity
         {
             if (this.pickupDelay > 0) return;
             InstantCard card = (InstantCard) this.getCard().getItem();
+            if (entityIn.getCooldownTracker().hasCooldown(card)) return;
 
 //            if (MinecraftForge.EVENT_BUS.post(new InstantCardPickupEvent(entityIn, card)))
 //                return;
@@ -268,6 +271,10 @@ public class InstantCardEntity extends Entity
 
             entityIn.addStat(Stats.ITEM_PICKED_UP.get(card), 1);
             triggerItemPickupTrigger(entityIn, this);
+
+            entityIn.addStat(Stats.ITEM_USED.get(card), 1);
+//TODO            entityIn.world.setEntityState(entityIn, (byte)35);
+            entityIn.getCooldownTracker().setCooldown(card, 20);
 
 //            ItemStack itemstack = this.getItem();
 //            Item item = itemstack.getItem();
@@ -291,7 +298,10 @@ public class InstantCardEntity extends Entity
 //                entityIn.addStat(Stats.ITEM_PICKED_UP.get(item), i);
 //                entityIn.triggerItemPickupTrigger(this);
 //            }
-        }
+        } else return;
+
+        if (this.world.isRemote)
+            Minecraft.getInstance().gameRenderer.displayItemActivation(this.getCard()); //TODO
     }
 
     @Nullable
