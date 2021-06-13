@@ -2,6 +2,7 @@ package lnatit.mcardsth.item;
 
 import lnatit.mcardsth.utils.InstantCardUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,6 +25,8 @@ public class InstantCard extends AbstractCard
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
+//        if (worldIn.isRemote)
+//            Minecraft.getInstance().gameRenderer.displayItemActivation(playerIn.getHeldItem(Hand.MAIN_HAND));
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
         if (handIn == Hand.MAIN_HAND)
@@ -31,15 +34,17 @@ public class InstantCard extends AbstractCard
             if (InstantCardUtils.instantCardHandler(playerIn, this))
             {
                 playerIn.addStat(Stats.ITEM_USED.get(this), 1);
-                if (worldIn.isRemote)
-                    Minecraft.getInstance().gameRenderer.displayItemActivation(itemstack);  //TODO
 
-//TODO                worldIn.setEntityState(playerIn, (byte)35);
+                if (playerIn instanceof ClientPlayerEntity)
+                    Minecraft.getInstance().gameRenderer.displayItemActivation(new ItemStack(itemstack.getItem()));  //TODO
+
+//                worldIn.setEntityState(playerIn, (byte)35);
                 playerIn.setActiveHand(handIn);
                 itemstack.shrink(1);
                 playerIn.getCooldownTracker().setCooldown(this, 20);
                 return ActionResult.resultConsume(itemstack);
-            } else return ActionResult.resultFail(itemstack);
+            } else
+            return ActionResult.resultFail(itemstack);
         } else return ActionResult.resultPass(itemstack);
     }
 

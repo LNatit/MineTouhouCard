@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class CardsPickup
 {
