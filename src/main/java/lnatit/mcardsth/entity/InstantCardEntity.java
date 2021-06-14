@@ -3,6 +3,8 @@ package lnatit.mcardsth.entity;
 
 import lnatit.mcardsth.event.InstantCardPickupEvent;
 import lnatit.mcardsth.item.InstantCard;
+import lnatit.mcardsth.network.CardActivationPacket;
+import lnatit.mcardsth.network.NetworkManager;
 import lnatit.mcardsth.utils.InstantCardUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -12,6 +14,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -156,14 +159,17 @@ public class InstantCardEntity extends Entity
                 this.closestPlayer = null;
             }
 
-            if (this.closestPlayer != null) {
+            if (this.closestPlayer != null)
+            {
                 Vector3d vector3d2 = new Vector3d(this.closestPlayer.getPosX() - this.getPosX(), this.closestPlayer.getPosY() - this.getPosY(), this.closestPlayer.getPosZ() - this.getPosZ());
                 double d1 = vector3d2.lengthSquared();
-                if (d1 < 64.0D) {
+                if (d1 < 64.0D)
+                {
                     double d2 = 1.0D - Math.sqrt(d1) / 8.0D;
                     this.setMotion(this.getMotion().add(vector3d2.normalize().scale(d2 * d2 * 0.05D)));
                 }
             }
+//
 
 
             if (!this.onGround || horizontalMag(this.getMotion()) > (double) 1.0E-5F || (this.ticksExisted + this.getEntityId()) % 4 == 0)
@@ -250,10 +256,6 @@ public class InstantCardEntity extends Entity
             compound.put("Item", this.getCard().write(new CompoundNBT()));
     }
 
-    /**
-     * TODO overwrite the method
-     *      send packet to play animation
-     */
     @Override
     public void onCollideWithPlayer(PlayerEntity entityIn)
     {
@@ -274,32 +276,8 @@ public class InstantCardEntity extends Entity
             triggerItemPickupTrigger(entityIn, this);
 
             entityIn.addStat(Stats.ITEM_USED.get(card), 1);
-            if (entityIn instanceof ClientPlayerEntity)
-                Minecraft.getInstance().gameRenderer.displayItemActivation(new ItemStack(this.getCard().getItem())); //TODO
+            NetworkManager.serverSendToPlayer(new CardActivationPacket(card), (ServerPlayerEntity) entityIn);
             entityIn.getCooldownTracker().setCooldown(card, 20);
-
-//            ItemStack itemstack = this.getItem();
-//            Item item = itemstack.getItem();
-//            int i = itemstack.getCount();
-//
-//            int hook = net.minecraftforge.event.ForgeEventFactory.onItemPickup(this, entityIn);
-//            if (hook < 0) return;
-//
-//            ItemStack copy = itemstack.copy();
-//            if (this.pickupDelay == 0 && lifespan - this.age <= 200)
-//            {
-//                copy.setCount(copy.getCount() - getItem().getCount());
-//                net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerItemPickupEvent(entityIn, this, copy);
-//                entityIn.onItemPickup(this, i);
-//                if (itemstack.isEmpty())
-//                {
-//                    this.remove();
-//                    itemstack.setCount(i);
-//                }
-//
-//                entityIn.addStat(Stats.ITEM_PICKED_UP.get(item), i);
-//                entityIn.triggerItemPickupTrigger(this);
-//            }
         }
     }
 

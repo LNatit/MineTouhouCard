@@ -7,31 +7,29 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
-public class nbtPacket
+public class NBTPacket extends IPacket
 {
     private CompoundNBT nbt;
 
-    public nbtPacket(CompoundNBT nbtIn)
+    public NBTPacket(CompoundNBT nbtIn)
     {
         this.nbt = nbtIn;
     }
 
-    public static void encode(nbtPacket packet, PacketBuffer buffer)
+    public static void encode(NBTPacket packet, PacketBuffer buffer)
     {
         buffer.writeCompoundTag(packet.nbt);
     }
 
-    public static nbtPacket decode(PacketBuffer buffer)
+    public static NBTPacket decode(PacketBuffer buffer)
     {
-        return new nbtPacket(buffer.readCompoundTag());
+        return new NBTPacket(buffer.readCompoundTag());
     }
 
-    /**
-     * Half-finished
-     */
-    public static void handle(nbtPacket packet, Supplier<NetworkEvent.Context> contextSupplier)
+    public static void handle(NBTPacket packet, Supplier<NetworkEvent.Context> contextSupplier)
     {
         if (contextSupplier.get().getDirection().equals(NetworkDirection.PLAY_TO_CLIENT))
         {

@@ -1,10 +1,11 @@
 package lnatit.mcardsth.handler;
 
-import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.capability.PlayerProperties;
+import lnatit.mcardsth.capability.PlayerPropertiesProvider;
+import lnatit.mcardsth.event.FakeClone;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.scoreboard.Score;
@@ -15,6 +16,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.GameRules;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,16 +30,16 @@ import static lnatit.mcardsth.handler.EntityUtils.*;
 public class PlayerMiss
 {
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void LifeUsed(LivingDeathEvent event)
+    public static void OnPlayerMiss(LivingDeathEvent event)
     {
         LivingEntity livingEntity = event.getEntityLiving();
 
         if (livingEntity instanceof ServerPlayerEntity)
         {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) livingEntity;
-            ItemStack itemStack = getItemStack(serverPlayerEntity, ItemReg.EXTEND.get());
-
-            if (itemStack == null)
+            LazyOptional<PlayerProperties> cap = serverPlayerEntity.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
+            PlayerProperties playerProperties = cap.orElse(null);
+            if (!playerProperties.canHit(serverPlayerEntity))
                 return;
 
             //死亡信息广播
@@ -60,12 +63,11 @@ public class PlayerMiss
                 }
             }
 
-            //物品消耗，事件取消
-            itemStack.shrink(1);
+            //事件取消
             event.setCanceled(true);
 
             //物品使用统计数据更新
-            serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.EXTEND.get()));
+//            serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.EXTEND.get()));
 
             //中立生物仇恨重置（func_241157_eT_()）
             if (serverPlayerEntity.world.getGameRules().getBoolean(GameRules.FORGIVE_DEAD_PLAYERS))
@@ -73,7 +75,7 @@ public class PlayerMiss
                 forgivePlayer(serverPlayerEntity);
             }
 
-            //生成掉落物（物品和经验，非全掉落）（重写 spawnDrops()）
+            //TODO unfinished 生成掉落物（物品和经验，非全掉落）（重写 spawnDrops()）
             spawnDrops(serverPlayerEntity);
 
             //计分板数据更新
@@ -104,6 +106,9 @@ public class PlayerMiss
 
             //重置战斗纪录
             serverPlayerEntity.getCombatTracker().reset();
+
+            //发布假事件
+            MinecraftForge.EVENT_BUS.post(new FakeClone(serverPlayerEntity, serverPlayerEntity, true));
         }
     }
 }

@@ -2,6 +2,7 @@ package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
+import lnatit.mcardsth.event.FakeClone;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -28,7 +29,7 @@ public class CommonEventHandler
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event)
     {
-        if (!event.isWasDeath())
+        if (!event.isWasDeath() && !(event instanceof FakeClone))
         {
             LazyOptional<PlayerProperties> old_pp = event.getOriginal().getCapability(CPP_DEFAULT);
             LazyOptional<PlayerProperties> new_pp = event.getEntity().getCapability(CPP_DEFAULT);

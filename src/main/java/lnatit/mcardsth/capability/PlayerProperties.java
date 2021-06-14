@@ -1,13 +1,12 @@
 package lnatit.mcardsth.capability;
 
 import lnatit.mcardsth.network.NetworkManager;
-import lnatit.mcardsth.network.nbtPacket;
+import lnatit.mcardsth.network.NBTPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
 
 public class PlayerProperties implements INBTSerializable<CompoundNBT>
@@ -158,7 +157,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     public void sync(PlayerEntity playerIn)
     {
         if (playerIn instanceof ServerPlayerEntity)
-            NetworkManager.serverSendToPlayer(new nbtPacket(serializeNBT()), (ServerPlayerEntity) playerIn);
+            NetworkManager.serverSendToPlayer(new NBTPacket(serializeNBT()), (ServerPlayerEntity) playerIn);
     }
 
     static class Factory implements Callable<PlayerProperties>
