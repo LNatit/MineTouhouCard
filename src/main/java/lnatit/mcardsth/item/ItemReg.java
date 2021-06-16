@@ -73,6 +73,7 @@ public class ItemReg
     public static final RegistryObject<Item> BLANK = ITEMS.register("blank", AttributeCard::new);
     public static final RegistryObject<Item> MAGATAMA2 = ITEMS.register("magatama2", AttributeCard::new);
 
-    public static final RegistryObject<Item> ABS_BOMB = ITEMS.register("abs_bomb", BombItemTest::new);
+    public static final RegistryObject<Item> ABS_LIFE = ITEMS.register("abstract_life", LifeItemTest::new);
+    public static final RegistryObject<Item> ABS_BOMB = ITEMS.register("abstract_bomb", BombItemTest::new);
 
 }

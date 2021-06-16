@@ -17,11 +17,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
 
+//TODO consider to register new types of stats.
 public class BombItemTest extends Item
 {
     public BombItemTest()
     {
-        super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.RARE));
+        super(new Item.Properties().maxStackSize(1).rarity(Rarity.RARE));
     }
 
     @Override

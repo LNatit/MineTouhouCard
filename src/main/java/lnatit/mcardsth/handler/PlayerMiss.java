@@ -3,6 +3,7 @@ package lnatit.mcardsth.handler;
 import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import lnatit.mcardsth.event.FakeClone;
+import lnatit.mcardsth.item.ItemReg;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -34,6 +35,7 @@ public class PlayerMiss
     {
         LivingEntity livingEntity = event.getEntityLiving();
 
+        //TODO package the method.
         if (livingEntity instanceof ServerPlayerEntity)
         {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) livingEntity;
@@ -67,7 +69,7 @@ public class PlayerMiss
             event.setCanceled(true);
 
             //物品使用统计数据更新
-//            serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.EXTEND.get()));
+            serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
 
             //中立生物仇恨重置（func_241157_eT_()）
             if (serverPlayerEntity.world.getGameRules().getBoolean(GameRules.FORGIVE_DEAD_PLAYERS))
