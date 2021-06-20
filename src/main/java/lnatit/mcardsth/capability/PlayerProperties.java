@@ -88,9 +88,19 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         return this.life;
     }
 
+    public byte getLifeFragment()
+    {
+        return this.lifeFragment;
+    }
+
     public byte getSpell()
     {
         return this.spell;
+    }
+
+    public byte getSpellFragment()
+    {
+        return this.spellFragment;
     }
 
     public float getPower()

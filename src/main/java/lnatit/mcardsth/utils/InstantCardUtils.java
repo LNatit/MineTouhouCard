@@ -11,6 +11,8 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
+import static lnatit.mcardsth.utils.LifeRenderer.initRendererUpdater;
+
 public class InstantCardUtils
 {
     public static boolean instantCardHandler(@Nonnull PlayerEntity player, InstantCard card)
@@ -25,12 +27,16 @@ public class InstantCardUtils
             {
                 case "extend":
                     flag = playerGetExtend(player);
+                    if (player instanceof ServerPlayerEntity)
+                        initRendererUpdater();
                     break;
                 case "bomb":
                     flag = playerGetBomb(player);
                     break;
                 case "extend2":
                     flag = playerGetExtend2(player);
+                    if (player instanceof ServerPlayerEntity)
+                    initRendererUpdater();
                     break;
                 case "bomb2":
                     flag = playerGetBomb2(player);
