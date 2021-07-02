@@ -4,6 +4,7 @@ import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import lnatit.mcardsth.event.FakeClone;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.LifeRenderer;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -41,6 +42,9 @@ public class PlayerMiss
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) livingEntity;
             LazyOptional<PlayerProperties> cap = serverPlayerEntity.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
             PlayerProperties playerProperties = cap.orElse(null);
+
+            //TODO optimize logic when /kill
+
             if (!playerProperties.canHit(serverPlayerEntity))
                 return;
 
@@ -98,9 +102,7 @@ public class PlayerMiss
             serverPlayerEntity.takeStat(Stats.CUSTOM.get(Stats.TIME_SINCE_DEATH));
             serverPlayerEntity.takeStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
 
-            net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerRespawnEvent(serverPlayerEntity, false);
-
-            //生命回复，饱食度回复，所有效果（药水&火焰&窒息）清除，无敌5s（考虑调用玩家重生的方法，避免可能的mod自定义玩家数值无法回复）
+            //生命回复，饱食度回复，所有效果（药水&火焰&窒息）清除，无敌5s
             livingEntity.setHealth(10F);
             livingEntity.clearActivePotions();
             livingEntity.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 100, 5));
@@ -111,6 +113,8 @@ public class PlayerMiss
 
             //发布假事件
             MinecraftForge.EVENT_BUS.post(new FakeClone(serverPlayerEntity, serverPlayerEntity, true));
+
+            net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerRespawnEvent(serverPlayerEntity, false);
         }
     }
 }

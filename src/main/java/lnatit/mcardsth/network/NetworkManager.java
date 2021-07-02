@@ -6,6 +6,7 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.commons.codec.BinaryDecoder;
+import org.lwjgl.system.CallbackI;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
@@ -35,6 +36,13 @@ public class NetworkManager
                 CardActivationPacket::encode,
                 CardActivationPacket::decode,
                 CardActivationPacket::handle
+        );
+
+        INSTANCE.registerMessage(index++,
+                BarRenderPacket.class,
+                BarRenderPacket::encode,
+                BarRenderPacket::decode,
+                BarRenderPacket::handle
         );
     }
 

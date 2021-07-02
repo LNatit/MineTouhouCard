@@ -19,21 +19,19 @@ import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 //@OnlyIn(Dist.CLIENT) TODO take care of after-revive logic
 public class LifeRenderer
 {
-    public static final int PERSIST = 5*20;
-    public static final int FADE = 20;//ticks
-    public static final int PATTERN_PIXEL = 0;   // TODO unfinished: transfer to config.
-    public static final int SIZE = 9;
-    public static final int GAP = 1;
+    public static final int PERSIST = 5*20;     //ticks icons renders
+    public static final int FADE = 20;          //ticks icons to fade away
+    public static final int PATTERN_PIXEL = 0;  // TODO unfinished: transfer to config.
+    public static final int SIZE = 9;           //the size of the icons
+    public static final int GAP = 1;            //vertical increment += GAP, horizontal increment -= GAP
     private static final ResourceLocation ICONS = new ResourceLocation(MOD_ID, "textures/icons.png");
 
-//    private static int lifeTotal = 0;
-//    private static int lifeTotalLast = 0;
-
-    private static boolean doRender = true;
+    private static boolean doRender = true;     //if true, render the life icons
+    private static int lifeTotal = 0;           //cache for player's life (count by fragments, updated when render if player is alive)
 
     private static int tickCount = 0;
-    private static float alpha = 0;
-    private static boolean doFade = false;
+    private static float alpha = 0;             //alpha of the icon
+    private static boolean doFade = false;      //if true, render the icons fading
 
     public static void Render(MatrixStack matrixStack)
     {
@@ -42,7 +40,8 @@ public class LifeRenderer
 
         int left = mc.getMainWindow().getScaledWidth() / 2 - 91;
         int top = mc.getMainWindow().getScaledHeight() - ForgeIngameGui.left_height + SIZE + GAP;
-        int lifeTotal = getPlayerLife(player);
+        if (player.isAlive())
+            lifeTotal = getPlayerLife(player);
 
         renderLife(lifeTotal, mc, matrixStack, left, top, true);
     }
@@ -63,11 +62,13 @@ public class LifeRenderer
             for (int i = 0; i < intact; i++)
             {
                 AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
-                left += SIZE + GAP;
+                AbstractGui.blit(matrixStack, left, top, 3 * SIZE, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
+                left += SIZE - GAP;
             }
 
             if (frag != 0)
             {
+                AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
                 uOffset += frag * SIZE;
                 AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
             }
@@ -102,13 +103,20 @@ public class LifeRenderer
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
+    /**
+     * when needing to render life remains bar, call this method(WARNING: Only in Client!!!)
+     */
     public static void initRendererUpdater()
     {
         doRender = true;
         tickCount = 0;
+        alpha = 1.0F;
         doFade = false;
     }
 
+    /**
+     * Called when client ticks
+     */
     public static void updateRenderer()
     {
         if (doRender)

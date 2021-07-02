@@ -1,5 +1,6 @@
 package lnatit.mcardsth.capability;
 
+import lnatit.mcardsth.network.BarRenderPacket;
 import lnatit.mcardsth.network.NetworkManager;
 import lnatit.mcardsth.network.NBTPacket;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +27,6 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         this.spell = 3;
         this.lifeFragment = 0;
         this.spellFragment = 0;
-        System.out.println("capability init!!!");
     }
 
     public boolean Extend(PlayerEntity player)
@@ -35,14 +35,14 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         if (this.life == MAX_LIFE)
             return false;
         else this.life++;
-        sync(player);
+        sync(player, (byte) 1);
         return true;
     }
 
     public void addSpell(PlayerEntity player)
     {
         this.spell++;
-        sync(player);
+        sync(player, (byte) 2);
     }
 
     public void collectPower(PlayerEntity player, float points)
@@ -52,7 +52,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         } else {
             this.power = MAX_POWER;
         }
-        sync(player);
+        sync(player, (byte) 3);
     }
 
     public boolean canHit(PlayerEntity player)
@@ -60,7 +60,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         if (this.life == 0)
             return false;
         else this.life--;
-        sync(player);
+        sync(player, (byte) 1);
         return true;
     }
 
@@ -69,7 +69,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         if (this.spell == 0)
             return false;
         else this.spell--;
-        sync(player);
+        sync(player, (byte) 2);
         return true;
     }
 
@@ -80,7 +80,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         } else {
             this.power = 0.0f;
         }
-        sync(player);
+        sync(player, (byte) 3);
     }
 
     public byte getLife()
@@ -164,10 +164,13 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         this.power = nbt.getFloat("Power");
     }
 
-    public void sync(PlayerEntity playerIn)
+    public void sync(PlayerEntity playerIn, byte index)
     {
         if (playerIn instanceof ServerPlayerEntity)
+        {
             NetworkManager.serverSendToPlayer(new NBTPacket(serializeNBT()), (ServerPlayerEntity) playerIn);
+            NetworkManager.serverSendToPlayer(new BarRenderPacket(index), (ServerPlayerEntity) playerIn);
+        }
     }
 
     static class Factory implements Callable<PlayerProperties>

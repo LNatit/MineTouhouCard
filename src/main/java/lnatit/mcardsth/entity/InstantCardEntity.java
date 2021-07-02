@@ -91,7 +91,6 @@ public class InstantCardEntity extends Entity
         this.copyLocationAndAnglesFrom(cardItem);
         this.setMotion(cardItem.getMotion());
         this.thrower = cardItem.getThrowerId();
-        this.age = cardItem.getAge();
         this.hoverStart = cardItem.hoverStart;
         this.setCustomName(cardItem.getItem().getDisplayName());
     }
@@ -99,7 +98,7 @@ public class InstantCardEntity extends Entity
     public void init()
     {
         this.pickupDelay = 10;
-        this.age = this.lifespan;
+        this.age = 1;
         this.setCustomNameVisible(true);
     }
 

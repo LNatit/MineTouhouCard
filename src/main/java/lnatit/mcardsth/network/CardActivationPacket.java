@@ -11,16 +11,16 @@ import java.util.function.Supplier;
 
 public class CardActivationPacket extends IPacket
 {
-    private ItemStack itemStack;
+    private ItemStack cardItem;
 
     public CardActivationPacket(Item item)
     {
-        this.itemStack = new ItemStack(item);
+        this.cardItem = new ItemStack(item);
     }
 
     public static void encode(CardActivationPacket packet, PacketBuffer buffer)
     {
-        buffer.writeItemStack(packet.itemStack);
+        buffer.writeItemStack(packet.cardItem);
     }
 
     public static CardActivationPacket decode(PacketBuffer buffer)
@@ -33,7 +33,7 @@ public class CardActivationPacket extends IPacket
         if (contextSupplier.get().getDirection().equals(NetworkDirection.PLAY_TO_CLIENT))
         {
             contextSupplier.get().enqueueWork(() -> {
-                Minecraft.getInstance().gameRenderer.displayItemActivation(packet.itemStack);
+                Minecraft.getInstance().gameRenderer.displayItemActivation(packet.cardItem);
             });
         }
 

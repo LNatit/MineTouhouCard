@@ -9,8 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
-@OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = MOD_ID)
+@Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
 public class ClientTick
 {
     @SubscribeEvent

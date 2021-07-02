@@ -7,7 +7,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 public class NBTPacket extends IPacket

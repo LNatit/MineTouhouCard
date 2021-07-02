@@ -4,14 +4,14 @@ import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import lnatit.mcardsth.entity.InstantCardEntity;
 import lnatit.mcardsth.item.InstantCard;
+import lnatit.mcardsth.network.BarRenderPacket;
+import lnatit.mcardsth.network.NetworkManager;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
-
-import static lnatit.mcardsth.utils.LifeRenderer.initRendererUpdater;
 
 public class InstantCardUtils
 {
@@ -27,16 +27,12 @@ public class InstantCardUtils
             {
                 case "extend":
                     flag = playerGetExtend(player);
-                    if (player instanceof ServerPlayerEntity)
-                        initRendererUpdater();
                     break;
                 case "bomb":
                     flag = playerGetBomb(player);
                     break;
                 case "extend2":
                     flag = playerGetExtend2(player);
-                    if (player instanceof ServerPlayerEntity)
-                    initRendererUpdater();
                     break;
                 case "bomb2":
                     flag = playerGetBomb2(player);
