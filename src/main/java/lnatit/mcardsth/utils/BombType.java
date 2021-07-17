@@ -78,7 +78,7 @@ public enum BombType
     public static void bombSStrike(World worldIn, PlayerEntity playerIn)
     {
         if (playerIn instanceof ServerPlayerEntity)
-            NetworkManager.serverSendToPlayer(new ParticleRenderPacket((byte) 1, playerIn.getPosition()), (ServerPlayerEntity) playerIn);
+            NetworkManager.serverSendToAllPlayer(new ParticleRenderPacket((byte) 1, playerIn.getPosition()));
     }
 
     //TODO unfinished!!! Customize SpellCard
