@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class BarRenderPacket extends IPacket
 {
-    private byte index;     //  1: life, 2: bomb
+    private byte index;     //  1: life, 2: bomb, 3: power, 4: money, 5: all
 
     public BarRenderPacket(byte index)
     {
@@ -40,6 +40,13 @@ public class BarRenderPacket extends IPacket
                         //TODO
                         break;
                     case 3:
+                        //TODO
+                        break;
+                    case 4:
+                        //TODO
+                        break;
+                    case 5:
+                        LifeRenderer.initRendererUpdater();
                         //TODO
                         break;
                 }

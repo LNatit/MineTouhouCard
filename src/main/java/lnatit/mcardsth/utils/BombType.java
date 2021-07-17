@@ -2,7 +2,12 @@ package lnatit.mcardsth.utils;
 
 import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
+import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.network.NetworkManager;
+import lnatit.mcardsth.network.ParticleRenderPacket;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
@@ -10,6 +15,7 @@ import net.minecraftforge.common.util.LazyOptional;
 public enum BombType
 {
     DEFAULT,
+    S_STRIKE,
     REIMU,
     MARISA,
     SAKUYA,
@@ -17,9 +23,16 @@ public enum BombType
 
     public static boolean playerBomb(World worldIn, PlayerEntity playerIn, BombType type)
     {
+        if (type == S_STRIKE)
+        {
+            bombSStrike(worldIn, playerIn);
+            return true;
+        }
         boolean flag = checkSpell(playerIn);
         if (flag)
         {
+            playerIn.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()), 1);
+
             switch (type)
             {
                 case DEFAULT:
@@ -60,6 +73,12 @@ public enum BombType
                 60.F,
                 Explosion.Mode.NONE
         );
+    }
+
+    public static void bombSStrike(World worldIn, PlayerEntity playerIn)
+    {
+        if (playerIn instanceof ServerPlayerEntity)
+            NetworkManager.serverSendToPlayer(new ParticleRenderPacket((byte) 1, playerIn.getPosition()), (ServerPlayerEntity) playerIn);
     }
 
     //TODO unfinished!!! Customize SpellCard

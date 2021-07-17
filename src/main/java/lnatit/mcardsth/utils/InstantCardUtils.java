@@ -89,7 +89,8 @@ public class InstantCardUtils
 
     public static boolean playerGetPendulum(PlayerEntity player)
     {
-        player.giveExperiencePoints(50);
+        LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
+        cap.ifPresent(playerProperties -> playerProperties.collectMoney(player, 0.50F));
         return true;
     }
 

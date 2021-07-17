@@ -2,6 +2,7 @@ package lnatit.mcardsth.network;
 
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -33,8 +34,9 @@ public class NBTPacket extends IPacket
         if (contextSupplier.get().getDirection().equals(NetworkDirection.PLAY_TO_CLIENT))
         {
             contextSupplier.get().enqueueWork(() -> {
-                if (Minecraft.getInstance().player != null)
-                    Minecraft.getInstance().player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT).ifPresent(cap -> cap.deserializeNBT(packet.nbt));
+                ClientPlayerEntity player = Minecraft.getInstance().player;
+                if (player != null)
+                    player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT).ifPresent(cap -> cap.deserializeNBT(packet.nbt));
             });
         }
 

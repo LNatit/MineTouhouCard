@@ -34,8 +34,6 @@ public class BombItemTest extends Item
         {
             if (BombType.playerBomb(worldIn, playerIn, BombType.DEFAULT))
             {
-                playerIn.addStat(Stats.ITEM_USED.get(this), 1);
-
                 playerIn.setActiveHand(handIn);
                 return ActionResult.resultConsume(itemstack);
             } else

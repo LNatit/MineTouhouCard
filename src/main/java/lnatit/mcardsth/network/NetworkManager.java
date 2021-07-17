@@ -44,6 +44,13 @@ public class NetworkManager
                 BarRenderPacket::decode,
                 BarRenderPacket::handle
         );
+
+        INSTANCE.registerMessage(index++,
+                ParticleRenderPacket.class,
+                ParticleRenderPacket::encode,
+                ParticleRenderPacket::decode,
+                ParticleRenderPacket::handle
+        );
     }
 
     public static void playerSendToServer(IPacket packet)

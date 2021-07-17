@@ -61,16 +61,16 @@ public class LifeRenderer
 
             for (int i = 0; i < intact; i++)
             {
-                AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
-                AbstractGui.blit(matrixStack, left, top, 3 * SIZE, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
+                AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 36);
+                AbstractGui.blit(matrixStack, left, top, 3 * SIZE, PATTERN_PIXEL, SIZE, SIZE, 36, 36);
                 left += SIZE - GAP;
             }
 
             if (frag != 0)
             {
-                AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
+                AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 36);
                 uOffset += frag * SIZE;
-                AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 18);
+                AbstractGui.blit(matrixStack, left, top, uOffset, PATTERN_PIXEL, SIZE, SIZE, 36, 36);
             }
         }
 

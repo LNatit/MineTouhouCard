@@ -15,11 +15,13 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     public static final byte MAX_LIFE = 7;
     public static final float MAX_POWER = 4.00f;
     static Factory factory = new Factory();
+
     private byte life;
     private byte spell;
     private byte lifeFragment;
     private byte spellFragment;
     private float power;
+    private float money;
 
     public void initProperties()
     {
@@ -27,6 +29,8 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         this.spell = 3;
         this.lifeFragment = 0;
         this.spellFragment = 0;
+        this.power = 0F;
+        this.money = 0F;
     }
 
     public boolean Extend(PlayerEntity player)
@@ -55,6 +59,12 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         sync(player, (byte) 3);
     }
 
+    public void collectMoney(PlayerEntity player, float points)
+    {
+        this.money += points;
+        sync(player, (byte) 4);
+    }
+
     public boolean canHit(PlayerEntity player)
     {
         if (this.life == 0)
@@ -75,12 +85,18 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
 
     public void losePower(PlayerEntity player, float points)
     {
-        if (points <= this.power) {
+        if (points <= this.power)
             this.power -= points;
-        } else {
-            this.power = 0.0f;
-        }
+        else this.power = 0.0f;
         sync(player, (byte) 3);
+    }
+
+    public boolean canPay(PlayerEntity player, float points)
+    {
+        if (points > this.money)
+            return false;
+        else this.money -= points;
+        return true;
     }
 
     public byte getLife()
@@ -106,6 +122,11 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     public float getPower()
     {
         return this.power;
+    }
+
+    public float getMoney()
+    {
+        return this.money;
     }
 
     public boolean addLifeFragment(PlayerEntity player)
@@ -150,6 +171,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         nbt.putByte("LifeFragment", this.lifeFragment);
         nbt.putByte("SpellFragment", this.spellFragment);
         nbt.putFloat("Power", this.power);
+        nbt.putFloat("Money", this.money);
 
         return nbt;
     }
@@ -162,6 +184,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         this.lifeFragment = nbt.getByte("LifeFragment");
         this.spellFragment = nbt.getByte("SpellFragment");
         this.power = nbt.getFloat("Power");
+        this.money = nbt.getFloat("Money");
     }
 
     public void sync(PlayerEntity playerIn, byte index)

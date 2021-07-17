@@ -15,8 +15,7 @@ public class BarRender
     @SubscribeEvent
     public static void onPlayerLoggerIn(PlayerEvent.PlayerLoggedInEvent event)
     {
-        if (!event.isCanceled())
-            NetworkManager.serverSendToPlayer(new BarRenderPacket((byte) 1), (ServerPlayerEntity) event.getPlayer());
+        NetworkManager.serverSendToPlayer(new BarRenderPacket((byte) 1), (ServerPlayerEntity) event.getPlayer());
     }
 
     @SubscribeEvent
