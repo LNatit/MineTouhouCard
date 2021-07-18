@@ -31,24 +31,25 @@ public enum BombType
         boolean flag = checkSpell(playerIn);
         if (flag)
         {
+            boolean enhance = AbilityCardUtils.doPlayerHold(playerIn, ItemReg.MAGICSCROLL.get());
             playerIn.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()), 1);
 
             switch (type)
             {
                 case DEFAULT:
-                    bombDefault(worldIn, playerIn);
+                    bombDefault(worldIn, playerIn, enhance);
                     break;
                 case REIMU:
-                    bombReimu(worldIn, playerIn);
+                    bombReimu(worldIn, playerIn, enhance);
                     break;
                 case MARISA:
-                    bombMarisa(worldIn, playerIn);
+                    bombMarisa(worldIn, playerIn, enhance);
                     break;
                 case SAKUYA:
-                    bombSakuya(worldIn, playerIn);
+                    bombSakuya(worldIn, playerIn, enhance);
                     break;
                 case SANAE:
-                    bombSanae(worldIn, playerIn);
+                    bombSanae(worldIn, playerIn, enhance);
                     break;
             }
         }
@@ -64,13 +65,13 @@ public enum BombType
         return playerProperties.canSpell(playerIn);
     }
 
-    public static void bombDefault(World worldIn, PlayerEntity playerIn)
+    public static void bombDefault(World worldIn, PlayerEntity playerIn, boolean enhance)
     {
         worldIn.createExplosion(playerIn,
                 playerIn.getPosX(),
                 playerIn.getPosY(),
                 playerIn.getPosZ(),
-                60.F,
+                enhance ? 60.F : 80.F,
                 Explosion.Mode.NONE
         );
     }
@@ -82,23 +83,23 @@ public enum BombType
     }
 
     //TODO unfinished!!! Customize SpellCard
-    public static void bombReimu(World worldIn, PlayerEntity playerIn)
+    public static void bombReimu(World worldIn, PlayerEntity playerIn, boolean enhance)
     {
-        bombDefault(worldIn, playerIn);
+        bombDefault(worldIn, playerIn, enhance);
     }
 
-    public static void bombMarisa(World worldIn, PlayerEntity playerIn)
+    public static void bombMarisa(World worldIn, PlayerEntity playerIn, boolean enhance)
     {
-        bombDefault(worldIn, playerIn);
+        bombDefault(worldIn, playerIn, enhance);
     }
 
-    public static void bombSakuya(World worldIn, PlayerEntity playerIn)
+    public static void bombSakuya(World worldIn, PlayerEntity playerIn, boolean enhance)
     {
-        bombDefault(worldIn, playerIn);
+        bombDefault(worldIn, playerIn, enhance);
     }
 
-    public static void bombSanae(World worldIn, PlayerEntity playerIn)
+    public static void bombSanae(World worldIn, PlayerEntity playerIn, boolean enhance)
     {
-        bombDefault(worldIn, playerIn);
+        bombDefault(worldIn, playerIn, enhance);
     }
 }

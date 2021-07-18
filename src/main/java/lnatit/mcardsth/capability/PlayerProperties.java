@@ -91,12 +91,22 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         sync(player, (byte) 3);
     }
 
+    //TODO transfer power to money!!!
     public boolean canPay(PlayerEntity player, float points)
     {
         if (points > this.money)
             return false;
         else this.money -= points;
+        sync(player, (byte) 0);
         return true;
+    }
+
+    public void loseMoney(PlayerEntity player, float points)
+    {
+        if (points <= this.money)
+            this.money -= points;
+        else this.money = 0.0f;
+        sync(player, (byte) 4);
     }
 
     public byte getLife()
@@ -137,7 +147,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
             return true;
         } else
         {
-            boolean flag = this.Extend(null);
+            boolean flag = this.Extend(player);
             if (flag)
                 this.lifeFragment = 0;
             return flag;

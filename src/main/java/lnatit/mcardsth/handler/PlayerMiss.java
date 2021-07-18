@@ -6,7 +6,6 @@ import lnatit.mcardsth.event.FakeClone;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.AbilityCardUtils;
 import lnatit.mcardsth.utils.BombType;
-import lnatit.mcardsth.utils.LifeRenderer;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +27,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static java.lang.Math.ceil;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static lnatit.mcardsth.handler.EntityUtils.*;
 
@@ -41,22 +39,27 @@ public class PlayerMiss
         //TODO optimize logic when /kill
         LivingEntity livingEntity = event.getEntityLiving();
 
-        //TODO package the method.
+        //TODO remove mobs
         if (!(livingEntity instanceof ServerPlayerEntity))
             return;
+        boolean spawnDrops = AbilityCardUtils.doPlayerHold((PlayerEntity) livingEntity, ItemReg.DBOMBEXTD.get());
 
         if (AbilityCardUtils.checkAutoBombActivation((ServerPlayerEntity) livingEntity))
         {
             BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
-            playerRevive(event, (ServerPlayerEntity) livingEntity, false);
+            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
             playerRecover((ServerPlayerEntity) livingEntity, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+            if (spawnDrops)
+                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
             return;
         }
 
         if (checkPlayerMiss((ServerPlayerEntity) livingEntity))
         {
-            playerRevive(event, (ServerPlayerEntity) livingEntity, true);
+            playerRevive(event, (ServerPlayerEntity) livingEntity, spawnDrops, true);
             playerRecover((ServerPlayerEntity) livingEntity, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
+            if (spawnDrops)
+                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
         }
     }
 
@@ -69,12 +72,15 @@ public class PlayerMiss
         if (!playerProperties.canHit(serverPlayerEntity))
             return false;
 
+        playerProperties.loseMoney(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.DBOMBEXTD.get()) ? 0.00F : playerProperties.getMoney());
+        playerProperties.losePower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.KOISHI.get()) ? 0.50F : 1.00F);
+
         //物品使用统计数据更新
         serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
         return true;
     }
 
-    public static void playerRevive(LivingDeathEvent event, ServerPlayerEntity serverPlayerEntity, boolean updateStat)
+    public static void playerRevive(LivingDeathEvent event, ServerPlayerEntity serverPlayerEntity, boolean spawnDrops, boolean updateStat)
     {
         //事件取消
         event.setCanceled(true);
@@ -84,7 +90,8 @@ public class PlayerMiss
             forgivePlayer(serverPlayerEntity);
 
         //TODO unfinished 生成掉落物（物品和经验，非全掉落）（重写 spawnDrops()）
-        spawnDrops(serverPlayerEntity);
+        if (spawnDrops)
+            spawnDrops(serverPlayerEntity);
 
         //发布假事件
         MinecraftForge.EVENT_BUS.post(new FakeClone(serverPlayerEntity, serverPlayerEntity, true));
