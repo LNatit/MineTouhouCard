@@ -51,7 +51,7 @@ public class InstantCardEntity extends Entity
             .updateInterval(20)
             .build("instant_card_entity");
 
-    private static final DataParameter<ItemStack> CARD = EntityDataManager.createKey(ItemEntity.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<ItemStack> CARD = EntityDataManager.createKey(InstantCardEntity.class, DataSerializers.ITEMSTACK);
     private int age;
     private int pickupDelay;
     private int health = 5;

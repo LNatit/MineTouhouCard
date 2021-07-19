@@ -29,7 +29,7 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         this.spell = 3;
         this.lifeFragment = 0;
         this.spellFragment = 0;
-        this.power = 0F;
+        this.power = 1.0F;
         this.money = 0F;
     }
 
@@ -85,9 +85,9 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
 
     public void losePower(PlayerEntity player, float points)
     {
-        if (points <= this.power)
+        if (points <= this.power - 1)
             this.power -= points;
-        else this.power = 0.0f;
+        else this.power = 1.0f;
         sync(player, (byte) 3);
     }
 
