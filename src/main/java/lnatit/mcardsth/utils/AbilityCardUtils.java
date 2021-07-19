@@ -64,6 +64,10 @@ public class AbilityCardUtils
             case "speedqueen":
                 activateSpeedQueen(player);
                 return;
+            case "yamawaro":
+                activateYamawaro(player);
+                return;
+            case "":
         }
     }
 
@@ -105,7 +109,7 @@ public class AbilityCardUtils
     public static void activateSpeedQueen(ServerPlayerEntity player)
     {
         if (!player.isSneaking() && (player.inventory.getCurrentItem().isEmpty() || player.inventory.getCurrentItem().getItem() == ItemReg.SPEEDQUEEN.get()))
-            player.addPotionEffect(new EffectInstance(Effects.SPEED, 30, 2));
+            player.addPotionEffect(new EffectInstance(Effects.SPEED, 30, 3));
     }
 
     //TODO add random offset & speed
@@ -136,4 +140,18 @@ public class AbilityCardUtils
     }
 
     //TODO NARUMI not fully finished!!!
+
+    //TODO PACHE unfinished!!!
+
+    //TODO MANEKI unfinished!!!
+
+    //TODO YAMAWARO not fully finished!!!
+    public static void activateYamawaro(ServerPlayerEntity player)
+    {
+        player.addPotionEffect(new EffectInstance(Effects.HERO_OF_THE_VILLAGE, 30, 4));
+    }
+
+    //TODO KISERU unfinished!!!
+
+    //TODO MUKADE unfinished!!!
 }
