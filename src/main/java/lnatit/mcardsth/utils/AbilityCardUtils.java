@@ -2,7 +2,9 @@ package lnatit.mcardsth.utils;
 
 import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
+import lnatit.mcardsth.entity.InstantCardEntity;
 import lnatit.mcardsth.item.AbilityCard;
+import lnatit.mcardsth.item.InstantCard;
 import lnatit.mcardsth.item.ItemReg;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,11 +14,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
+import java.util.Random;
+
 public class AbilityCardUtils
 {
+    private static Random random = new Random();
+
     public static boolean doPlayerHold(PlayerEntity player, Item card)
     {
         if (player.inventory.offHandInventory.get(0).getItem() == card)
@@ -101,8 +108,32 @@ public class AbilityCardUtils
             player.addPotionEffect(new EffectInstance(Effects.SPEED, 30, 2));
     }
 
-    public static void checkRokumon(LivingDeathEvent event, LivingEntity livingEntity)
+    //TODO add random offset & speed
+    public static void checkDeadSpell(ServerPlayerEntity player)
     {
-
+        if (doPlayerHold(player, ItemReg.DEADSPELL.get()))
+        {
+            World world = player.world;
+            double x = player.chasingPosX, y = player.chasingPosY, z = player.chasingPosZ;
+            world.addEntity(new InstantCardEntity(world, x, y, z, (InstantCard) ItemReg.DEADSPELL.get()));
+        }
     }
+
+    //TODO YOYOKO unfinished!!!
+
+    //TODO MONEY not fully finished!!!
+
+    public static boolean checkRokumonActivation(ServerPlayerEntity player)
+    {
+        if (doPlayerHold(player, ItemReg.ROKUMON.get()))
+        {
+            LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
+            PlayerProperties playerProperties = cap.orElse(null);
+
+            return playerProperties.canPay(player, 2.00F);
+        }
+        return false;
+    }
+
+    //TODO NARUMI not fully finished!!!
 }

@@ -44,13 +44,27 @@ public class PlayerMiss
             return;
         boolean spawnDrops = AbilityCardUtils.doPlayerHold((PlayerEntity) livingEntity, ItemReg.DBOMBEXTD.get());
 
+        if (AbilityCardUtils.checkRokumonActivation((ServerPlayerEntity) livingEntity))
+        {
+            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
+            playerRecover((ServerPlayerEntity) livingEntity, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+
+            if (spawnDrops)
+                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
+            return;
+        }
+
         if (AbilityCardUtils.checkAutoBombActivation((ServerPlayerEntity) livingEntity))
         {
             BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
             playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
             playerRecover((ServerPlayerEntity) livingEntity, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+
             if (spawnDrops)
                 livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
             return;
         }
 
@@ -58,8 +72,11 @@ public class PlayerMiss
         {
             playerRevive(event, (ServerPlayerEntity) livingEntity, spawnDrops, true);
             playerRecover((ServerPlayerEntity) livingEntity, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
+
             if (spawnDrops)
                 livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
+            AbilityCardUtils.checkDeadSpell((ServerPlayerEntity) livingEntity);
         }
     }
 
@@ -74,6 +91,7 @@ public class PlayerMiss
 
         playerProperties.loseMoney(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.DBOMBEXTD.get()) ? 0.00F : playerProperties.getMoney());
         playerProperties.losePower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.KOISHI.get()) ? 0.50F : 1.00F);
+        playerProperties.getPower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.POWERMAX.get()));
 
         //物品使用统计数据更新
         serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));

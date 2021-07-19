@@ -2,6 +2,7 @@ package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
+import lnatit.mcardsth.item.AbilityCard;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.InstantCard;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,7 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
-@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class CardsPickup
 {
@@ -23,14 +23,25 @@ public class CardsPickup
     {
         PlayerEntity player = event.getPlayer();
         Item item = event.getItem().getItem().getItem();
-        if (item instanceof AbstractCard)
+        if (item instanceof AbilityCard)
         {
-            if (item instanceof InstantCard)
-                instantCardHandler(player, (InstantCard) item);
+            LazyOptional<PlayerProperties> cap = player.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
+            switch (item.getRegistryName().getPath())
+            {
+                case "powermax":
+                    cap.ifPresent((playerProperties) -> playerProperties.collectPower(player, 1.0F));
+                    break;
+                case "narumi":
+                    cap.ifPresent((playerProperties) -> playerProperties.Extend(player));
+                    break;
+                case "":
+
+            }
         }
 
     }
 
+    @Deprecated
     public static void instantCardHandler(PlayerEntity player, InstantCard card)
     {
         if (card.getRegistryName() != null)

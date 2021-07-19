@@ -51,9 +51,11 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
 
     public void collectPower(PlayerEntity player, float points)
     {
-        if (points + this.power <= MAX_POWER) {
+        if (points + this.power <= MAX_POWER)
+        {
             this.power += points;
-        } else {
+        } else
+        {
             this.power = MAX_POWER;
         }
         sync(player, (byte) 3);
@@ -129,8 +131,13 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
         return this.spellFragment;
     }
 
-    public float getPower()
+    public float getPower(PlayerEntity player, boolean floor)
     {
+        if (floor)
+        {
+            this.power = 3.0F;
+            sync(player, (byte) 3);
+        }
         return this.power;
     }
 
