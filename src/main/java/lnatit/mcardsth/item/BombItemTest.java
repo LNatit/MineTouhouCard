@@ -1,23 +1,15 @@
 package lnatit.mcardsth.item;
 
-import lnatit.mcardsth.capability.PlayerProperties;
-import lnatit.mcardsth.capability.PlayerPropertiesProvider;
-import lnatit.mcardsth.network.CardActivationPacket;
-import lnatit.mcardsth.network.NetworkManager;
-import lnatit.mcardsth.utils.BombType;
-import lnatit.mcardsth.utils.InstantCardUtils;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
-import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.LazyOptional;
 
 //TODO consider to register new types of stats.
+@Deprecated
 public class BombItemTest extends Item
 {
     public BombItemTest()
@@ -28,16 +20,17 @@ public class BombItemTest extends Item
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-
-        if (handIn == Hand.MAIN_HAND)
-        {
-            if (BombType.playerBomb(worldIn, playerIn, BombType.DEFAULT))
-            {
-                playerIn.setActiveHand(handIn);
-                return ActionResult.resultConsume(itemstack);
-            } else
-                return ActionResult.resultFail(itemstack);
-        } else return ActionResult.resultPass(itemstack);
+//        ItemStack itemstack = playerIn.getHeldItem(handIn);
+//
+//        if (handIn == Hand.MAIN_HAND)
+//        {
+//            if (BombType.playerBomb(worldIn, playerIn, BombType.DEFAULT))
+//            {
+//                playerIn.setActiveHand(handIn);
+//                return ActionResult.resultConsume(itemstack);
+//            } else
+//                return ActionResult.resultFail(itemstack);
+//        } else return ActionResult.resultPass(itemstack);
+        return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 }

@@ -1,11 +1,7 @@
 package lnatit.mcardsth.handler;
 
-import lnatit.mcardsth.capability.PlayerProperties;
-import lnatit.mcardsth.capability.PlayerPropertiesProvider;
-import lnatit.mcardsth.event.FakeClone;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.AbilityCardUtils;
-import lnatit.mcardsth.utils.BombType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,17 +16,15 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.GameRules;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
-import static lnatit.mcardsth.utils.EntityUtils.*;
 
 //TODO remains to be overwritten
+@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class PlayerMiss
 {
@@ -47,7 +41,7 @@ public class PlayerMiss
 
         if (AbilityCardUtils.checkRokumonActivation((ServerPlayerEntity) livingEntity))
         {
-            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+//            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
             playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
             playerRecover((ServerPlayerEntity) livingEntity, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
 
@@ -59,7 +53,7 @@ public class PlayerMiss
 
         if (AbilityCardUtils.checkAutoBombActivation((ServerPlayerEntity) livingEntity))
         {
-            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+//            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
             playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
             playerRecover((ServerPlayerEntity) livingEntity, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
 
@@ -83,16 +77,16 @@ public class PlayerMiss
 
     public static boolean checkPlayerMiss(ServerPlayerEntity serverPlayerEntity)
     {
-        LazyOptional<PlayerProperties> cap = serverPlayerEntity.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-        PlayerProperties playerProperties = cap.orElse(null);
-
-
-        if (!playerProperties.canHit(serverPlayerEntity))
-            return false;
-
-        playerProperties.loseMoney(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.DBOMBEXTD.get()) ? 0.00F : playerProperties.getMoney());
-        playerProperties.losePower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.KOISHI.get()) ? 0.50F : 1.00F);
-        playerProperties.getPower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.POWERMAX.get()));
+//        LazyOptional<PlayerProperties> cap = serverPlayerEntity.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
+//        PlayerProperties playerProperties = cap.orElse(null);
+//
+//
+//        if (!playerProperties.canHit(serverPlayerEntity))
+//            return false;
+//
+//        playerProperties.loseMoney(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.DBOMBEXTD.get()) ? 0.00F : playerProperties.getMoney());
+//        playerProperties.losePower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.KOISHI.get()) ? 0.50F : 1.00F);
+//        playerProperties.getPower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.POWERMAX.get()));
 
         //物品使用统计数据更新
         serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
@@ -106,11 +100,11 @@ public class PlayerMiss
 
         //中立生物仇恨重置（func_241157_eT_()）
         if (serverPlayerEntity.world.getGameRules().getBoolean(GameRules.FORGIVE_DEAD_PLAYERS))
-            forgivePlayer(serverPlayerEntity);
+//            forgivePlayer(serverPlayerEntity);
 
         //TODO unfinished 生成掉落物（物品和经验，非全掉落）（重写 spawnDrops()）
         if (spawnDrops)
-            spawnDrops(serverPlayerEntity);
+//            spawnDrops(serverPlayerEntity);
 
         //发布假事件
 //        MinecraftForge.EVENT_BUS.post(new FakeClone(serverPlayerEntity, serverPlayerEntity, true));
@@ -150,7 +144,7 @@ public class PlayerMiss
                 serverPlayerEntity.addStat(Stats.ENTITY_KILLED_BY.get(damageSource.getType()));
                 CriteriaTriggers.ENTITY_KILLED_PLAYER.trigger(serverPlayerEntity, damageSource, event.getSource());
                 //生成凋零玫瑰
-                createWitherRose(serverPlayerEntity, damageSource);
+//                createWitherRose(serverPlayerEntity, damageSource);
             }
 
             //死亡相关统计数据更新
