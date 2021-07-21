@@ -9,15 +9,16 @@ import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
 public class ClientTick
 {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event)
     {
-        if (event.phase != TickEvent.Phase.END)
-            return;
-
-        LifeRenderer.updateRenderer();
+//        if (event.phase != TickEvent.Phase.END)
+//            return;
+//
+////        LifeRenderer.updateRenderer();
     }
 }

@@ -12,6 +12,7 @@ import java.util.Random;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+//TODO remains to be overwritten
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class PlayerBeingAttacked
 {

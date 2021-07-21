@@ -76,4 +76,5 @@ public class ItemReg
     public static final RegistryObject<Item> ABS_LIFE = ITEMS.register("abstract_life", LifeItemTest::new);
     public static final RegistryObject<Item> ABS_BOMB = ITEMS.register("abstract_bomb", BombItemTest::new);
 
+    public static final RegistryObject<Item> TENKYU_S_PACKET = ITEMS.register("tenkyus_packet", TenkyusPacket::new);
 }

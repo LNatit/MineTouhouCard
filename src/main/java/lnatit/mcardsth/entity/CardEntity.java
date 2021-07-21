@@ -1,13 +1,11 @@
 package lnatit.mcardsth.entity;
 
 
-import lnatit.mcardsth.event.InstantCardPickupEvent;
-import lnatit.mcardsth.item.InstantCard;
-import lnatit.mcardsth.network.CardActivationPacket;
+import deeplake.idlframework.idlnbtutils.IDLNBTUtils;
+import lnatit.mcardsth.item.AbstractCard;
+import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.network.NBTPacket;
 import lnatit.mcardsth.network.NetworkManager;
-import lnatit.mcardsth.utils.InstantCardUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -21,8 +19,9 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -30,68 +29,59 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.NetworkHooks;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
-
-import static lnatit.mcardsth.utils.InstantCardUtils.triggerItemPickupTrigger;
 
 /**
  * TODO unfinished!!!
  * sound effect undo!!
  */
-public class InstantCardEntity extends Entity
+public class CardEntity extends Entity
 {
-    public static EntityType<InstantCardEntity> TYPE = EntityType.Builder
-            .<InstantCardEntity>create(InstantCardEntity::new, EntityClassification.MISC)
+    public static EntityType<CardEntity> TYPE = EntityType.Builder
+            .<CardEntity>create(CardEntity::new, EntityClassification.MISC)
             .size(0.25F, 0.25F)
             .trackingRange(6)
             .updateInterval(20)
-            .build("instant_card_entity");
+            .build("card_entity");
 
-    private static final DataParameter<ItemStack> CARD = EntityDataManager.createKey(InstantCardEntity.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<ItemStack> CARD = EntityDataManager.createKey(CardEntity.class, DataSerializers.ITEMSTACK);
     private int age;
     private int pickupDelay;
     private int health = 5;
-    private UUID thrower;
-    private PlayerEntity closestPlayer;
     public final float hoverStart;
     /**
      * The maximum age of this EntityItem.  The item is expired once this is reached.
      */
     public int lifespan = 1200;
 
-    public InstantCardEntity(EntityType<? extends InstantCardEntity> entityTypeIn, World worldIn)
+    public CardEntity(EntityType<? extends CardEntity> entityTypeIn, World worldIn)
     {
         super(entityTypeIn, worldIn);
         this.hoverStart = (float) (Math.random() * Math.PI * 2.0D);
         this.init();
     }
 
-    public InstantCardEntity(World worldIn, double x, double y, double z)
+    public CardEntity(World worldIn, double x, double y, double z)
     {
-        this(EntityTypeReg.INSTANT_CARD.get(), worldIn);
+        this(EntityTypeReg.CARD.get(), worldIn);
         this.setPosition(x, y, z);
         this.rotationYaw = this.rand.nextFloat() * 360.0F;
-        this.setMotion(this.rand.nextDouble() * 0.2D - 0.1D, 0.2D, this.rand.nextDouble() * 0.2D - 0.1D);
+//        this.setMotion(this.rand.nextDouble() * 0.2D - 0.1D, 0.2D, this.rand.nextDouble() * 0.2D - 0.1D);
     }
 
-    public InstantCardEntity(World worldIn, double x, double y, double z, InstantCard card)
+    public CardEntity(World worldIn, double x, double y, double z, AbstractCard card)
     {
         this(worldIn, x, y, z);
         this.setCard(new ItemStack(card));
     }
 
-    public InstantCardEntity(ItemEntity cardItem)
+    public CardEntity(ItemEntity cardItem)
     {
-        super(EntityTypeReg.INSTANT_CARD.get(), cardItem.world);
+        super(EntityTypeReg.CARD.get(), cardItem.world);
         this.init();
         this.setCard(cardItem.getItem());
         this.copyLocationAndAnglesFrom(cardItem);
-        this.setMotion(cardItem.getMotion());
-        this.thrower = cardItem.getThrowerId();
+//        this.setMotion(cardItem.getMotion());
         this.hoverStart = cardItem.hoverStart;
         this.setCustomName(cardItem.getItem().getDisplayName());
     }
@@ -101,6 +91,7 @@ public class InstantCardEntity extends Entity
         this.pickupDelay = 10;
         this.age = 1;
         this.setCustomNameVisible(true);
+//        this.setBoundingBox(new AxisAlignedBB());
     }
 
     @Override
@@ -131,10 +122,12 @@ public class InstantCardEntity extends Entity
             if (this.isInWater() && this.func_233571_b_(FluidTags.WATER) > (double) f)
             {
                 this.applyFloatMotion();
-            } else if (this.isInLava() && this.func_233571_b_(FluidTags.LAVA) > (double) f)
+            }
+            else if (this.isInLava() && this.func_233571_b_(FluidTags.LAVA) > (double) f)
             {
                 this.func_234274_v_();
-            } else if (!this.hasNoGravity())
+            }
+            else if (!this.hasNoGravity())
             {
                 this.setMotion(this.getMotion().add(0.0D, -0.04D, 0.0D));
             }
@@ -142,7 +135,8 @@ public class InstantCardEntity extends Entity
             if (this.world.isRemote)
             {
                 this.noClip = false;
-            } else
+            }
+            else
             {
                 this.noClip = !this.world.hasNoCollisions(this);
                 if (this.noClip)
@@ -150,25 +144,25 @@ public class InstantCardEntity extends Entity
             }
 
 //            double d0 = 8.0D;
-            if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > 64.0D)
-            {
-                this.closestPlayer = this.world.getClosestPlayer(this, 8.0D);
-            }
-
-            if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
-                this.closestPlayer = null;
-            }
-
-            if (this.closestPlayer != null)
-            {
-                Vector3d vector3d2 = new Vector3d(this.closestPlayer.getPosX() - this.getPosX(), this.closestPlayer.getPosY() - this.getPosY(), this.closestPlayer.getPosZ() - this.getPosZ());
-                double d1 = vector3d2.lengthSquared();
-                if (d1 < 64.0D)
-                {
-                    double d2 = 1.0D - Math.sqrt(d1) / 8.0D;
-                    this.setMotion(this.getMotion().add(vector3d2.normalize().scale(d2 * d2 * 0.05D)));
-                }
-            }
+//            if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > 64.0D)
+//            {
+//                this.closestPlayer = this.world.getClosestPlayer(this, 8.0D);
+//            }
+//
+//            if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
+//                this.closestPlayer = null;
+//            }
+//
+//            if (this.closestPlayer != null)
+//            {
+//                Vector3d vector3d2 = new Vector3d(this.closestPlayer.getPosX() - this.getPosX(), this.closestPlayer.getPosY() - this.getPosY(), this.closestPlayer.getPosZ() - this.getPosZ());
+//                double d1 = vector3d2.lengthSquared();
+//                if (d1 < 64.0D)
+//                {
+//                    double d2 = 1.0D - Math.sqrt(d1) / 8.0D;
+//                    this.setMotion(this.getMotion().add(vector3d2.normalize().scale(d2 * d2 * 0.05D)));
+//                }
+//            }
 //
 
 
@@ -235,6 +229,12 @@ public class InstantCardEntity extends Entity
     }
 
     @Override
+    public boolean canBeCollidedWith()
+    {
+        return true;
+    }
+
+    @Override
     public void readAdditional(CompoundNBT compound)
     {
         this.health = compound.getShort("Health");
@@ -259,31 +259,67 @@ public class InstantCardEntity extends Entity
     @Override
     public void onCollideWithPlayer(PlayerEntity entityIn)
     {
-        if (!this.world.isRemote)
-        {
-            if (this.pickupDelay > 0) return;
-            InstantCard card = (InstantCard) this.getCard().getItem();
-            if (entityIn.getCooldownTracker().hasCooldown(card)) return;
-
-//            if (MinecraftForge.EVENT_BUS.post(new InstantCardPickupEvent(entityIn, card)))
+//        if (!this.world.isRemote)
+//        {
+//            if (this.pickupDelay > 0) return;
+//            AbstractCard card = (AbstractCard) this.getCard().getItem();
+//            if (entityIn.getCooldownTracker().hasCooldown(card)) return;
+//
+////            if (MinecraftForge.EVENT_BUS.post(new PickupEvent(entityIn, card)))
+////                return;
+//
+//            if (!InstantCardUtils.instantCardHandler(entityIn, card))
 //                return;
+//            this.remove();
+//
+//            entityIn.addStat(Stats.ITEM_PICKED_UP.get(card), 1);
+//            triggerItemPickupTrigger(entityIn, this);
+//
+//            entityIn.addStat(Stats.ITEM_USED.get(card), 1);
+//            NetworkManager.serverSendToPlayer(new CardActivationPacket(card), (ServerPlayerEntity) entityIn);
+//            entityIn.getCooldownTracker().setCooldown(card, 20);
+//        }
+    }
 
-            if (!InstantCardUtils.instantCardHandler(entityIn, card))
-                return;
-            this.remove();
-
-            entityIn.addStat(Stats.ITEM_PICKED_UP.get(card), 1);
-            triggerItemPickupTrigger(entityIn, this);
-
-            entityIn.addStat(Stats.ITEM_USED.get(card), 1);
-            NetworkManager.serverSendToPlayer(new CardActivationPacket(card), (ServerPlayerEntity) entityIn);
-            entityIn.getCooldownTracker().setCooldown(card, 20);
+    @Override
+    public ActionResultType processInitialInteract(PlayerEntity player, Hand hand)
+    {
+        if (!this.isAlive())
+            return ActionResultType.PASS;
+        else
+        {
+            ActionResultType actionresulttype = this.processInteract(player, hand);
+            return actionresulttype.isSuccessOrConsume() ? actionresulttype : super.processInitialInteract(player, hand);
         }
     }
 
-    @Nullable
-    public UUID getThrowerId() {
-        return this.thrower;
+    //TODO sided method
+    private ActionResultType processInteract(PlayerEntity player, Hand hand)
+    {
+        ItemStack itemstack = player.getHeldItem(hand);
+
+        if (itemstack.getItem() == ItemReg.TENKYU_S_PACKET.get() && !this.getCard().isEmpty())
+        {
+            if (IDLNBTUtils.GetBoolean(player, this.getCard().getItem().getRegistryName().getNamespace(), false))
+            {
+                String id = this.getCard().getItem().getRegistryName().getNamespace();
+                IDLNBTUtils.SetBoolean(player, id, true);
+                if (player instanceof ServerPlayerEntity)
+                {
+                    CompoundNBT nbt = new CompoundNBT();
+                    nbt.putBoolean(id, true);
+                    NetworkManager.serverSendToPlayer(new NBTPacket(id, nbt), (ServerPlayerEntity) player);
+                }
+                this.pickupDelay = 10;
+                return ActionResultType.func_233537_a_(this.world.isRemote);
+            }
+        }
+        return ActionResultType.PASS;
+    }
+
+    public void setNoDespawn()
+    {
+        this.age = -32768;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -299,8 +335,13 @@ public class InstantCardEntity extends Entity
 
     public void setCard(ItemStack card)
     {
-        if (card.getItem() instanceof InstantCard)
+        if (card.getItem() instanceof AbstractCard)
             this.dataManager.set(CARD, card);
+    }
+
+    public void setPickupDelay(int pickupDelay)
+    {
+        this.pickupDelay = pickupDelay;
     }
 
     @OnlyIn(Dist.CLIENT)

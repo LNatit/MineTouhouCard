@@ -11,15 +11,16 @@ import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
 public class GameOverlayRender
 {
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
-    public static void onGameOverlayRender(RenderGameOverlayEvent.Post event)
-    {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.HEALTH)
-            return;
-
-        LifeRenderer.Render(event.getMatrixStack());
-    }
+//    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
+//    public static void onGameOverlayRender(RenderGameOverlayEvent.Post event)
+//    {
+//        if (event.getType() != RenderGameOverlayEvent.ElementType.HEALTH)
+//            return;
+//
+//        LifeRenderer.Render(event.getMatrixStack());
+//    }
 }

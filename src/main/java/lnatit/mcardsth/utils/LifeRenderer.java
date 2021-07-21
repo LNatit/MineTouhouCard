@@ -16,6 +16,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+@Deprecated
 //@OnlyIn(Dist.CLIENT) TODO take care of after-revive logic
 public class LifeRenderer
 {

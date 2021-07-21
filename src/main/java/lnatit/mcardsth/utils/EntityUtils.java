@@ -1,4 +1,4 @@
-package lnatit.mcardsth.handler;
+package lnatit.mcardsth.utils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,6 +22,9 @@ import net.minecraft.world.GameRules;
 import javax.annotation.Nullable;
 import java.util.Random;
 
+/**
+ * Utils for player's death-related methods
+ */
 public class EntityUtils
 {
     public static Random rand = new Random();

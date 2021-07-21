@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -25,12 +24,12 @@ import java.util.Random;
  * TODO inspect the method.
  */
 @OnlyIn(Dist.CLIENT)
-public class InstantCardRenderer extends EntityRenderer<InstantCardEntity>
+public class CardRenderer extends EntityRenderer<CardEntity>
 {
     private final net.minecraft.client.renderer.ItemRenderer itemRenderer;
     private final Random random = new Random();
 
-    public InstantCardRenderer(EntityRendererManager renderManagerIn, net.minecraft.client.renderer.ItemRenderer itemRendererIn)
+    public CardRenderer(EntityRendererManager renderManagerIn, net.minecraft.client.renderer.ItemRenderer itemRendererIn)
     {
         super(renderManagerIn);
         this.itemRenderer = itemRendererIn;
@@ -38,7 +37,7 @@ public class InstantCardRenderer extends EntityRenderer<InstantCardEntity>
         this.shadowOpaque = 0.75F;
     }
 
-    public void render(InstantCardEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
+    public void render(CardEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
     {
         matrixStackIn.push();
         ItemStack itemstack = entityIn.getCard();
@@ -103,7 +102,7 @@ public class InstantCardRenderer extends EntityRenderer<InstantCardEntity>
     /**
      * Returns the location of an entity's texture.
      */
-    public ResourceLocation getEntityTexture(InstantCardEntity entity)
+    public ResourceLocation getEntityTexture(CardEntity entity)
     {
         return PlayerContainer.LOCATION_BLOCKS_TEXTURE;
     }
@@ -127,7 +126,7 @@ public class InstantCardRenderer extends EntityRenderer<InstantCardEntity>
     }
 
     @Override
-    public boolean shouldRender(InstantCardEntity livingEntityIn, ClippingHelper camera, double camX, double camY, double camZ)
+    public boolean shouldRender(CardEntity livingEntityIn, ClippingHelper camera, double camX, double camY, double camZ)
     {
         return super.shouldRender(livingEntityIn, camera, camX, camY, camZ);
     }

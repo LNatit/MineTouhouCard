@@ -2,10 +2,8 @@ package lnatit.mcardsth.utils;
 
 import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
-import lnatit.mcardsth.entity.InstantCardEntity;
+import lnatit.mcardsth.entity.CardEntity;
 import lnatit.mcardsth.item.InstantCard;
-import lnatit.mcardsth.network.BarRenderPacket;
-import lnatit.mcardsth.network.NetworkManager;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -13,6 +11,10 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
+/**
+ * Utils for instantCard-related method
+ * //TODO transfer to IDFNBT system
+ */
 public class InstantCardUtils
 {
     public static boolean instantCardHandler(@Nonnull PlayerEntity player, InstantCard card)
@@ -52,11 +54,11 @@ public class InstantCardUtils
         return flag;
     }
 
-    public static void triggerItemPickupTrigger(PlayerEntity playerIn, InstantCardEntity cardEntity)
+    public static void triggerItemPickupTrigger(PlayerEntity playerIn, CardEntity cardEntity)
     {
-        PlayerEntity playerentity = cardEntity.getThrowerId() != null ? playerIn.world.getPlayerByUuid(cardEntity.getThrowerId()) : null;
-        if (playerentity instanceof ServerPlayerEntity)
-            CriteriaTriggers.THROWN_ITEM_PICKED_UP_BY_ENTITY.test((ServerPlayerEntity) playerentity, cardEntity.getCard(), playerIn);
+//        PlayerEntity playerentity = cardEntity.getThrowerId() != null ? playerIn.world.getPlayerByUuid(cardEntity.getThrowerId()) : null;
+//        if (playerentity instanceof ServerPlayerEntity)
+//            CriteriaTriggers.THROWN_ITEM_PICKED_UP_BY_ENTITY.test((ServerPlayerEntity) playerentity, cardEntity.getCard(), playerIn);
     }
 
     public static boolean playerGetExtend(PlayerEntity player)

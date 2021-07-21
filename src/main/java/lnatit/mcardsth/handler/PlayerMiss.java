@@ -28,8 +28,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
-import static lnatit.mcardsth.handler.EntityUtils.*;
+import static lnatit.mcardsth.utils.EntityUtils.*;
 
+//TODO remains to be overwritten
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class PlayerMiss
 {
@@ -112,9 +113,9 @@ public class PlayerMiss
             spawnDrops(serverPlayerEntity);
 
         //发布假事件
-        MinecraftForge.EVENT_BUS.post(new FakeClone(serverPlayerEntity, serverPlayerEntity, true));
-
-        net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerRespawnEvent(serverPlayerEntity, false);
+//        MinecraftForge.EVENT_BUS.post(new FakeClone(serverPlayerEntity, serverPlayerEntity, true));
+//
+//        net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerRespawnEvent(serverPlayerEntity, false);
 
         if (updateStat)
         {

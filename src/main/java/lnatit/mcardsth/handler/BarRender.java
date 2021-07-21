@@ -9,18 +9,19 @@ import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class BarRender
 {
-    @SubscribeEvent
-    public static void onPlayerLoggerIn(PlayerEvent.PlayerLoggedInEvent event)
-    {
-        NetworkManager.serverSendToPlayer(new BarRenderPacket((byte) 1), (ServerPlayerEntity) event.getPlayer());
-    }
-
-    @SubscribeEvent
-    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event)
-    {
-        NetworkManager.serverSendToPlayer(new BarRenderPacket((byte) 1), (ServerPlayerEntity) event.getPlayer());
-    }
+//    @SubscribeEvent
+//    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event)
+//    {
+//        NetworkManager.serverSendToPlayer(new BarRenderPacket((byte) 1), (ServerPlayerEntity) event.getPlayer());
+//    }
+//
+//    @SubscribeEvent
+//    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event)
+//    {
+//        NetworkManager.serverSendToPlayer(new BarRenderPacket((byte) 1), (ServerPlayerEntity) event.getPlayer());
+//    }
 }

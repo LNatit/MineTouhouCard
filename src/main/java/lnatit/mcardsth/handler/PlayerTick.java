@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+//TODO overwrite using IDFNBT system.
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class PlayerTick
 {

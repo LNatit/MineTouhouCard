@@ -15,37 +15,38 @@ import net.minecraftforge.fml.common.Mod;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static lnatit.mcardsth.capability.PlayerPropertiesProvider.CPP_DEFAULT;
 
+@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class CommonEventHandler
 {
-    @SubscribeEvent
-    public static void onAttachCapabilityEvent(AttachCapabilitiesEvent<Entity> event)
-    {
-        Entity entity = event.getObject();
-        if (entity instanceof PlayerEntity)
-            event.addCapability(new ResourceLocation(MOD_ID,"player_properties"), new PlayerPropertiesProvider((PlayerEntity) entity));
-    }
-
-    @SubscribeEvent
-    public static void onPlayerClone(PlayerEvent.Clone event)
-    {
-        if (!event.isWasDeath() && !(event instanceof FakeClone))
-        {
-            LazyOptional<PlayerProperties> old_pp = event.getOriginal().getCapability(CPP_DEFAULT);
-            LazyOptional<PlayerProperties> new_pp = event.getEntity().getCapability(CPP_DEFAULT);
-
-            if (old_pp.isPresent() && new_pp.isPresent())
-            {
-                new_pp.ifPresent(
-                        (newCap) ->
-                                old_pp.ifPresent(
-                                        (oldCap) ->
-                                                newCap.deserializeNBT(
-                                                        oldCap.serializeNBT()
-                                                )
-                                        )
-                        );
-            }
-        }
-    }
+//    @SubscribeEvent
+//    public static void onAttachCapabilityEvent(AttachCapabilitiesEvent<Entity> event)
+//    {
+//        Entity entity = event.getObject();
+//        if (entity instanceof PlayerEntity)
+//            event.addCapability(new ResourceLocation(MOD_ID,"player_properties"), new PlayerPropertiesProvider((PlayerEntity) entity));
+//    }
+//
+//    @SubscribeEvent
+//    public static void onPlayerClone(PlayerEvent.Clone event)
+//    {
+//        if (!event.isWasDeath() && !(event instanceof FakeClone))
+//        {
+//            LazyOptional<PlayerProperties> old_pp = event.getOriginal().getCapability(CPP_DEFAULT);
+//            LazyOptional<PlayerProperties> new_pp = event.getEntity().getCapability(CPP_DEFAULT);
+//
+//            if (old_pp.isPresent() && new_pp.isPresent())
+//            {
+//                new_pp.ifPresent(
+//                        (newCap) ->
+//                                old_pp.ifPresent(
+//                                        (oldCap) ->
+//                                                newCap.deserializeNBT(
+//                                                        oldCap.serializeNBT()
+//                                                )
+//                                        )
+//                        );
+//            }
+//        }
+//    }
 }

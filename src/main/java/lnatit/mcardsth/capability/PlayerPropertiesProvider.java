@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@Deprecated
 public class PlayerPropertiesProvider implements ICapabilitySerializable<CompoundNBT>
 {
     @CapabilityInject(PlayerProperties.class)

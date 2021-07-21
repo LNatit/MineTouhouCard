@@ -2,11 +2,10 @@ package lnatit.mcardsth.utils;
 
 import lnatit.mcardsth.capability.PlayerProperties;
 import lnatit.mcardsth.capability.PlayerPropertiesProvider;
-import lnatit.mcardsth.entity.InstantCardEntity;
+import lnatit.mcardsth.entity.CardEntity;
 import lnatit.mcardsth.item.AbilityCard;
 import lnatit.mcardsth.item.InstantCard;
 import lnatit.mcardsth.item.ItemReg;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -16,7 +15,6 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 import java.util.Random;
 
@@ -119,7 +117,7 @@ public class AbilityCardUtils
         {
             World world = player.world;
             double x = player.chasingPosX, y = player.chasingPosY, z = player.chasingPosZ;
-            world.addEntity(new InstantCardEntity(world, x, y, z, (InstantCard) ItemReg.DEADSPELL.get()));
+            world.addEntity(new CardEntity(world, x, y, z, (InstantCard) ItemReg.DEADSPELL.get()));
         }
     }
 

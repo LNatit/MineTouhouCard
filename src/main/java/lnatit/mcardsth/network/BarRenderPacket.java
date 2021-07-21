@@ -7,6 +7,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
+@Deprecated
 public class BarRenderPacket extends IPacket
 {
     private byte index;     //  1: life, 2: bomb, 3: power, 4: money, 5: all

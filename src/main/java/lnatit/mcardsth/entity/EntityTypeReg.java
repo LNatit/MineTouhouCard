@@ -11,6 +11,6 @@ public class EntityTypeReg
 {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MOD_ID);
 
-    public static final RegistryObject<EntityType<InstantCardEntity>> INSTANT_CARD =
-            ENTITIES.register("instant_card_entity", () -> InstantCardEntity.TYPE);
+    public static final RegistryObject<EntityType<CardEntity>> CARD =
+            ENTITIES.register("card_entity", () -> CardEntity.TYPE);
 }

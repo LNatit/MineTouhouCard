@@ -12,12 +12,16 @@ public class AttributeCard extends AbstractCard
 {
     public AttributeCard()
     {
-        super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.EPIC));
+        super(new Item.Properties()
+//                .group(CardGroup.CARDS)
+                .maxStackSize(1)
+                .rarity(Rarity.EPIC));
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        playerIn.setActiveHand(handIn);
+        return ActionResult.resultConsume(playerIn.getHeldItem(handIn));
     }
 }

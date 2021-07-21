@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.concurrent.Callable;
 
+@Deprecated
 public class PlayerProperties implements INBTSerializable<CompoundNBT>
 {
     public static final byte MAX_LIFE = 7;
@@ -208,8 +209,8 @@ public class PlayerProperties implements INBTSerializable<CompoundNBT>
     {
         if (playerIn instanceof ServerPlayerEntity)
         {
-            NetworkManager.serverSendToPlayer(new NBTPacket(serializeNBT()), (ServerPlayerEntity) playerIn);
-            NetworkManager.serverSendToPlayer(new BarRenderPacket(index), (ServerPlayerEntity) playerIn);
+//            NetworkManager.serverSendToPlayer(new NBTPacket(serializeNBT()), (ServerPlayerEntity) playerIn);
+//            NetworkManager.serverSendToPlayer(new BarRenderPacket(index), (ServerPlayerEntity) playerIn);
         }
     }
 
