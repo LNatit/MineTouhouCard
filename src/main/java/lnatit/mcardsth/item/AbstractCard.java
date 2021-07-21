@@ -1,18 +1,14 @@
 package lnatit.mcardsth.item;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.util.List;
+import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.*;
 
 public class AbstractCard extends Item
 {
@@ -24,17 +20,21 @@ public class AbstractCard extends Item
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        String path = this.getRegistryName().getPath();
+
+        if (this.getRegistryName() != null && !GetBoolean(playerIn, path, false))
+        {
+            SetBoolean(playerIn, path, true);
+            itemstack.setCount(0);
+            return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
+        }
+        else return ActionResult.resultFail(itemstack);
     }
 
     @Override
     public UseAction getUseAction(ItemStack stack)
     {
         return UseAction.CROSSBOW;
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }

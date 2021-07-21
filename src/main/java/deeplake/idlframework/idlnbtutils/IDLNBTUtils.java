@@ -1,8 +1,10 @@
 package deeplake.idlframework.idlnbtutils;
 
+import lnatit.mcardsth.network.NBTPacket;
+import lnatit.mcardsth.network.NetworkManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nullable;
@@ -16,7 +18,8 @@ import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
  */
 public class IDLNBTUtils
 {
-    public static CompoundNBT getNBT(Entity entity) {
+    public static CompoundNBT getNBT(Entity entity)
+    {
         CompoundNBT nbt = entity.getPersistentData();
         return nbt;
     }
@@ -25,6 +28,16 @@ public class IDLNBTUtils
     {
         CompoundNBT nbt = getNBT(entity);
         nbt.putInt(key, value);
+        sync(entity, key, nbt, (byte) 2);
+        return true;
+    }
+
+    public static boolean SetInt(Entity entity, String key, int value, boolean doSync)
+    {
+        CompoundNBT nbt = getNBT(entity);
+        nbt.putInt(key, value);
+        if (doSync)
+            sync(entity, key, nbt, (byte) 2);
         return true;
     }
 
@@ -54,10 +67,7 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getInt(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
     public static int GetIntAuto(Entity entity, String key, int defaultVal)
@@ -72,16 +82,23 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getInt(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
     public static boolean SetBoolean(Entity entity, String key, boolean value)
     {
         CompoundNBT nbt = getNBT(entity);
         nbt.putBoolean(key, value);
+        sync(entity, key, nbt, (byte) 1);
+        return true;
+    }
+
+    public static boolean SetBoolean(Entity entity, String key, boolean value, boolean doSync)
+    {
+        CompoundNBT nbt = getNBT(entity);
+        nbt.putBoolean(key, value);
+        if (doSync)
+            sync(entity, key, nbt, (byte) 1);
         return true;
     }
 
@@ -92,16 +109,23 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getBoolean(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
     public static boolean SetString(Entity entity, String key, String value)
     {
         CompoundNBT nbt = getNBT(entity);
         nbt.putString(key, value);
+        sync(entity, key, nbt, (byte) 3);
+        return true;
+    }
+
+    public static boolean SetString(Entity entity, String key, String value, boolean doSync)
+    {
+        CompoundNBT nbt = getNBT(entity);
+        nbt.putString(key, value);
+        if (doSync)
+            sync(entity, key, nbt, (byte) 3);
         return true;
     }
 
@@ -112,10 +136,7 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getString(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
 //    public static int[] GetIntArray(LivingEntity entity, String key)
@@ -135,5 +156,21 @@ public class IDLNBTUtils
     public static boolean EntityHasKey(Entity entity, String key)
     {
         return getNBT(entity).contains(key);
+    }
+
+    private static void sync(Entity entity, String key, CompoundNBT nbt, byte typeIndex)
+    {
+        if (entity instanceof ServerPlayerEntity)
+            NetworkManager.serverSendToPlayer(new NBTPacket(key, nbt, typeIndex), (ServerPlayerEntity) entity);
+    }
+
+    public static void sync(ServerPlayerEntity player, CompoundNBT nbt, byte typeIndex)
+    {
+        NetworkManager.serverSendToPlayer(new NBTPacket(null, nbt, typeIndex), player);
+    }
+
+    public static void syncAll(ServerPlayerEntity player, byte typeIndex)
+    {
+        NetworkManager.serverSendToPlayer(new NBTPacket(null, player.getPersistentData(), typeIndex), player);
     }
 }

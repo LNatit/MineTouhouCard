@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Collection;
 
 import static deeplake.idlframework.idlnbtutils.IDLNBTConst.COUNT;
+import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.SetInt;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
@@ -55,13 +56,13 @@ public class CommandEventHandler
                 for (RegistryObject<Item> itemObj : ItemReg.ITEMS.getEntries())
                 {
                     Item item = itemObj.get();
-                    if (item instanceof AbstractCard)
+                    if (item instanceof AbstractCard && item.getRegistryName() != null)
                     {
                         entity.getPersistentData().putBoolean(item.getRegistryName().getNamespace(), true);
                         i++;
                     }
                 }
-                entity.getPersistentData().putInt(COUNT, i);
+                SetInt(entity, COUNT, i);
             }
         }
         return 0;
@@ -76,10 +77,10 @@ public class CommandEventHandler
                 for (RegistryObject<Item> itemObj : ItemReg.ITEMS.getEntries())
                 {
                     Item item = itemObj.get();
-                    if (item instanceof AbstractCard)
+                    if (item instanceof AbstractCard && item.getRegistryName() != null)
                         entity.getPersistentData().putBoolean(item.getRegistryName().getNamespace(), false);
                 }
-                entity.getPersistentData().putInt(COUNT, 0);
+                SetInt(entity, COUNT, 0);
             }
         }
         return 0;

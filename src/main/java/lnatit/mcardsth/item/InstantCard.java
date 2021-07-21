@@ -22,25 +22,6 @@ public class InstantCard extends AbstractCard
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-
-        if (handIn == Hand.MAIN_HAND)
-        {
-//            if (InstantCardUtils.instantCardHandler(playerIn, this))
-//            {
-//                playerIn.addStat(Stats.ITEM_USED.get(this), 1);
-//
-//                if (!worldIn.isRemote)
-//                    NetworkManager.serverSendToPlayer(new CardActivationPacket(itemstack.getItem()), (ServerPlayerEntity) playerIn);
-//
-//                playerIn.setActiveHand(handIn);
-//                itemstack.shrink(1);
-//                playerIn.getCooldownTracker().setCooldown(this, 20);
-//                return ActionResult.resultConsume(itemstack);
-//            } else
-            return ActionResult.resultFail(itemstack);
-        } else return ActionResult.resultPass(itemstack);
+        return super.onItemRightClick(worldIn, playerIn, handIn);
     }
-
-
 }

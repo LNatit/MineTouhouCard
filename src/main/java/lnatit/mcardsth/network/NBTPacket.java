@@ -14,22 +14,25 @@ public class NBTPacket extends IPacket
 {
     private CompoundNBT nbt;
     private String id;
+    private byte typeIndex;
 
-    public NBTPacket(@Nullable String id, CompoundNBT nbtIn)
+    public NBTPacket(@Nullable String id, CompoundNBT nbtIn, byte typeIndex)
     {
         this.nbt = nbtIn;
         this.id = id;
+        this.typeIndex = typeIndex;
     }
 
     public static void encode(NBTPacket packet, PacketBuffer buffer)
     {
-        buffer.writeCompoundTag(packet.nbt);
         buffer.writeString(packet.id);
+        buffer.writeCompoundTag(packet.nbt);
+        buffer.writeByte(packet.typeIndex);
     }
 
     public static NBTPacket decode(PacketBuffer buffer)
     {
-        return new NBTPacket(buffer.readString(), buffer.readCompoundTag());
+        return new NBTPacket(buffer.readString(), buffer.readCompoundTag(), buffer.readByte());
     }
 
     public static void handle(NBTPacket packet, Supplier<NetworkEvent.Context> contextSupplier)
@@ -42,7 +45,18 @@ public class NBTPacket extends IPacket
                 {
                     String id = packet.id;
                     if (id != null)
-                        player.getPersistentData().putBoolean(id, packet.nbt.getBoolean(id));
+                        switch (packet.typeIndex)
+                        {
+                            case 1:
+                                player.getPersistentData().putBoolean(id, packet.nbt.getBoolean(id));
+                                break;
+                            case 2:
+                                player.getPersistentData().putInt(id, packet.nbt.getInt(id));
+                                break;
+                            case 3:
+                                player.getPersistentData().putString(id, packet.nbt.getString(id));
+                                break;
+                        }
                     else player.getPersistentData().merge(packet.nbt);
                 }
             });

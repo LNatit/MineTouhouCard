@@ -1,7 +1,6 @@
 package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.item.ItemReg;
-import lnatit.mcardsth.utils.AbilityCardUtils;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,41 +36,41 @@ public class PlayerMiss
         //TODO remove mobs
         if (!(livingEntity instanceof ServerPlayerEntity))
             return;
-        boolean spawnDrops = AbilityCardUtils.doPlayerHold((PlayerEntity) livingEntity, ItemReg.DBOMBEXTD.get());
+//        boolean spawnDrops = AbilityCardUtils.doPlayerHold((PlayerEntity) livingEntity, ItemReg.DBOMBEXTD.get());
 
-        if (AbilityCardUtils.checkRokumonActivation((ServerPlayerEntity) livingEntity))
-        {
-//            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
-            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
-            playerRecover((ServerPlayerEntity) livingEntity, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+//        if (AbilityCardUtils.checkRokumonActivation((ServerPlayerEntity) livingEntity))
+//        {
+////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+//            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
+//            playerRecover((ServerPlayerEntity) livingEntity, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+//
+//            if (spawnDrops)
+//                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+//
+//            return;
+//        }
 
-            if (spawnDrops)
-                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
-
-            return;
-        }
-
-        if (AbilityCardUtils.checkAutoBombActivation((ServerPlayerEntity) livingEntity))
-        {
-//            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
-            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
-            playerRecover((ServerPlayerEntity) livingEntity, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
-
-            if (spawnDrops)
-                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
-
-            return;
-        }
+//        if (AbilityCardUtils.checkAutoBombActivation((ServerPlayerEntity) livingEntity))
+//        {
+////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+//            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
+//            playerRecover((ServerPlayerEntity) livingEntity, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+//
+//            if (spawnDrops)
+//                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+//
+//            return;
+//        }
 
         if (checkPlayerMiss((ServerPlayerEntity) livingEntity))
         {
-            playerRevive(event, (ServerPlayerEntity) livingEntity, spawnDrops, true);
+//            playerRevive(event, (ServerPlayerEntity) livingEntity, spawnDrops, true);
             playerRecover((ServerPlayerEntity) livingEntity, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
 
-            if (spawnDrops)
-                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+//            if (spawnDrops)
+//                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
 
-            AbilityCardUtils.checkDeadSpell((ServerPlayerEntity) livingEntity);
+//            AbilityCardUtils.checkDeadSpell((ServerPlayerEntity) livingEntity);
         }
     }
 

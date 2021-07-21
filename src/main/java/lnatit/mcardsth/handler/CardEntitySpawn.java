@@ -16,6 +16,7 @@ import java.util.UUID;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static net.minecraft.item.Items.DEBUG_STICK;
 
+//TODO improve logic
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class CardEntitySpawn
 {
@@ -26,10 +27,8 @@ public class CardEntitySpawn
 
         if (entity instanceof ItemEntity && ((ItemEntity) entity).getItem().getItem() instanceof AbstractCard)
         {
-            CardEntity cardEntity = new CardEntity((ItemEntity) entity);
-            event.setCanceled(true);
-            event.getWorld().addEntity(cardEntity);
-
+            entity.setCustomName(((ItemEntity) entity).getItem().getDisplayName());
+            entity.setCustomNameVisible(true);
             UUID uuid = ((ItemEntity) entity).getThrowerId();
             if (uuid != null)
             {
@@ -39,8 +38,10 @@ public class CardEntitySpawn
                     Item item = player.inventory.offHandInventory.get(0).getItem();
                     if (item == DEBUG_STICK)
                     {
+                        CardEntity cardEntity = new CardEntity((ItemEntity) entity);
+                        event.setCanceled(true);
+                        event.getWorld().addEntity(cardEntity);
                         cardEntity.setNoDespawn();
-//                        cardEntity.noClip = true;
                         cardEntity.setNoGravity(true);
                         cardEntity.setInvulnerable(true);
                         cardEntity.entityCollisionReduction = 1F;
