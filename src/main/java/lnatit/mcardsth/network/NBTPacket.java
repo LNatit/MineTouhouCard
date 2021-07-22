@@ -47,6 +47,9 @@ public class NBTPacket extends IPacket
                     if (id != null)
                         switch (packet.typeIndex)
                         {
+                            case 0:
+                                player.getPersistentData().merge(packet.nbt);
+                                break;
                             case 1:
                                 player.getPersistentData().putBoolean(id, packet.nbt.getBoolean(id));
                                 break;

@@ -164,13 +164,13 @@ public class IDLNBTUtils
             NetworkManager.serverSendToPlayer(new NBTPacket(key, nbt, typeIndex), (ServerPlayerEntity) entity);
     }
 
-    public static void sync(ServerPlayerEntity player, CompoundNBT nbt, byte typeIndex)
+    public static void sync(ServerPlayerEntity player, CompoundNBT nbt)
     {
-        NetworkManager.serverSendToPlayer(new NBTPacket(null, nbt, typeIndex), player);
+        NetworkManager.serverSendToPlayer(new NBTPacket(null, nbt, (byte) 0), player);
     }
 
-    public static void syncAll(ServerPlayerEntity player, byte typeIndex)
+    public static void syncAll(ServerPlayerEntity player)
     {
-        NetworkManager.serverSendToPlayer(new NBTPacket(null, player.getPersistentData(), typeIndex), player);
+        NetworkManager.serverSendToPlayer(new NBTPacket(null, player.getPersistentData(), (byte) 0), player);
     }
 }
