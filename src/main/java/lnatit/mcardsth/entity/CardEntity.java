@@ -3,6 +3,7 @@ package lnatit.mcardsth.entity;
 
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.AdvancementUtils;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -102,9 +103,6 @@ public class CardEntity extends Entity
         this.getDataManager().register(CARD, ItemStack.EMPTY);
     }
 
-    /**
-     * TODO inspect the method, fix possible bugs
-     */
     @Override
     public void tick()
     {
@@ -289,7 +287,7 @@ public class CardEntity extends Entity
                 if (!PlayerPropertiesUtils.doPlayerCollected(player, card))
                 {
                     PlayerPropertiesUtils.collectCard(player, card);
-                    //TODO add advancements
+                    AdvancementUtils.giveAdvancement(player, AdvancementUtils.getAdvIdFromAbsCard(card));
                     this.interactDelay = 10;
                     return ActionResultType.func_233537_a_(this.world.isRemote);
                 }

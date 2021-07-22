@@ -1,5 +1,6 @@
 package lnatit.mcardsth.item;
 
+import lnatit.mcardsth.utils.AdvancementUtils;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -22,12 +23,11 @@ public class AbstractCard extends Item
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
-        String path = this.getRegistryName().getPath();
 
         if (!PlayerPropertiesUtils.doPlayerCollected(playerIn, this))
         {
             PlayerPropertiesUtils.collectCard(playerIn, this);
-            //TODO add advancements
+            AdvancementUtils.giveAdvancement(playerIn, AdvancementUtils.getAdvIdFromAbsCard(this));
             itemstack.setCount(0);
             return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
         }

@@ -1,5 +1,6 @@
 package lnatit.mcardsth.utils;
 
+import lnatit.mcardsth.item.AbstractCard;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,10 +8,22 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 
+import static lnatit.mcardsth.LogUtils.*;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
 public class AdvancementUtils
 {
+    public static String getAdvIdFromAbsCard(AbstractCard card)
+    {
+        if (card.getRegistryName() == null)
+        {
+            Warn("get advancement from an unregistered AbsCard!");
+        }
+        StringBuffer id = new StringBuffer(card.getRegistryName().getPath());
+        id.append('_').append("card");
+        return id.toString();
+    }
+
     public static boolean giveAdvancement(PlayerEntity player, String id)
     {
         if (player.world.isRemote)
