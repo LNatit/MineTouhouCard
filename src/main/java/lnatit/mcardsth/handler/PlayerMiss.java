@@ -2,7 +2,6 @@ package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.entity.CardEntity;
 import lnatit.mcardsth.item.AbstractCard;
-import lnatit.mcardsth.item.InstantCard;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.EntityDeathUtils;
 import lnatit.mcardsth.utils.PlayerData;
@@ -82,8 +81,15 @@ public class PlayerMiss
 
             if (stack.getItem() == EMERALD && stack.getCount() >= 16)
             {
+                //TODO modify counts(transfer to config)
                 stack.shrink(16);
+
+                //物品使用统计数据更新
+                for (int i = 0; i < 16; i++)
+                    player.addStat(Stats.ITEM_USED.get(EMERALD));
+
 ////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+
                 playerRevive(event, (ServerPlayerEntity) player, false, false);
                 playerRecover((ServerPlayerEntity) player, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
 
@@ -97,12 +103,20 @@ public class PlayerMiss
         if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.AUTOBOMB.get()) && data.canSpell())
         {
             data.canSpell();
+
+            //物品使用统计数据更新
+            player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
+            player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
+
 ////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+
             playerRevive(event, (ServerPlayerEntity) player, false, false);
             playerRecover((ServerPlayerEntity) player, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
 
             if (spawnDrops)
                 player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
+            data.ApplyAndSync(player);
 
             return;
         }
@@ -111,6 +125,7 @@ public class PlayerMiss
         {
             //物品使用统计数据更新
             player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
+
             playerRevive(event, (ServerPlayerEntity) player, spawnDrops, true);
             playerRecover((ServerPlayerEntity) player, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
 
@@ -118,9 +133,15 @@ public class PlayerMiss
                 player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
 
             if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DEADSPELL.get()))
-
                 world.addEntity(new ItemEntity(world, x, y, z, new ItemStack(ItemReg.DEADSPELL.get())));
+
+            data.ApplyAndSync(player);
+            return;
         }
+
+        //若事件未被取消，则初始化玩家的PlayerData数据
+        if (!event.isCanceled())
+            PlayerData.DEFAULT.ApplyAndSync(player);
     }
 
     public static void playerRevive(LivingDeathEvent event, ServerPlayerEntity serverPlayerEntity, boolean spawnDrops, boolean updateStat)

@@ -8,8 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.RegistryObject;
 
+import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
 import static deeplake.idlframework.idlnbtutils.IDLNBTConst.*;
-import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.*;
 import static lnatit.mcardsth.LogUtils.*;
 
 public class PlayerPropertiesUtils
@@ -30,7 +30,7 @@ public class PlayerPropertiesUtils
             Warn("Trying to check an unregistered Card!");
             return true;
         }
-        else return GetBoolean(player, card.getRegistryName().getPath(), false);
+        else return getPlayerIdeallandBoolSafe(player, card.getRegistryName().getPath());
     }
 
     /**
@@ -51,7 +51,8 @@ public class PlayerPropertiesUtils
         if (!updatePlayerCardsTotal(player))
             return false;
 
-        return SetBoolean(player, card.getRegistryName().getPath(), true);
+        setPlayerIdeallandTagSafe(player, card.getRegistryName().getPath(), true);
+        return true;
     }
 
     /**
@@ -69,7 +70,8 @@ public class PlayerPropertiesUtils
             Warn("Trying to collect an unregistered Card!");
             return false;
         }
-        return SetBoolean(player, card.getRegistryName().getPath(), doCollect);
+        setPlayerIdeallandTagSafe(player, card.getRegistryName().getPath(), doCollect);
+        return true;
     }
 
     /**
@@ -80,18 +82,19 @@ public class PlayerPropertiesUtils
      */
     public static int playerCardsTotal(PlayerEntity player)
     {
-        return GetInt(player, COUNT, 0);
+        return getPlayerIdeallandIntSafe(player, COUNT);
     }
 
     private static boolean updatePlayerCardsTotal(PlayerEntity player)
     {
-        int count = GetInt(player, COUNT, 0);
+        int count = getPlayerIdeallandIntSafe(player, COUNT);
         if (count == CARDS_TOTAL)
         {
             Warn("Cards count overSize!(now cards count is %d of %d)", count, CARDS_TOTAL);
             return false;
         }
-        return SetInt(player, COUNT, count + 1);
+        setPlayerIdeallandTagSafe(player, COUNT, count + 1);
+        return true;
     }
 
     public static void syncPlayerCards(PlayerEntity player)
@@ -109,14 +112,14 @@ public class PlayerPropertiesUtils
         {
             Item item = ItemObj.get();
             String key = item.getRegistryName().getPath();
-            if (item instanceof AbstractCard && GetBoolean(player, key, false))
+            if (item instanceof AbstractCard && getPlayerIdeallandBoolSafe(player, key))
             {
                 count++;
                 nbt.putBoolean(key, true);
             }
             else nbt.putBoolean(key, false);
         }
-        int init = GetInt(player, COUNT, 0);
+        int init = getPlayerIdeallandIntSafe(player, COUNT);
 
         if (init == count)
             return true;
@@ -125,7 +128,7 @@ public class PlayerPropertiesUtils
             if (doFix)
             {
                 nbt.putInt(COUNT, count);
-                player.getPersistentData().merge(nbt);
+                getPlayerIdlTagSafe(player).merge(nbt);
                 if (player instanceof ServerPlayerEntity)
                     sync((ServerPlayerEntity) player, nbt);
             }

@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 
 import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.*;
 
+//TODO trigger criteria on item used
 public class AbstractCard extends Item
 {
     public AbstractCard(Properties properties)
@@ -24,14 +25,8 @@ public class AbstractCard extends Item
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (!PlayerPropertiesUtils.doPlayerCollected(playerIn, this))
-        {
-            PlayerPropertiesUtils.collectCard(playerIn, this);
-            AdvancementUtils.giveAdvancement(playerIn, AdvancementUtils.getAdvIdFromAbsCard(this));
-            itemstack.shrink(1);
-
+        if (cardCollection(playerIn))
             return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
-        }
         else return ActionResult.resultFail(itemstack);
     }
 
@@ -39,5 +34,16 @@ public class AbstractCard extends Item
     public UseAction getUseAction(ItemStack stack)
     {
         return UseAction.CROSSBOW;
+    }
+
+    protected boolean cardCollection(PlayerEntity playerIn)
+    {
+        if (!PlayerPropertiesUtils.doPlayerCollected(playerIn, this))
+        {
+            PlayerPropertiesUtils.collectCard(playerIn, this);
+            AdvancementUtils.giveAdvancement(playerIn, AdvancementUtils.getAdvIdFromAbsCard(this));
+            return true;
+        }
+        else return false;
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-//TODO consider to register new types of stats.
+//TODO remains to be rewritten
 @Deprecated
 public class BombItemTest extends Item
 {

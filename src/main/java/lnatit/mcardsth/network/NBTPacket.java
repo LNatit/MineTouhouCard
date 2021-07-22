@@ -2,13 +2,16 @@ package lnatit.mcardsth.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
+
+import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
+import static deeplake.idlframework.idlnbtutils.IDLNBTConst.MCARDSTH;
 
 public class NBTPacket extends IPacket
 {
@@ -47,16 +50,29 @@ public class NBTPacket extends IPacket
                     switch (packet.typeIndex)
                     {
                         case 0:
-                            player.getPersistentData().merge(packet.nbt);
+                            CompoundNBT nbt = player.getPersistentData();
+                            CompoundNBT data = getTagSafe(nbt, PlayerEntity.PERSISTED_NBT_TAG);
+                            CompoundNBT idl_data = getPlayerIdlTagSafe(player);
+
+                            idl_data.merge(packet.nbt);
+
+                            data.put(MCARDSTH, idl_data);
+                            nbt.put(PlayerEntity.PERSISTED_NBT_TAG, data);
                             break;
                         case 1:
-                            player.getPersistentData().putBoolean(id, packet.nbt.getBoolean(id));
+                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getBoolean(id));
                             break;
                         case 2:
-                            player.getPersistentData().putInt(id, packet.nbt.getInt(id));
+                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getInt(id));
                             break;
                         case 3:
-                            player.getPersistentData().putString(id, packet.nbt.getString(id));
+                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getString(id));
+                            break;
+                        case 4:
+                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getDouble(id));
+                            break;
+                        case 5:
+                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getIntArray(id));
                             break;
                     }
                 }

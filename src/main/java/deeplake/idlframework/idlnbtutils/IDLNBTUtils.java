@@ -1,15 +1,13 @@
 package deeplake.idlframework.idlnbtutils;
 
-import lnatit.mcardsth.network.NBTPacket;
-import lnatit.mcardsth.network.NetworkManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nullable;
 
-import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
+import static deeplake.idlframework.idlnbtutils.IDLNBT.getPlayerIdeallandIntSafe;
+import static deeplake.idlframework.idlnbtutils.IDLNBT.setPlayerIdeallandTagSafe;
 
 /**
  * Simplified util class
@@ -28,16 +26,6 @@ public class IDLNBTUtils
     {
         CompoundNBT nbt = getNBT(entity);
         nbt.putInt(key, value);
-        sync(entity, key, nbt, (byte) 2);
-        return true;
-    }
-
-    public static boolean SetInt(Entity entity, String key, int value, boolean doSync)
-    {
-        CompoundNBT nbt = getNBT(entity);
-        nbt.putInt(key, value);
-        if (doSync)
-            sync(entity, key, nbt, (byte) 2);
         return true;
     }
 
@@ -89,16 +77,6 @@ public class IDLNBTUtils
     {
         CompoundNBT nbt = getNBT(entity);
         nbt.putBoolean(key, value);
-        sync(entity, key, nbt, (byte) 1);
-        return true;
-    }
-
-    public static boolean SetBoolean(Entity entity, String key, boolean value, boolean doSync)
-    {
-        CompoundNBT nbt = getNBT(entity);
-        nbt.putBoolean(key, value);
-        if (doSync)
-            sync(entity, key, nbt, (byte) 1);
         return true;
     }
 
@@ -116,16 +94,6 @@ public class IDLNBTUtils
     {
         CompoundNBT nbt = getNBT(entity);
         nbt.putString(key, value);
-        sync(entity, key, nbt, (byte) 3);
-        return true;
-    }
-
-    public static boolean SetString(Entity entity, String key, String value, boolean doSync)
-    {
-        CompoundNBT nbt = getNBT(entity);
-        nbt.putString(key, value);
-        if (doSync)
-            sync(entity, key, nbt, (byte) 3);
         return true;
     }
 
@@ -139,38 +107,8 @@ public class IDLNBTUtils
         else return defaultVal;
     }
 
-//    public static int[] GetIntArray(LivingEntity entity, String key)
-//    {
-//        if (EntityHasKey(entity, key))
-//        {
-//            CompoundNBT nbt = getNBT(entity);
-//            return nbt.getIntArray(key);
-//        }
-//        else
-//        {
-//            return new int[0];
-//        }
-//    }
-
-    @Nullable
     public static boolean EntityHasKey(Entity entity, String key)
     {
         return getNBT(entity).contains(key);
-    }
-
-    private static void sync(Entity entity, String key, CompoundNBT nbt, byte typeIndex)
-    {
-        if (entity instanceof ServerPlayerEntity)
-            NetworkManager.serverSendToPlayer(new NBTPacket(key, nbt, typeIndex), (ServerPlayerEntity) entity);
-    }
-
-    public static void sync(ServerPlayerEntity player, CompoundNBT nbt)
-    {
-        NetworkManager.serverSendToPlayer(new NBTPacket("", nbt, (byte) 0), player);
-    }
-
-    public static void syncAll(ServerPlayerEntity player)
-    {
-        NetworkManager.serverSendToPlayer(new NBTPacket("", player.getPersistentData(), (byte) 0), player);
     }
 }

@@ -19,8 +19,8 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.Collection;
 
+import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
 import static deeplake.idlframework.idlnbtutils.IDLNBTConst.COUNT;
-import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.SetInt;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID)
@@ -59,11 +59,11 @@ public class CommandEventHandler
                     Item item = itemObj.get();
                     if (item instanceof AbstractCard && item.getRegistryName() != null)
                     {
-                        entity.getPersistentData().putBoolean(item.getRegistryName().getPath(), true);
+                        setPlayerIdeallandTagSafe((PlayerEntity) entity, item.getRegistryName().getPath(), true);
                         i++;
                     }
                 }
-                SetInt(entity, COUNT, i);
+                setPlayerIdeallandTagSafe((PlayerEntity) entity, COUNT, i);
                 PlayerPropertiesUtils.syncPlayerCards((PlayerEntity) entity);
             }
         }
@@ -80,9 +80,9 @@ public class CommandEventHandler
                 {
                     Item item = itemObj.get();
                     if (item instanceof AbstractCard && item.getRegistryName() != null)
-                        entity.getPersistentData().putBoolean(item.getRegistryName().getPath(), false);
+                        setPlayerIdeallandTagSafe((PlayerEntity) entity, item.getRegistryName().getPath(), false);
                 }
-                SetInt(entity, COUNT, 0);
+                setPlayerIdeallandTagSafe((PlayerEntity) entity, COUNT, 0);
                 PlayerPropertiesUtils.syncPlayerCards((PlayerEntity) entity);
             }
         }

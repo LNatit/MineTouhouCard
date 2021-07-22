@@ -15,8 +15,8 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.List;
 
+import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
 import static deeplake.idlframework.idlnbtutils.IDLNBTConst.COUNT;
-import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.GetInt;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
@@ -40,7 +40,7 @@ public class ItemDesc
         }
         else if (item instanceof TenkyusPacket)
         {
-            int count = GetInt(player, COUNT, 0);
+            int count = getPlayerIdeallandIntSafe(player, COUNT);
 
             for (int i = 0; i < 2; i++)
                 info.add(new TranslationTextComponent(item.getRegistryName().toString() + ".desc_" + i));

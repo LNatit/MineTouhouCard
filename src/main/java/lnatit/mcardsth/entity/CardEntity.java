@@ -1,6 +1,5 @@
 package lnatit.mcardsth.entity;
 
-
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.AdvancementUtils;
@@ -25,21 +24,14 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.GetBoolean;
-import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.SetBoolean;
 import static net.minecraft.item.Items.DEBUG_STICK;
 
-/**
- * TODO unfinished!!! sound effect undo!!
- */
 public class CardEntity extends Entity
 {
     public static EntityType<CardEntity> TYPE = EntityType.Builder
@@ -274,7 +266,6 @@ public class CardEntity extends Entity
         }
     }
 
-    //TODO sided method
     private ActionResultType processInteract(PlayerEntity player, Hand hand)
     {
         ItemStack itemstack = player.getHeldItem(hand);
@@ -287,6 +278,7 @@ public class CardEntity extends Entity
                 if (!PlayerPropertiesUtils.doPlayerCollected(player, card))
                 {
                     PlayerPropertiesUtils.collectCard(player, card);
+                    //TODO optimize advancement logic
                     AdvancementUtils.giveAdvancement(player, AdvancementUtils.getAdvIdFromAbsCard(card));
                     this.interactDelay = 10;
                     return ActionResultType.func_233537_a_(this.world.isRemote);

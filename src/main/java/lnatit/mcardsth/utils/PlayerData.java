@@ -1,9 +1,10 @@
 package lnatit.mcardsth.utils;
 
-import deeplake.idlframework.idlnbtutils.IDLNBTUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+
+import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
 
 public class PlayerData
 {
@@ -11,6 +12,9 @@ public class PlayerData
     public static final String LIFE_FRAGMENT = "life_f";
     public static final String BOMB_COUNT = "bomb_c";
     public static final String BOMB_FRAGMENT = "bomb_f";
+
+    //TODO transfer to config
+    public static final PlayerData DEFAULT = new PlayerData((byte) 0, (byte) 0, (byte) 0, (byte) 0);
 
     public static final byte MAX_LIFE = 7;
 
@@ -21,7 +25,7 @@ public class PlayerData
 
     public PlayerData(PlayerEntity player)
     {
-        CompoundNBT nbt = player.getPersistentData();
+        CompoundNBT nbt = getPlayerIdlTagSafe(player);
 
         this.life = nbt.getByte(LIFE_COUNT);
         this.lifeFragment = nbt.getByte(LIFE_FRAGMENT);
@@ -29,13 +33,21 @@ public class PlayerData
         this.bombFragment = nbt.getByte(BOMB_FRAGMENT);
     }
 
-    public void init()
+    private PlayerData(byte life, byte bomb, byte lifeFragment, byte bombFragment)
     {
-        this.life = 2;
-        this.bomb = 3;
-        this.lifeFragment = 0;
-        this.bombFragment = 0;
+        this.life = life;
+        this.bomb = bomb;
+        this.lifeFragment = lifeFragment;
+        this.bombFragment = bombFragment;
     }
+//
+//    public void init()
+//    {
+//        this.life = 2;
+//        this.bomb = 3;
+//        this.lifeFragment = 0;
+//        this.bombFragment = 0;
+//    }
 
     public boolean Extend()
     {
@@ -120,6 +132,11 @@ public class PlayerData
             this.life = MAX_LIFE;
     }
 
+    /**
+     * Call this method to apply changes
+     *
+     * @param player target player
+     */
     public void ApplyAndSync(PlayerEntity player)
     {
         CompoundNBT nbt = new CompoundNBT();
@@ -129,9 +146,8 @@ public class PlayerData
         nbt.putByte(BOMB_COUNT, this.bomb);
         nbt.putByte(BOMB_FRAGMENT, this.bombFragment);
 
-        player.getPersistentData().merge(nbt);
-
+        getPlayerIdlTagSafe(player).merge(nbt);
         if (player instanceof ServerPlayerEntity)
-            IDLNBTUtils.sync((ServerPlayerEntity) player, nbt);
+            sync((ServerPlayerEntity) player, nbt);
     }
 }

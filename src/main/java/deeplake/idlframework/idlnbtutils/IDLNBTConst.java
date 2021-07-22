@@ -15,11 +15,12 @@ import net.minecraftforge.fml.RegistryObject;
 public class IDLNBTConst
 {
     //GENERAL:
-    public static final String IDEALLAND = "idealland_nbt";
+    public static final String MCARDSTH = "mcardsth_nbt";
 
-    //player:
+    //Player:
     public static final String FIRST_LOGIN = "fst_log";
 
+    //PlayerData:
     public static final String LIFE_COUNT = "life_c";
     public static final String LIFE_FRAGMENT = "life_f";
     public static final String BOMB_COUNT = "bomb_c";
@@ -87,6 +88,6 @@ public class IDLNBTConst
     public static final String BLANK = "blank";
     public static final String MAGATAMA2 = "magatama2";
 
-    //Packet
+    //TenkyusPacket:
     public static final String COUNT = "c_count";
 }
