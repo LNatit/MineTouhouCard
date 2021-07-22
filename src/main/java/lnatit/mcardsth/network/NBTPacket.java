@@ -16,7 +16,7 @@ public class NBTPacket extends IPacket
     private String id;
     private byte typeIndex;
 
-    public NBTPacket(@Nullable String id, CompoundNBT nbtIn, byte typeIndex)
+    public NBTPacket(String id, CompoundNBT nbtIn, byte typeIndex)
     {
         this.nbt = nbtIn;
         this.id = id;
@@ -44,23 +44,21 @@ public class NBTPacket extends IPacket
                 if (player != null)
                 {
                     String id = packet.id;
-                    if (id != null)
-                        switch (packet.typeIndex)
-                        {
-                            case 0:
-                                player.getPersistentData().merge(packet.nbt);
-                                break;
-                            case 1:
-                                player.getPersistentData().putBoolean(id, packet.nbt.getBoolean(id));
-                                break;
-                            case 2:
-                                player.getPersistentData().putInt(id, packet.nbt.getInt(id));
-                                break;
-                            case 3:
-                                player.getPersistentData().putString(id, packet.nbt.getString(id));
-                                break;
-                        }
-                    else player.getPersistentData().merge(packet.nbt);
+                    switch (packet.typeIndex)
+                    {
+                        case 0:
+                            player.getPersistentData().merge(packet.nbt);
+                            break;
+                        case 1:
+                            player.getPersistentData().putBoolean(id, packet.nbt.getBoolean(id));
+                            break;
+                        case 2:
+                            player.getPersistentData().putInt(id, packet.nbt.getInt(id));
+                            break;
+                        case 3:
+                            player.getPersistentData().putString(id, packet.nbt.getString(id));
+                            break;
+                    }
                 }
             });
         }

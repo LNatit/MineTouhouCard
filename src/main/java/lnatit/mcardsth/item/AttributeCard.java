@@ -21,7 +21,6 @@ public class AttributeCard extends AbstractCard
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        playerIn.setActiveHand(handIn);
         return ActionResult.resultConsume(playerIn.getHeldItem(handIn));
     }
 }

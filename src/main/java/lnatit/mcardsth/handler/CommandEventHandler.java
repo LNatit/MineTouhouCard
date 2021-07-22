@@ -5,6 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
@@ -58,11 +59,12 @@ public class CommandEventHandler
                     Item item = itemObj.get();
                     if (item instanceof AbstractCard && item.getRegistryName() != null)
                     {
-                        entity.getPersistentData().putBoolean(item.getRegistryName().getNamespace(), true);
+                        entity.getPersistentData().putBoolean(item.getRegistryName().getPath(), true);
                         i++;
                     }
                 }
                 SetInt(entity, COUNT, i);
+                PlayerPropertiesUtils.syncPlayerCards((PlayerEntity) entity);
             }
         }
         return 0;
@@ -78,9 +80,10 @@ public class CommandEventHandler
                 {
                     Item item = itemObj.get();
                     if (item instanceof AbstractCard && item.getRegistryName() != null)
-                        entity.getPersistentData().putBoolean(item.getRegistryName().getNamespace(), false);
+                        entity.getPersistentData().putBoolean(item.getRegistryName().getPath(), false);
                 }
                 SetInt(entity, COUNT, 0);
+                PlayerPropertiesUtils.syncPlayerCards((PlayerEntity) entity);
             }
         }
         return 0;

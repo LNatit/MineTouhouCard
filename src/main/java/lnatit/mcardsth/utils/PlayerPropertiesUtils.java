@@ -48,7 +48,7 @@ public class PlayerPropertiesUtils
             return false;
         }
 
-        if (updatePlayerCardsTotal(player))
+        if (!updatePlayerCardsTotal(player))
             return false;
 
         return SetBoolean(player, card.getRegistryName().getPath(), true);
@@ -62,7 +62,7 @@ public class PlayerPropertiesUtils
      * @param doCollect card's collection status
      * @return whether the operation success or not
      */
-    public static boolean collectCard(PlayerEntity player, AbstractCard card, boolean doCollect)
+    public static boolean collectCardUnsafe(PlayerEntity player, AbstractCard card, boolean doCollect)
     {
         if (card.getRegistryName() == null)
         {

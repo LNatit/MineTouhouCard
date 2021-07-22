@@ -3,6 +3,7 @@ package lnatit.mcardsth.entity;
 
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -36,8 +37,7 @@ import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.SetBoolean;
 import static net.minecraft.item.Items.DEBUG_STICK;
 
 /**
- * TODO unfinished!!!
- * sound effect undo!!
+ * TODO unfinished!!! sound effect undo!!
  */
 public class CardEntity extends Entity
 {
@@ -285,9 +285,11 @@ public class CardEntity extends Entity
         {
             if (itemstack.getItem() == ItemReg.TENKYU_S_PACKET.get())
             {
-                if (GetBoolean(player, this.getCard().getItem().getRegistryName().getNamespace(), false))
+                AbstractCard card = (AbstractCard) this.getCard().getItem();
+                if (!PlayerPropertiesUtils.doPlayerCollected(player, card))
                 {
-                    SetBoolean(player, this.getCard().getItem().getRegistryName().getNamespace(), true);
+                    PlayerPropertiesUtils.collectCard(player, card);
+                    //TODO add advancements
                     this.interactDelay = 10;
                     return ActionResultType.func_233537_a_(this.world.isRemote);
                 }
@@ -303,7 +305,15 @@ public class CardEntity extends Entity
                         player.sendMessage(new StringTextComponent("immortal status removed!"), null);
                     }
                 }
-                else this.setImmortal();
+                else
+                {
+                    this.setImmortal();
+                    if (player instanceof ServerPlayerEntity)
+                    {
+                        //TODO switch to ttc & output properties in txt
+                        player.sendMessage(new StringTextComponent("immortal status confirmed!"), null);
+                    }
+                }
             }
         }
         return ActionResultType.PASS;

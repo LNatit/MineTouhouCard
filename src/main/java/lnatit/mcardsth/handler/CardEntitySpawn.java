@@ -29,31 +29,28 @@ public class CardEntitySpawn
         {
             entity.setCustomName(((ItemEntity) entity).getItem().getDisplayName());
             entity.setCustomNameVisible(true);
+
             UUID uuid = ((ItemEntity) entity).getThrowerId();
+
             if (uuid != null)
             {
                 PlayerEntity player = event.getWorld().getPlayerByUuid(uuid);
+
                 if (player instanceof ServerPlayerEntity)
                 {
                     Item item = player.inventory.offHandInventory.get(0).getItem();
+
                     if (item == DEBUG_STICK)
                     {
                         CardEntity cardEntity = new CardEntity((ItemEntity) entity);
                         event.setCanceled(true);
                         event.getWorld().addEntity(cardEntity);
-                        cardEntity.setNoDespawn();
                         cardEntity.setNoGravity(true);
                         cardEntity.setInvulnerable(true);
                         cardEntity.entityCollisionReduction = 1F;
                     }
                 }
             }
-//            } else
-//            {
-//                entity.setCustomNameVisible(true);
-//                if (card instanceof AttributeCard)
-//                    ((ItemEntity) entity).setNoDespawn();
-//                    else ((ItemEntity) entity).lifespan = 1200;
         }
     }
 }

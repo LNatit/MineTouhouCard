@@ -4,6 +4,7 @@ import lnatit.mcardsth.entity.EntityTypeReg;
 import lnatit.mcardsth.entity.CardRenderer;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.world.ClientWorld;
@@ -65,7 +66,7 @@ public class ClientEventHandler
             if (entityIn instanceof PlayerEntity)
             {
                 Item item = itemStack.getItem();
-                boolean flag = entityIn.getPersistentData().getBoolean(item.getRegistryName().getNamespace());
+                boolean flag = PlayerPropertiesUtils.doPlayerCollected((PlayerEntity) entityIn, (AbstractCard) item);
                 return flag ? 1 : 0;
             }
             return 0;
@@ -80,7 +81,7 @@ public class ClientEventHandler
         {
             if (entityIn instanceof PlayerEntity)
             {
-                int count = entityIn.getPersistentData().getInt(COUNT);
+                int count = PlayerPropertiesUtils.playerCardsTotal((PlayerEntity) entityIn);
                 switch (count)
                 {
                     case 0:

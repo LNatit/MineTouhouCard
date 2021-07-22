@@ -19,10 +19,4 @@ public class TenkyusPacket extends Item
                       .maxStackSize(1)
                       .rarity(Rarity.EPIC));
     }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
-    {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-    }
 }

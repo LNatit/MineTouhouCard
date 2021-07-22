@@ -166,11 +166,11 @@ public class IDLNBTUtils
 
     public static void sync(ServerPlayerEntity player, CompoundNBT nbt)
     {
-        NetworkManager.serverSendToPlayer(new NBTPacket(null, nbt, (byte) 0), player);
+        NetworkManager.serverSendToPlayer(new NBTPacket("", nbt, (byte) 0), player);
     }
 
     public static void syncAll(ServerPlayerEntity player)
     {
-        NetworkManager.serverSendToPlayer(new NBTPacket(null, player.getPersistentData(), (byte) 0), player);
+        NetworkManager.serverSendToPlayer(new NBTPacket("", player.getPersistentData(), (byte) 0), player);
     }
 }

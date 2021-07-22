@@ -41,10 +41,13 @@ public class ItemDesc
         else if (item instanceof TenkyusPacket)
         {
             int count = GetInt(player, COUNT, 0);
+
             for (int i = 0; i < 2; i++)
                 info.add(new TranslationTextComponent(item.getRegistryName().toString() + ".desc_" + i));
+
             info.add(new TranslationTextComponent(item.getRegistryName().toString() + ".desc_2", count));
         }
+
         event.getToolTip().addAll(info);
     }
 }
