@@ -28,7 +28,8 @@ public class AbstractCard extends Item
         {
             PlayerPropertiesUtils.collectCard(playerIn, this);
             AdvancementUtils.giveAdvancement(playerIn, AdvancementUtils.getAdvIdFromAbsCard(this));
-            itemstack.setCount(0);
+            itemstack.shrink(1);
+
             return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
         }
         else return ActionResult.resultFail(itemstack);

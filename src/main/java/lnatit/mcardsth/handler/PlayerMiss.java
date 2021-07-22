@@ -1,10 +1,18 @@
 package lnatit.mcardsth.handler;
 
+import lnatit.mcardsth.entity.CardEntity;
+import lnatit.mcardsth.item.AbstractCard;
+import lnatit.mcardsth.item.InstantCard;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.EntityDeathUtils;
+import lnatit.mcardsth.utils.PlayerData;
+import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.scoreboard.Score;
@@ -15,81 +23,104 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Random;
+
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
+import static net.minecraft.item.Items.EMERALD;
 
 //TODO remains to be overwritten
 @Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class PlayerMiss
 {
+    public static final Random rand = new Random();
+
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void OnPlayerMiss(LivingDeathEvent event)
     {
-        //TODO optimize logic when /kill
-        LivingEntity livingEntity = event.getEntityLiving();
-
         //TODO remove mobs
-        if (!(livingEntity instanceof ServerPlayerEntity))
+        if (!(event.getEntityLiving() instanceof ServerPlayerEntity))
             return;
-//        boolean spawnDrops = AbilityCardUtils.doPlayerHold((PlayerEntity) livingEntity, ItemReg.DBOMBEXTD.get());
 
-//        if (AbilityCardUtils.checkRokumonActivation((ServerPlayerEntity) livingEntity))
-//        {
-////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
-//            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
-//            playerRecover((ServerPlayerEntity) livingEntity, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
-//
-//            if (spawnDrops)
-//                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
-//
-//            return;
-//        }
+        PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+        PlayerData data = new PlayerData(player);
+        World world = player.world;
+        double x = player.chasingPosX - 0.5, y = player.chasingPosY - 0.5, z = player.chasingPosZ - 0.5;
 
-//        if (AbilityCardUtils.checkAutoBombActivation((ServerPlayerEntity) livingEntity))
-//        {
-////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
-//            playerRevive(event, (ServerPlayerEntity) livingEntity, false, false);
-//            playerRecover((ServerPlayerEntity) livingEntity, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
-//
-//            if (spawnDrops)
-//                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
-//
-//            return;
-//        }
-
-        if (checkPlayerMiss((ServerPlayerEntity) livingEntity))
+        if (rand.nextFloat() > 0.9F)
         {
-//            playerRevive(event, (ServerPlayerEntity) livingEntity, spawnDrops, true);
-            playerRecover((ServerPlayerEntity) livingEntity, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
-
-//            if (spawnDrops)
-//                livingEntity.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
-
-//            AbilityCardUtils.checkDeadSpell((ServerPlayerEntity) livingEntity);
+            CardEntity cardEntity1 = new CardEntity(world, x + rand.nextDouble(), y + rand.nextDouble(), z + rand.nextDouble(), (AbstractCard) ItemReg.EXTEND.get());
+            world.addEntity(cardEntity1);
+            cardEntity1.setNoGravity(true);
+            cardEntity1.setInvulnerable(true);
+            cardEntity1.entityCollisionReduction = 1F;
         }
-    }
 
-    public static boolean checkPlayerMiss(ServerPlayerEntity serverPlayerEntity)
-    {
-//        LazyOptional<PlayerProperties> cap = serverPlayerEntity.getCapability(PlayerPropertiesProvider.CPP_DEFAULT);
-//        PlayerProperties playerProperties = cap.orElse(null);
-//
-//
-//        if (!playerProperties.canHit(serverPlayerEntity))
-//            return false;
-//
-//        playerProperties.loseMoney(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.DBOMBEXTD.get()) ? 0.00F : playerProperties.getMoney());
-//        playerProperties.losePower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.KOISHI.get()) ? 0.50F : 1.00F);
-//        playerProperties.getPower(serverPlayerEntity, AbilityCardUtils.doPlayerHold(serverPlayerEntity, ItemReg.POWERMAX.get()));
+        if (rand.nextFloat() > 0.98F)
+        {
+            CardEntity cardEntity2 = new CardEntity(world, x + rand.nextDouble(), y + rand.nextDouble(), z + rand.nextDouble(), (AbstractCard) ItemReg.EXTEND2.get());
+            world.addEntity(cardEntity2);
+            cardEntity2.setNoGravity(true);
+            cardEntity2.setInvulnerable(true);
+            cardEntity2.entityCollisionReduction = 1F;
+        }
 
-        //物品使用统计数据更新
-        serverPlayerEntity.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
-        return true;
+        if (event.getSource().canHarmInCreative())
+            return;
+
+        boolean spawnDrops = PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DBOMBEXTD.get());
+
+        if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.ROKUMON.get()))
+        {
+            ItemStack stack = player.inventory.offHandInventory.get(0);
+
+            if (stack.getItem() == EMERALD && stack.getCount() >= 16)
+            {
+                stack.shrink(16);
+////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+                playerRevive(event, (ServerPlayerEntity) player, false, false);
+                playerRecover((ServerPlayerEntity) player, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+
+                if (spawnDrops)
+                    player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
+                return;
+            }
+        }
+
+        if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.AUTOBOMB.get()) && data.canSpell())
+        {
+            data.canSpell();
+////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+            playerRevive(event, (ServerPlayerEntity) player, false, false);
+            playerRecover((ServerPlayerEntity) player, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+
+            if (spawnDrops)
+                player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
+            return;
+        }
+
+        if (data.canHit())
+        {
+            //物品使用统计数据更新
+            player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
+            playerRevive(event, (ServerPlayerEntity) player, spawnDrops, true);
+            playerRecover((ServerPlayerEntity) player, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
+
+            if (spawnDrops)
+                player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
+            if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DEADSPELL.get()))
+
+                world.addEntity(new ItemEntity(world, x, y, z, new ItemStack(ItemReg.DEADSPELL.get())));
+        }
     }
 
     public static void playerRevive(LivingDeathEvent event, ServerPlayerEntity serverPlayerEntity, boolean spawnDrops, boolean updateStat)
@@ -99,16 +130,11 @@ public class PlayerMiss
 
         //中立生物仇恨重置（func_241157_eT_()）
         if (serverPlayerEntity.world.getGameRules().getBoolean(GameRules.FORGIVE_DEAD_PLAYERS))
-//            forgivePlayer(serverPlayerEntity);
+            EntityDeathUtils.forgivePlayer(serverPlayerEntity);
 
         //TODO unfinished 生成掉落物（物品和经验，非全掉落）（重写 spawnDrops()）
         if (spawnDrops)
-//            spawnDrops(serverPlayerEntity);
-
-        //发布假事件
-//        MinecraftForge.EVENT_BUS.post(new FakeClone(serverPlayerEntity, serverPlayerEntity, true));
-//
-//        net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerRespawnEvent(serverPlayerEntity, false);
+            EntityDeathUtils.spawnDrops(serverPlayerEntity);
 
         if (updateStat)
         {
@@ -123,11 +149,13 @@ public class PlayerMiss
                     if (team.getDeathMessageVisibility() == Team.Visible.HIDE_FOR_OTHER_TEAMS)
                     {
                         serverPlayerEntity.server.getPlayerList().sendMessageToAllTeamMembers(serverPlayerEntity, itextcomponent);
-                    } else if (team.getDeathMessageVisibility() == Team.Visible.HIDE_FOR_OWN_TEAM)
+                    }
+                    else if (team.getDeathMessageVisibility() == Team.Visible.HIDE_FOR_OWN_TEAM)
                     {
                         serverPlayerEntity.server.getPlayerList().sendMessageToTeamOrAllPlayers(serverPlayerEntity, itextcomponent);
                     }
-                } else
+                }
+                else
                 {
                     serverPlayerEntity.server.getPlayerList().func_232641_a_(itextcomponent, ChatType.SYSTEM, Util.DUMMY_UUID);
                 }
@@ -143,7 +171,7 @@ public class PlayerMiss
                 serverPlayerEntity.addStat(Stats.ENTITY_KILLED_BY.get(damageSource.getType()));
                 CriteriaTriggers.ENTITY_KILLED_PLAYER.trigger(serverPlayerEntity, damageSource, event.getSource());
                 //生成凋零玫瑰
-//                createWitherRose(serverPlayerEntity, damageSource);
+                EntityDeathUtils.createWitherRose(serverPlayerEntity, damageSource);
             }
 
             //死亡相关统计数据更新
