@@ -6,6 +6,7 @@ import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
@@ -53,7 +54,7 @@ public class ClientEventHandler
             if (item instanceof AbstractCard)
                 ItemModelsProperties
                         .registerProperty(itemObj.get(),
-                                          new ResourceLocation("unlocked"),
+                                          new ResourceLocation(MOD_ID, "unlocked"),
                                           new UnlockedGetter());
         }
     }
@@ -63,13 +64,14 @@ public class ClientEventHandler
         @Override
         public float call(@Nonnull ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity entityIn)
         {
-            if (entityIn instanceof PlayerEntity)
-            {
-                Item item = itemStack.getItem();
-                boolean flag = PlayerPropertiesUtils.doPlayerCollected((PlayerEntity) entityIn, (AbstractCard) item);
-                return flag ? 1 : 0;
-            }
-            return 0;
+//
+//            if (entityIn instanceof ClientPlayerEntity)
+//            {
+//                Item item = itemStack.getItem();
+//                boolean flag = PlayerPropertiesUtils.doPlayerCollected((PlayerEntity) entityIn, (AbstractCard) item);
+//                return flag ? 1 : 0;
+//            }
+            return 1;
         }
     }
 

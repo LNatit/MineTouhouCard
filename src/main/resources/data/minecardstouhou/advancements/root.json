@@ -4,10 +4,10 @@
             "item": "minecardstouhou:tenkyus_packet"
         },
         "title": {
-            "translate": "minecardstouhou.advancements.root.tittle"
+            "translate": "advancement.minecardstouhou.root.tittle"
         },
         "description": {
-            "translate": "minecardstouhou.advancements.root.description"
+            "translate": "advancement.minecardstouhou.root.description"
         },
         "frame": "challenge",
         "show_toast": false,

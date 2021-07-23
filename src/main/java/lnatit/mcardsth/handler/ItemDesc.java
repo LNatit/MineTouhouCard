@@ -40,22 +40,20 @@ public class ItemDesc
         if (item instanceof AbstractCard)
         {
             if (!doPlayerCollected(player, (AbstractCard) item))
-            {
                 itemStack.setDisplayName(new TranslationTextComponent("item.minecardstouhou.unknown"));
-            }
             else itemStack.setDisplayName(new TranslationTextComponent(item.getTranslationKey()));
 
             for (int i = 0; i < 4; i++)
-                info.add(new TranslationTextComponent(item.getRegistryName().toString() + ".desc_" + i));
+                info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + (i + 1)));
         }
         else if (item instanceof TenkyusPacket)
         {
             int count = getPlayerIdeallandIntSafe(player, COUNT);
 
             for (int i = 0; i < 2; i++)
-                info.add(new TranslationTextComponent(item.getRegistryName().toString() + ".desc_" + i));
+                info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + (i + 1)));
 
-            info.add(new TranslationTextComponent(item.getRegistryName().toString() + ".desc_2", count));
+            info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + 3, count));
         }
 
         event.getToolTip().addAll(info);

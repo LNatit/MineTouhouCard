@@ -1,6 +1,7 @@
 package lnatit.mcardsth.datagen;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
@@ -14,7 +15,9 @@ public class DataGen
     public static void onDataGen(GatherDataEvent event)
     {
         DataGenerator generator = event.getGenerator();
+        ExistingFileHelper helper = event.getExistingFileHelper();
 
         generator.addProvider(new Languages(generator, MOD_ID, "zh_cn"));
+        generator.addProvider(new ItemModels(generator, MOD_ID, helper));
     }
 }
