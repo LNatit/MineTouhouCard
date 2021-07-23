@@ -2,7 +2,6 @@ package lnatit.mcardsth.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -10,8 +9,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
-import static deeplake.idlframework.idlnbtutils.IDLNBTConst.MCARDSTH;
+import static lnatit.mcardsth.network.NBTPacketUtils.*;
 
 public class NBTPacket extends IPacket
 {
@@ -50,14 +48,7 @@ public class NBTPacket extends IPacket
                     switch (packet.typeIndex)
                     {
                         case 0:
-                            CompoundNBT nbt = player.getPersistentData();
-                            CompoundNBT data = getTagSafe(nbt, PlayerEntity.PERSISTED_NBT_TAG);
-                            CompoundNBT idl_data = getPlayerIdlTagSafe(player);
-
-                            idl_data.merge(packet.nbt);
-
-                            data.put(MCARDSTH, idl_data);
-                            nbt.put(PlayerEntity.PERSISTED_NBT_TAG, data);
+                            mergePlayerIdeallandTangSafe(player, packet.nbt);
                             break;
                         case 1:
                             setPlayerIdeallandTagSafe(player, id, packet.nbt.getBoolean(id));

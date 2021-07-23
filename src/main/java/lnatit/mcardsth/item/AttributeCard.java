@@ -16,8 +16,8 @@ public class AttributeCard extends AbstractCard
     {
         super(new Item.Properties()
 //                .group(CardGroup.CARDS)
-                .maxStackSize(1)
-                .rarity(Rarity.EPIC));
+                      .maxStackSize(1)
+                      .rarity(Rarity.EPIC));
     }
 
     @Override
@@ -25,7 +25,7 @@ public class AttributeCard extends AbstractCard
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (cardCollection(playerIn))
+        if (cardCollection(playerIn) && this == ItemReg.BLANK.get())
         {
             ItemStack itemStack1 = new ItemStack(ItemReg.TENKYU_S_PACKET.get());
             if (playerIn instanceof ServerPlayerEntity)
