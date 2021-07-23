@@ -1,13 +1,13 @@
 package deeplake.idlframework.idlnbtutils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nullable;
 
-import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
+import static deeplake.idlframework.idlnbtutils.IDLNBT.getPlayerIdeallandIntSafe;
+import static deeplake.idlframework.idlnbtutils.IDLNBT.setPlayerIdeallandTagSafe;
 
 /**
  * Simplified util class
@@ -16,7 +16,8 @@ import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
  */
 public class IDLNBTUtils
 {
-    public static CompoundNBT getNBT(Entity entity) {
+    public static CompoundNBT getNBT(Entity entity)
+    {
         CompoundNBT nbt = entity.getPersistentData();
         return nbt;
     }
@@ -54,10 +55,7 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getInt(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
     public static int GetIntAuto(Entity entity, String key, int defaultVal)
@@ -72,10 +70,7 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getInt(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
     public static boolean SetBoolean(Entity entity, String key, boolean value)
@@ -92,10 +87,7 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getBoolean(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
     public static boolean SetString(Entity entity, String key, String value)
@@ -112,26 +104,9 @@ public class IDLNBTUtils
             CompoundNBT nbt = getNBT(entity);
             return nbt.getString(key);
         }
-        else
-        {
-            return defaultVal;
-        }
+        else return defaultVal;
     }
 
-//    public static int[] GetIntArray(LivingEntity entity, String key)
-//    {
-//        if (EntityHasKey(entity, key))
-//        {
-//            CompoundNBT nbt = getNBT(entity);
-//            return nbt.getIntArray(key);
-//        }
-//        else
-//        {
-//            return new int[0];
-//        }
-//    }
-
-    @Nullable
     public static boolean EntityHasKey(Entity entity, String key)
     {
         return getNBT(entity).contains(key);

@@ -1,12 +1,7 @@
 package lnatit.mcardsth.network;
 
-import lnatit.mcardsth.capability.PlayerPropertiesProvider;
-import lnatit.mcardsth.utils.LifeRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;

@@ -12,7 +12,10 @@ public class UsableCard extends AbstractCard
 {
     public UsableCard()
     {
-        super(new Item.Properties().group(CardGroup.CARDS).maxStackSize(1).rarity(Rarity.RARE));
+        super(new Item.Properties()
+//                .group(CardGroup.CARDS)
+                .maxStackSize(1)
+                .rarity(Rarity.RARE));
     }
 
     @Override

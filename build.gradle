@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = 'beta-0.0.7'
+version = 'beta-0.1.2'
 group = 'com.lnatit.mcradsth' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'minecardstouhou'
 
@@ -55,7 +55,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                minecardstouhou {
                     source sourceSets.main
                 }
             }
@@ -77,7 +77,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                minecardstouhou {
                     source sourceSets.main
                 }
             }
@@ -99,10 +99,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'minecardstouhou', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                minecardstouhou {
                     source sourceSets.main
                 }
             }
@@ -172,3 +172,7 @@ publishing {
         }
     }
 }
+
+//tasks.withType(JavaCompile) {
+//    options.encoding = "UTF-8"
+//}

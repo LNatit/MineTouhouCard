@@ -38,12 +38,12 @@ public class NetworkManager
                 CardActivationPacket::handle
         );
 
-        INSTANCE.registerMessage(index++,
-                BarRenderPacket.class,
-                BarRenderPacket::encode,
-                BarRenderPacket::decode,
-                BarRenderPacket::handle
-        );
+//        INSTANCE.registerMessage(index++,
+//                BarRenderPacket.class,
+//                BarRenderPacket::encode,
+//                BarRenderPacket::decode,
+//                BarRenderPacket::handle
+//        );
 
         INSTANCE.registerMessage(index++,
                 ParticleRenderPacket.class,
