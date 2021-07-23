@@ -3,6 +3,7 @@ package lnatit.mcardsth.handler;
 import lnatit.mcardsth.entity.CardEntity;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.Config;
 import lnatit.mcardsth.utils.EntityDeathUtils;
 import lnatit.mcardsth.utils.PlayerData;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
@@ -82,14 +83,13 @@ public class PlayerMiss
             {
                 ItemStack stack = player.inventory.offHandInventory.get(0);
 
-                if (stack.getItem() == EMERALD && stack.getCount() >= 16)
+                int loss = Config.ROKUMON_SACRIFICE.get();
+                if (stack.getItem() == EMERALD && stack.getCount() >= loss)
                 {
-                    //TODO modify counts(transfer to config)
-                    stack.shrink(16);
+                    stack.shrink(loss);
 
                     //物品使用统计数据更新
-                    for (int i = 0; i < 16; i++)
-                        player.addStat(Stats.ITEM_USED.get(EMERALD));
+                    player.addStat(Stats.ITEM_USED.get(EMERALD), 16);
 
 ////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
 

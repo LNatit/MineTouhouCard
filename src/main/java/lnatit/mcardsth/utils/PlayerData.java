@@ -13,8 +13,11 @@ public class PlayerData
     public static final String BOMB_COUNT = "bomb_c";
     public static final String BOMB_FRAGMENT = "bomb_f";
 
-    //TODO transfer to config
-    public static final PlayerData DEFAULT = new PlayerData((byte) 0, (byte) 0, (byte) 0, (byte) 0);
+    public static final PlayerData DEFAULT =
+            new PlayerData((byte)(int) Config.DEFAULT_LIFE_COUNT.get(),
+                           (byte)(int) Config.DEFAULT_BOMB_COUNT.get(),
+                           (byte)(int) Config.DEFAULT_LIFE_FRAG.get(),
+                           (byte)(int) Config.DEFAULT_BOMB_FRAG.get());
 
     public static final byte MAX_LIFE = 7;
 
@@ -40,14 +43,6 @@ public class PlayerData
         this.lifeFragment = lifeFragment;
         this.bombFragment = bombFragment;
     }
-//
-//    public void init()
-//    {
-//        this.life = 2;
-//        this.bomb = 3;
-//        this.lifeFragment = 0;
-//        this.bombFragment = 0;
-//    }
 
     public boolean Extend()
     {
