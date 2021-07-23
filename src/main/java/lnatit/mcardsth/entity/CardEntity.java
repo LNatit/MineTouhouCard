@@ -37,7 +37,7 @@ public class CardEntity extends Entity
 {
     public static EntityType<CardEntity> TYPE = EntityType.Builder
             .<CardEntity>create(CardEntity::new, EntityClassification.MISC)
-            .size(0.25F, 0.25F)
+            .size(0.25F, 0.5F)
             .trackingRange(6)
             .updateInterval(20)
             .build("card_entity");
