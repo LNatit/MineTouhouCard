@@ -25,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -79,7 +80,7 @@ public class CardEntity extends Entity
         this.setCard(cardItem.getItem());
         this.copyLocationAndAnglesFrom(cardItem);
         this.hoverStart = cardItem.hoverStart;
-        this.setCustomName(cardItem.getItem().getDisplayName());
+        this.setCustomName(new TranslationTextComponent(cardItem.getItem().getItem().getTranslationKey()));
     }
 
     public void init()

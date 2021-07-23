@@ -30,7 +30,7 @@ public class CommandEventHandler
     public static void onCommandsRegister(RegisterCommandsEvent event)
     {
         CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
-        LiteralCommandNode<CommandSource> cmd =
+        LiteralCommandNode<CommandSource> cardsClt =
                 dispatcher
                 .register(Commands.literal("cardscollect").requires(executor -> executor.hasPermissionLevel(2))
                         .then(Commands.literal("grantall")
@@ -44,7 +44,7 @@ public class CommandEventHandler
                                            )
                              )
                          );
-        dispatcher.register(Commands.literal("bs").redirect(cmd));
+        dispatcher.register(Commands.literal("cc").redirect(cardsClt));
     }
 
     private static int executeGrantAll(CommandSource source, Collection<? extends Entity> targets)

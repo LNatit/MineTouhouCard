@@ -67,8 +67,12 @@ public class InstantCard extends AbstractCard
                     flag = true;
                     break;
                 case "dango":
-                    //TODO dango to Power
-//                    flag = playerGetDango(player);
+                    flag = true;
+                    if (player.experienceLevel < 35)
+                        player.addExperienceLevel(5);
+                    else if (player.experienceLevel < 40)
+                        player.experienceLevel = 40;
+                    else flag = false;
                     break;
                 case "mokou":
                     flag = data.Extend();

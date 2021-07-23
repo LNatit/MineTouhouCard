@@ -1,6 +1,8 @@
 package lnatit.mcardsth.item;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
@@ -21,6 +23,15 @@ public class AttributeCard extends AbstractCard
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        return ActionResult.resultConsume(playerIn.getHeldItem(handIn));
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+        if (cardCollection(playerIn))
+        {
+            ItemStack itemStack1 = new ItemStack(ItemReg.TENKYU_S_PACKET.get());
+            if (playerIn instanceof ServerPlayerEntity)
+                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) playerIn, itemstack);
+            return ActionResult.func_233538_a_(itemStack1, worldIn.isRemote());
+        }
+        else return ActionResult.resultFail(itemstack);
     }
 }

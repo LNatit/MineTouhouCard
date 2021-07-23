@@ -31,10 +31,9 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Random;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
+import static lnatit.mcardsth.utils.PlayerPropertiesUtils.*;
 import static net.minecraft.item.Items.EMERALD;
 
-//TODO remains to be overwritten
-@Deprecated
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class PlayerMiss
 {
@@ -43,7 +42,6 @@ public class PlayerMiss
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void OnPlayerMiss(LivingDeathEvent event)
     {
-        //TODO remove mobs
         if (!(event.getEntityLiving() instanceof ServerPlayerEntity))
             return;
 
@@ -71,72 +69,78 @@ public class PlayerMiss
         }
 
         if (event.getSource().canHarmInCreative())
-            return;
-
-        boolean spawnDrops = PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DBOMBEXTD.get());
-
-        if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.ROKUMON.get()))
         {
-            ItemStack stack = player.inventory.offHandInventory.get(0);
+            PlayerData.DEFAULT.ApplyAndSync(player);
+            return;
+        }
 
-            if (stack.getItem() == EMERALD && stack.getCount() >= 16)
+        if (doPlayersAbilityEnabled(player))
+        {
+            boolean spawnDrops = PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DBOMBEXTD.get());
+
+            if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.ROKUMON.get()))
             {
-                //TODO modify counts(transfer to config)
-                stack.shrink(16);
+                ItemStack stack = player.inventory.offHandInventory.get(0);
+
+                if (stack.getItem() == EMERALD && stack.getCount() >= 16)
+                {
+                    //TODO modify counts(transfer to config)
+                    stack.shrink(16);
+
+                    //物品使用统计数据更新
+                    for (int i = 0; i < 16; i++)
+                        player.addStat(Stats.ITEM_USED.get(EMERALD));
+
+////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+
+                    playerRevive(event, (ServerPlayerEntity) player, false, false);
+                    playerRecover((ServerPlayerEntity) player, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+
+                    if (spawnDrops)
+                        player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
+
+                    return;
+                }
+            }
+
+            if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.AUTOBOMB.get()) && data.canSpell())
+            {
+                data.canSpell();
 
                 //物品使用统计数据更新
-                for (int i = 0; i < 16; i++)
-                    player.addStat(Stats.ITEM_USED.get(EMERALD));
+                player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
+                player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
 
 ////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
 
                 playerRevive(event, (ServerPlayerEntity) player, false, false);
-                playerRecover((ServerPlayerEntity) player, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+                playerRecover((ServerPlayerEntity) player, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
 
                 if (spawnDrops)
                     player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
 
+                data.ApplyAndSync(player);
+
                 return;
             }
-        }
 
-        if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.AUTOBOMB.get()) && data.canSpell())
-        {
-            data.canSpell();
+            if (data.canHit())
+            {
+                //物品使用统计数据更新
+                player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
 
-            //物品使用统计数据更新
-            player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
-            player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
+                playerRevive(event, (ServerPlayerEntity) player, spawnDrops, true);
+                playerRecover((ServerPlayerEntity) player, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
 
-////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+                if (spawnDrops)
+                    player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
 
-            playerRevive(event, (ServerPlayerEntity) player, false, false);
-            playerRecover((ServerPlayerEntity) player, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));
+                if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DEADSPELL.get()))
+                    world.addEntity(new ItemEntity(world, x, y, z, new ItemStack(ItemReg.DEADSPELL.get())));
 
-            if (spawnDrops)
-                player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
-
-            data.ApplyAndSync(player);
-
-            return;
-        }
-
-        if (data.canHit())
-        {
-            //物品使用统计数据更新
-            player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_LIFE.get()));
-
-            playerRevive(event, (ServerPlayerEntity) player, spawnDrops, true);
-            playerRecover((ServerPlayerEntity) player, 16F, new EffectInstance(Effects.RESISTANCE, 100, 5));
-
-            if (spawnDrops)
-                player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
-
-            if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DEADSPELL.get()))
-                world.addEntity(new ItemEntity(world, x, y, z, new ItemStack(ItemReg.DEADSPELL.get())));
-
-            data.ApplyAndSync(player);
-            return;
+                data.ApplyAndSync(player);
+                return;
+            }
         }
 
         //若事件未被取消，则初始化玩家的PlayerData数据
@@ -153,9 +157,10 @@ public class PlayerMiss
         if (serverPlayerEntity.world.getGameRules().getBoolean(GameRules.FORGIVE_DEAD_PLAYERS))
             EntityDeathUtils.forgivePlayer(serverPlayerEntity);
 
-        //TODO unfinished 生成掉落物（物品和经验，非全掉落）（重写 spawnDrops()）
-        if (spawnDrops)
-            EntityDeathUtils.spawnDrops(serverPlayerEntity);
+        EntityDeathUtils.spawnDrops(serverPlayerEntity,
+                                    spawnDrops,
+                                    doPlayerCollected(serverPlayerEntity, (AbstractCard) ItemReg.KOISHI.get()) ? 5 : 10,
+                                    doPlayerCollected(serverPlayerEntity, (AbstractCard) ItemReg.POWERMAX.get()));
 
         if (updateStat)
         {

@@ -90,4 +90,5 @@ public class IDLNBTConst
 
     //TenkyusPacket:
     public static final String COUNT = "c_count";
+    public static final String ENABLE = "c_enable";
 }

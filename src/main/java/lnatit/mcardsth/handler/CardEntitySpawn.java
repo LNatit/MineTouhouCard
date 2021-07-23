@@ -16,7 +16,6 @@ import java.util.UUID;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static net.minecraft.item.Items.DEBUG_STICK;
 
-//TODO improve logic
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class CardEntitySpawn
 {

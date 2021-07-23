@@ -134,6 +134,15 @@ public class PlayerPropertiesUtils
             }
             return false;
         }
+    }
 
+    public static boolean doPlayersAbilityEnabled(PlayerEntity player)
+    {
+        return getPlayerIdeallandBoolSafe(player, ENABLE);
+    }
+
+    public static void enablePlayerAbility(PlayerEntity player, boolean enable)
+    {
+        setPlayerIdeallandTagSafe(player, ENABLE, enable);
     }
 }

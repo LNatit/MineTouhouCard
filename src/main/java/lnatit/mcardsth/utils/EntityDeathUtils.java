@@ -1,5 +1,7 @@
 package lnatit.mcardsth.utils;
 
+import lnatit.mcardsth.item.AbstractCard;
+import lnatit.mcardsth.item.ItemReg;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -44,12 +46,10 @@ public class EntityDeathUtils
                          });
     }
 
-    public static void spawnDrops(ServerPlayerEntity player)
+    public static void spawnDrops(ServerPlayerEntity player, boolean doDrop, int loss, boolean powermax)
     {
-        boolean flag = true;
-        int loss = 10;
-        dropInventory(player, flag);
-        dropExperience(player, loss);
+        dropInventory(player, doDrop);
+        dropExperience(player, loss, powermax);
     }
 
     public static void dropInventory(ServerPlayerEntity player, boolean doDrop)
@@ -96,7 +96,7 @@ public class EntityDeathUtils
 
     }
 
-    public static void dropExperience(ServerPlayerEntity player, int loss)
+    public static void dropExperience(ServerPlayerEntity player, int loss, boolean powermax)
     {
         int i = 0;
         if (!player.world.getGameRules().getBoolean(GameRules.KEEP_INVENTORY))
@@ -110,10 +110,15 @@ public class EntityDeathUtils
             else
             {
                 i = loss;
+                if (powermax && expLvl > 20 && expLvl - i < 20)
+                    i = expLvl - 20;
                 player.setExperienceLevel(expLvl - i);
                 i = i * getExperienceOf(expLvl - i + 1);
             }
         }
+
+        if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.POWERMAX.get()))
+
 
         while (i > 0)
         {
