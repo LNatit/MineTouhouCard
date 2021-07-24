@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:speedqueen"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.speedqueen.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.speedqueen.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

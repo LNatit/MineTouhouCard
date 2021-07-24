@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:blank"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.blank.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.blank.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

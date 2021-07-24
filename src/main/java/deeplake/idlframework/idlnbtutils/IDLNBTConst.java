@@ -18,7 +18,7 @@ public class IDLNBTConst
     public static final String MCARDSTH = "mcardsth_nbt";
 
     //Player:
-    public static final String FIRST_LOGIN = "fst_log";
+    public static final String QUESTED = "quested";
 
     //PlayerData:
     public static final String LIFE_COUNT = "life_c";

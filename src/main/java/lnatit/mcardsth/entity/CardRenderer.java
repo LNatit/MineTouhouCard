@@ -1,12 +1,15 @@
 package lnatit.mcardsth.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.culling.ClippingHelper;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.Item;
@@ -19,6 +22,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+
+import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
 @OnlyIn(Dist.CLIENT)
 public class CardRenderer extends EntityRenderer<CardEntity>
@@ -40,8 +45,10 @@ public class CardRenderer extends EntityRenderer<CardEntity>
         ItemStack itemstack = entityIn.getCard();
         int i = itemstack.isEmpty() ? 187 : Item.getIdFromItem(itemstack.getItem()) + itemstack.getDamage();
         this.random.setSeed(i);
-        IBakedModel ibakedmodel = this.itemRenderer
-                .getItemModelWithOverrides(itemstack, entityIn.world, null);
+        String name = itemstack.getItem().getRegistryName().getPath();
+        IBakedModel ibakedmodel
+                //TODO
+                = getItemModel(new ModelResourceLocation(new ResourceLocation(MOD_ID, name + "_unlocked"), "inventory"));
         boolean flag = ibakedmodel.isGui3d();
         float f1 = MathHelper.sin(((float) entityIn.getAge() + partialTicks) / 10.0F + entityIn.hoverStart) * 0.1F + 0.1F;
         float f2 = shouldBob() ? ibakedmodel
@@ -70,7 +77,6 @@ public class CardRenderer extends EntityRenderer<CardEntity>
      * Returns the location of an entity's texture.
      */
     @Override
-
     public ResourceLocation getEntityTexture(@Nonnull CardEntity entity)
     {
         return PlayerContainer.LOCATION_BLOCKS_TEXTURE;
@@ -88,5 +94,11 @@ public class CardRenderer extends EntityRenderer<CardEntity>
     public boolean shouldRender(@Nonnull CardEntity livingEntityIn, @Nonnull ClippingHelper camera, double camX, double camY, double camZ)
     {
         return super.shouldRender(livingEntityIn, camera, camX, camY, camZ);
+    }
+
+    private IBakedModel getItemModel(ModelResourceLocation location)
+    {
+        ItemModelMesher itemModelMesher = Minecraft.getInstance().getItemRenderer().getItemModelMesher();
+        return itemModelMesher.getModelManager().getModel(location);
     }
 }

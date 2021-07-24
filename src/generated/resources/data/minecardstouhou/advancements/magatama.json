@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:magatama"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.magatama.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.magatama.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

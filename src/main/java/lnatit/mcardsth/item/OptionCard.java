@@ -13,7 +13,7 @@ public class OptionCard extends AbstractCard
     public OptionCard()
     {
         super(new Item.Properties()
-//                .group(CardGroup.CARDS)
+                .group(CardGroup.CARDS)
                 .maxStackSize(1)
                 .rarity(Rarity.RARE));
     }

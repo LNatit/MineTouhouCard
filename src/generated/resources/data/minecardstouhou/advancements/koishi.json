@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:koishi"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.koishi.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.koishi.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

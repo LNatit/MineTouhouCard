@@ -1,2 +1,0 @@
-lua GenAdvJson.lua
-pause

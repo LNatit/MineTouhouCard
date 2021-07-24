@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:sanae_op"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.sanae_op.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.sanae_op.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

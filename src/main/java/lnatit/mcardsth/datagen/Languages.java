@@ -26,13 +26,15 @@ public class Languages extends LanguageProvider
         {
             if (itemObj.get() instanceof AbstractCard)
             {
-                add("advancement." + MOD_ID + '.' + itemObj.get().getRegistryName().getPath() + ".title", "");
-                add("advancement." + MOD_ID + '.' + itemObj.get().getRegistryName().getPath() + ".description", "");
+                add("advancements." + MOD_ID + '.' + itemObj.get().getRegistryName().getPath() + ".title", "");
+                add("advancements." + MOD_ID + '.' + itemObj.get().getRegistryName().getPath() + ".description", "");
             }
         }
         for (RegistryObject<Item> itemObj : ItemReg.ITEMS.getEntries())
+        {
+            add("desc." + MOD_ID + '.' + itemObj.get().getRegistryName().getPath() + "_unknown", "");
             for (int i = 0; i < 4; i++)
-                add("desc." + MOD_ID + '.' + itemObj.get().getRegistryName().getPath() + (i + 1), "");
-
+                add("desc." + MOD_ID + '.' + itemObj.get().getRegistryName().getPath() + "_" + (i + 1), "");
+        }
     }
 }

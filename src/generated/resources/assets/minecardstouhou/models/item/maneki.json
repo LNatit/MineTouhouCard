@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecardstouhou:item/unknown"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "minecardstouhou:maneki.unlocked": 1.0
+      },
+      "model": "minecardstouhou:item/maneki_unlocked"
+    }
+  ]
+}

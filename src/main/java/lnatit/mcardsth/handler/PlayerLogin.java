@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.*;
+import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
 /**
@@ -24,10 +24,10 @@ public class PlayerLogin
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity)
         {
-            if (GetBoolean(player, IDLNBTConst.FIRST_LOGIN, true))
+            if (!getPlayerIdeallandBoolSafe(player, IDLNBTConst.QUESTED))
             {
                 player.inventory.addItemStackToInventory(new ItemStack(ItemReg.BLANK.get()));
-                SetBoolean(player, IDLNBTConst.FIRST_LOGIN, false);
+                setPlayerIdeallandTagSafe(player, IDLNBTConst.QUESTED, true);
             }
         }
     }

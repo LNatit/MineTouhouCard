@@ -19,5 +19,6 @@ public class DataGen
 
         generator.addProvider(new Languages(generator, MOD_ID, "zh_cn"));
         generator.addProvider(new ItemModels(generator, MOD_ID, helper));
+        generator.addProvider(new Advancements(generator));
     }
 }

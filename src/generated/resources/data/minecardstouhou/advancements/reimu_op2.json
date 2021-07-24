@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:reimu_op2"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.reimu_op2.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.reimu_op2.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

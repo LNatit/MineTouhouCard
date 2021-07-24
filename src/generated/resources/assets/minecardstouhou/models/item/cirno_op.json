@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecardstouhou:item/unknown"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "minecardstouhou:cirno_op.unlocked": 1.0
+      },
+      "model": "minecardstouhou:item/cirno_op_unlocked"
+    }
+  ]
+}

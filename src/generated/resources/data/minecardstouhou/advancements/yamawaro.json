@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:yamawaro"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.yamawaro.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.yamawaro.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

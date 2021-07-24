@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecardstouhou:item/unknown"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "minecardstouhou:youmu_op.unlocked": 1.0
+      },
+      "model": "minecardstouhou:item/youmu_op_unlocked"
+    }
+  ]
+}

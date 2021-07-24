@@ -64,13 +64,13 @@ public class ClientEventHandler
         @Override
         public float call(@Nonnull ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity entityIn)
         {
-//
-//            if (entityIn instanceof ClientPlayerEntity)
-//            {
-//                Item item = itemStack.getItem();
-//                boolean flag = PlayerPropertiesUtils.doPlayerCollected((PlayerEntity) entityIn, (AbstractCard) item);
-//                return flag ? 1 : 0;
-//            }
+
+            if (entityIn instanceof ClientPlayerEntity)
+            {
+                Item item = itemStack.getItem();
+                boolean flag = PlayerPropertiesUtils.doPlayerCollected((PlayerEntity) entityIn, (AbstractCard) item);
+                return flag ? 1 : 0;
+            }
             return 1;
         }
     }

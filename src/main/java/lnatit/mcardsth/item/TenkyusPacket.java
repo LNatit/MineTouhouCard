@@ -30,17 +30,20 @@ public class TenkyusPacket extends Item
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        if (doPlayersAbilityEnabled(playerIn))
+        if (playerIn.isSneaking())
         {
-            enablePlayerAbility(playerIn, false);
-            if (!(playerIn instanceof ServerPlayerEntity))
-                playerIn.sendMessage(new TranslationTextComponent("enabled"), null);
-        }
-        else
-        {
-            enablePlayerAbility(playerIn, true);
-            if (!(playerIn instanceof ServerPlayerEntity))
-                playerIn.sendMessage(new TranslationTextComponent("disabled"), null);
+            if (doPlayersAbilityEnabled(playerIn))
+            {
+                enablePlayerAbility(playerIn, false);
+                if (!(playerIn instanceof ServerPlayerEntity))
+                    playerIn.sendMessage(new TranslationTextComponent("enabled"), null);
+            }
+            else
+            {
+                enablePlayerAbility(playerIn, true);
+                if (!(playerIn instanceof ServerPlayerEntity))
+                    playerIn.sendMessage(new TranslationTextComponent("disabled"), null);
+            }
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
