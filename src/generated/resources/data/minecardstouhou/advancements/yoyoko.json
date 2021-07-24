@@ -15,13 +15,18 @@
     "hidden": false
   },
   "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+    "collect": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "item": "minecardstouhou:yoyoko"
+        }
+      }
     }
   },
   "requirements": [
     [
-      "impossible"
+      "collect"
     ]
   ]
 }

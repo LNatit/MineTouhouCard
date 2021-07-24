@@ -4,6 +4,7 @@ import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.AdvancementUtils;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -283,7 +284,8 @@ public class CardEntity extends Entity
                 {
                     PlayerPropertiesUtils.collectCard(player, card);
                     //TODO optimize advancement logic
-                    AdvancementUtils.giveAdvancement(player, AdvancementUtils.getAdvIdFromAbsCard(card));
+                    if (player instanceof ServerPlayerEntity)
+                        CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) player, this.getCard());
                     this.interactDelay = 10;
                     return ActionResultType.func_233537_a_(this.world.isRemote);
                 }

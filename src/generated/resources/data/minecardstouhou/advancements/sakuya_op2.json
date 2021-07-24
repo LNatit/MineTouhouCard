@@ -15,13 +15,18 @@
     "hidden": false
   },
   "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+    "collect": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "item": "minecardstouhou:sakuya_op2"
+        }
+      }
     }
   },
   "requirements": [
     [
-      "impossible"
+      "collect"
     ]
   ]
 }

@@ -46,7 +46,7 @@ public class Config
             ITEM_FRAME_DISPLAY = builder.define("itemFrameDisplay", true);
 
             builder.comment("Whether the card renders its unlocked texture when displayed on an Armor Stand:");
-            ARMOR_STAND_DISPLAY = builder.define("itemFrameDisplay", false);
+            ARMOR_STAND_DISPLAY = builder.define("armorStandDisplay", false);
         }
         builder.pop();
 
