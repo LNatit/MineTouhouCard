@@ -7,6 +7,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static deeplake.idlframework.idlnbtutils.IDLNBTConst.MCARDSTH;
 
 /**
@@ -14,6 +17,18 @@ import static deeplake.idlframework.idlnbtutils.IDLNBTConst.MCARDSTH;
  */
 public class IDLNBT
 {
+    public static CompoundNBT cache = new CompoundNBT();
+
+    public static CompoundNBT getPlayerPersistentDataSafe(PlayerEntity player)
+    {
+        if (player instanceof ServerPlayerEntity)
+            return player.getPersistentData();
+
+        if (player != null)
+            cache = player.getPersistentData();
+        return cache;
+    }
+
     public static CompoundNBT getTagSafe(CompoundNBT tag, String key) {
         if(tag == null) {
             return new CompoundNBT();
@@ -23,7 +38,7 @@ public class IDLNBT
     }
 
     public static CompoundNBT getPlayerIdlTagSafe(PlayerEntity player) {
-        CompoundNBT playerData = player.getPersistentData();
+        CompoundNBT playerData = getPlayerPersistentDataSafe(player);
         CompoundNBT data = getTagSafe(playerData, PlayerEntity.PERSISTED_NBT_TAG);
         CompoundNBT idl_data = getTagSafe(data, MCARDSTH);
 
@@ -55,7 +70,7 @@ public class IDLNBT
     }
 
     public static void setPlayerIdeallandTagSafe(PlayerEntity player, String key, int value) {
-        CompoundNBT playerData = player.getPersistentData();
+        CompoundNBT playerData = getPlayerPersistentDataSafe(player);
         CompoundNBT data = getTagSafe(playerData, PlayerEntity.PERSISTED_NBT_TAG);
         CompoundNBT idl_data = getPlayerIdlTagSafe(player);
 
@@ -69,7 +84,7 @@ public class IDLNBT
     }
 
     public static void setPlayerIdeallandTagSafe(PlayerEntity player, String key, int[] value) {
-        CompoundNBT playerData = player.getPersistentData();
+        CompoundNBT playerData = getPlayerPersistentDataSafe(player);
         CompoundNBT data = getTagSafe(playerData, PlayerEntity.PERSISTED_NBT_TAG);
         CompoundNBT idl_data = getPlayerIdlTagSafe(player);
 
@@ -83,7 +98,7 @@ public class IDLNBT
     }
 
     public static void setPlayerIdeallandTagSafe(PlayerEntity player, String key, double value) {
-        CompoundNBT playerData = player.getPersistentData();
+        CompoundNBT playerData = getPlayerPersistentDataSafe(player);
         CompoundNBT data = getTagSafe(playerData, PlayerEntity.PERSISTED_NBT_TAG);
         CompoundNBT idl_data = getPlayerIdlTagSafe(player);
 
@@ -97,7 +112,7 @@ public class IDLNBT
     }
 
     public static void setPlayerIdeallandTagSafe(PlayerEntity player, String key, boolean value) {
-        CompoundNBT playerData = player.getPersistentData();
+        CompoundNBT playerData = getPlayerPersistentDataSafe(player);
         CompoundNBT data = getTagSafe(playerData, PlayerEntity.PERSISTED_NBT_TAG);
         CompoundNBT idl_data = getPlayerIdlTagSafe(player);
 
@@ -111,7 +126,7 @@ public class IDLNBT
     }
 
     public static void setPlayerIdeallandTagSafe(PlayerEntity player, String key, String value) {
-        CompoundNBT playerData = player.getPersistentData();
+        CompoundNBT playerData = getPlayerPersistentDataSafe(player);
         CompoundNBT data = getTagSafe(playerData, PlayerEntity.PERSISTED_NBT_TAG);
         CompoundNBT idl_data = getPlayerIdlTagSafe(player);
 

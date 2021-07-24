@@ -26,26 +26,31 @@ public class ItemModels extends ItemModelProvider
 
         for (RegistryObject<Item> itemObj : ItemReg.ITEMS.getEntries())
         {
+            String name = itemObj.get().getRegistryName().getPath();
+            singleTexture(name + "_unlocked",
+                          mcLoc("generated"),
+                          "layer0",
+                          new ResourceLocation(MOD_ID, "item/" + name));
+        }
+
+        for (RegistryObject<Item> itemObj : ItemReg.ITEMS.getEntries())
+        {
             String name;
 
             if (itemObj.get() instanceof AbstractCard)
-            {
-                name = itemObj.get().getRegistryName().getPath();
 
-                ModelFile model = new ModelFile(new ResourceLocation(MOD_ID, "item/" + name))
+                if (itemObj.get() instanceof AbstractCard)
                 {
-                    @Override
-                    protected boolean exists()
-                    {
-                        return true;
-                    }
-                };
+                    name = itemObj.get().getRegistryName().getPath();
 
-                singleTexture(name, mcLoc("generated"), "layer0", location)
-                        .override()
-                        .predicate(new ResourceLocation(MOD_ID, "unlocked"), 1)
-                        .model(model).end().toJson();
-            }
+                    ModelFile model =
+                            new ModelFile.ExistingModelFile(new ResourceLocation(MOD_ID, "item/" + name + "_unlocked"), existingFileHelper);
+
+                    singleTexture(name, mcLoc("generated"), "layer0", location)
+                            .override()
+                            .predicate(new ResourceLocation(MOD_ID, name + ".unlocked"), 1)
+                            .model(model).end().toJson();
+                }
 
         }
     }

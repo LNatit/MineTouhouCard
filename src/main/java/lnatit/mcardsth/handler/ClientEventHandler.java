@@ -54,7 +54,7 @@ public class ClientEventHandler
             if (item instanceof AbstractCard)
                 ItemModelsProperties
                         .registerProperty(itemObj.get(),
-                                          new ResourceLocation(MOD_ID, "unlocked"),
+                                          new ResourceLocation(MOD_ID, itemObj.get().getRegistryName().getPath() + ".unlocked"),
                                           new UnlockedGetter());
         }
     }
