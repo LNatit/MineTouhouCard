@@ -61,7 +61,7 @@ public class AdvancementConsumer implements Consumer<Consumer<Advancement>>
                                                                                        .create()
                                                                                        .item(item)
                                                                                        .build()))
-                                .register(consumer, MOD_ID + ':' + name);
+                                .register(consumer, MOD_ID + ':' + name + "_card");
             }
         }
     }

@@ -48,7 +48,6 @@ public class CardRenderer extends EntityRenderer<CardEntity>
         this.random.setSeed(i);
         String name = itemstack.getItem().getRegistryName().getPath();
         IBakedModel ibakedmodel
-                //TODO
                 = getItemModel(new ModelResourceLocation(new ResourceLocation(MOD_ID, name), "inventory"));
         ibakedmodel = ibakedmodel.getOverrides().getOverrideModel(ibakedmodel, itemstack, Minecraft.getInstance().world, null);
         boolean flag = ibakedmodel.isGui3d();

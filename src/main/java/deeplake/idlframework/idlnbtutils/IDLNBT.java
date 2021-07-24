@@ -21,10 +21,10 @@ public class IDLNBT
 
     public static CompoundNBT getPlayerPersistentDataSafe(PlayerEntity player)
     {
-//        if (player instanceof ServerPlayerEntity)
-//            return player.getPersistentData();
-//
-//        if (player != null)
+        if (player instanceof ServerPlayerEntity)
+            return player.getPersistentData();
+
+        if (player != null)
             cache = player.getPersistentData();
         return cache;
     }
