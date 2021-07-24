@@ -75,7 +75,7 @@ public class ClientEventHandler
         @Override
         public float call(@Nonnull ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity entityIn)
         {
-            boolean flag = false;
+            boolean flag = true;
             if (entityIn instanceof ClientPlayerEntity)
             {
                 Item item = itemStack.getItem();
@@ -85,11 +85,11 @@ public class ClientEventHandler
             {
                 Entity attachedEntity = itemStack.getAttachedEntity();
                 if (attachedEntity instanceof CardEntity)
-                    flag = true;
+                    flag = false;
                 else if (Config.ITEM_FRAME_DISPLAY.get() && attachedEntity instanceof ItemFrameEntity)
-                    flag = true;
+                    flag = false;
                 else if (Config.ARMOR_STAND_DISPLAY.get() && attachedEntity instanceof ArmorStandEntity)
-                    flag = true;
+                    flag = false;
             }
             return flag ? 1 : 0;
         }

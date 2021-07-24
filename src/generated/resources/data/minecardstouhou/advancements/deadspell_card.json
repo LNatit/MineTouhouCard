@@ -1,4 +1,5 @@
 {
+  "parent": "minecardstouhou:root",
   "display": {
     "icon": {
       "item": "minecardstouhou:deadspell"

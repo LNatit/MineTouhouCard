@@ -50,7 +50,7 @@ public class ItemModels extends ItemModelProvider
                 singleTexture(name, mcLoc("generated"), "layer0", location)
                         .override()
                         .predicate(new ResourceLocation(MOD_ID, name + ".unlocked"), 1)
-                        .model(model).end().toJson();
+                        .model(model);
             }
 
         }

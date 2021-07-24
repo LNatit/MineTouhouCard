@@ -54,7 +54,7 @@ public class AdvancementConsumer implements Consumer<Consumer<Advancement>>
                                              new TranslationTextComponent("advancements." + MOD_ID + '.' + name + ".description"),
                                              null,
                                              FrameType.TASK, true, true, false)
-//                                .withParentId(new ResourceLocation(MOD_ID, ""))
+                                .withParent(root)
                                 .withCriterion("collect",
                                                new ConsumeItemTrigger.Instance(EntityPredicate.AndPredicate.ANY_AND,
                                                                                ItemPredicate.Builder
