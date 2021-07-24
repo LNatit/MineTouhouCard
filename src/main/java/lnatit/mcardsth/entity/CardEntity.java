@@ -20,6 +20,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -31,6 +32,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nullable;
+
 import static net.minecraft.item.Items.DEBUG_STICK;
 
 public class CardEntity extends Entity
@@ -38,7 +41,7 @@ public class CardEntity extends Entity
     public static EntityType<CardEntity> TYPE = EntityType.Builder
             .<CardEntity>create(CardEntity::new, EntityClassification.MISC)
             .size(0.25F, 0.5F)
-            .trackingRange(6)
+            .trackingRange(10)
             .updateInterval(20)
             .build("card_entity");
 

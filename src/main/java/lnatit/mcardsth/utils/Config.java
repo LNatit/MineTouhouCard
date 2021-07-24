@@ -11,6 +11,8 @@ public class Config
 
     public static ForgeConfigSpec.IntValue PENDULUM_AWARD;
     public static ForgeConfigSpec.IntValue ROKUMON_SACRIFICE;
+    public static ForgeConfigSpec.BooleanValue ITEM_FRAME_DISPLAY;
+    public static ForgeConfigSpec.BooleanValue ARMOR_STAND_DISPLAY;
 
     public static ForgeConfigSpec init()
     {
@@ -39,6 +41,12 @@ public class Config
 
             builder.comment("Count of the emerald player need to sacrifice encountering death with rokumon in hand:");
             ROKUMON_SACRIFICE = builder.defineInRange("rokumonSacrifice", 12, 1, 64);
+
+            builder.comment("Whether the card renders its unlocked texture when displayed in an Item Frame:");
+            ITEM_FRAME_DISPLAY = builder.define("itemFrameDisplay", true);
+
+            builder.comment("Whether the card renders its unlocked texture when displayed on an Armor Stand:");
+            ARMOR_STAND_DISPLAY = builder.define("itemFrameDisplay", false);
         }
         builder.pop();
 

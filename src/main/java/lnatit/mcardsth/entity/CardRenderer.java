@@ -43,12 +43,14 @@ public class CardRenderer extends EntityRenderer<CardEntity>
     {
         matrixStackIn.push();
         ItemStack itemstack = entityIn.getCard();
+        itemstack.setAttachedEntity(entityIn);
         int i = itemstack.isEmpty() ? 187 : Item.getIdFromItem(itemstack.getItem()) + itemstack.getDamage();
         this.random.setSeed(i);
         String name = itemstack.getItem().getRegistryName().getPath();
         IBakedModel ibakedmodel
                 //TODO
-                = getItemModel(new ModelResourceLocation(new ResourceLocation(MOD_ID, name + "_unlocked"), "inventory"));
+                = getItemModel(new ModelResourceLocation(new ResourceLocation(MOD_ID, name), "inventory"));
+        ibakedmodel = ibakedmodel.getOverrides().getOverrideModel(ibakedmodel, itemstack, Minecraft.getInstance().world, null);
         boolean flag = ibakedmodel.isGui3d();
         float f1 = MathHelper.sin(((float) entityIn.getAge() + partialTicks) / 10.0F + entityIn.hoverStart) * 0.1F + 0.1F;
         float f2 = shouldBob() ? ibakedmodel
