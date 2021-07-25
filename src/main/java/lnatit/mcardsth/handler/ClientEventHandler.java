@@ -85,8 +85,9 @@ public class ClientEventHandler
             {
                 Entity attachedEntity = itemStack.getAttachedEntity();
                 if (attachedEntity == null)
-                    flag = false;
-                else if (attachedEntity instanceof ItemFrameEntity)
+                    if (clientWorld != null || entityIn != null)
+                        flag = false;
+                if (attachedEntity instanceof ItemFrameEntity)
                     flag = Config.ITEM_FRAME_DISPLAY.get();
                 else if (attachedEntity instanceof ArmorStandEntity)
                     flag = Config.ARMOR_STAND_DISPLAY.get();

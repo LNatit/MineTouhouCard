@@ -36,13 +36,13 @@ public class TenkyusPacket extends Item
             {
                 enablePlayerAbility(playerIn, false);
                 if (!(playerIn instanceof ServerPlayerEntity))
-                    playerIn.sendMessage(new TranslationTextComponent("enabled"), null);
+                    playerIn.sendMessage(new TranslationTextComponent("disabled"), null);
             }
             else
             {
                 enablePlayerAbility(playerIn, true);
                 if (!(playerIn instanceof ServerPlayerEntity))
-                    playerIn.sendMessage(new TranslationTextComponent("disabled"), null);
+                    playerIn.sendMessage(new TranslationTextComponent("enabled"), null);
             }
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);

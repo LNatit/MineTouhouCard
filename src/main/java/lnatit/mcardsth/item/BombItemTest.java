@@ -1,6 +1,9 @@
 package lnatit.mcardsth.item;
 
+import lnatit.mcardsth.utils.BombType;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
@@ -20,17 +23,18 @@ public class BombItemTest extends Item
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-//        ItemStack itemstack = playerIn.getHeldItem(handIn);
-//
-//        if (handIn == Hand.MAIN_HAND)
-//        {
-//            if (BombType.playerBomb(worldIn, playerIn, BombType.DEFAULT))
-//            {
-//                playerIn.setActiveHand(handIn);
-//                return ActionResult.resultConsume(itemstack);
-//            } else
-//                return ActionResult.resultFail(itemstack);
-//        } else return ActionResult.resultPass(itemstack);
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+        if (handIn == Hand.MAIN_HAND)
+        {
+            if (BombType.playerBomb(worldIn, playerIn, BombType.DEFAULT))
+            {
+                playerIn.setActiveHand(handIn);
+                if (playerIn instanceof ServerPlayerEntity)
+                    CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) playerIn, itemstack);
+                return ActionResult.resultConsume(itemstack);
+            } else
+                return ActionResult.resultFail(itemstack);
+        } else return ActionResult.resultPass(itemstack);
     }
 }
