@@ -84,12 +84,12 @@ public class ClientEventHandler
             else
             {
                 Entity attachedEntity = itemStack.getAttachedEntity();
-                if (attachedEntity instanceof CardEntity)
+                if (attachedEntity == null)
                     flag = false;
-                else if (Config.ITEM_FRAME_DISPLAY.get() && attachedEntity instanceof ItemFrameEntity)
-                    flag = false;
-                else if (Config.ARMOR_STAND_DISPLAY.get() && attachedEntity instanceof ArmorStandEntity)
-                    flag = false;
+                else if (attachedEntity instanceof ItemFrameEntity)
+                    flag = Config.ITEM_FRAME_DISPLAY.get();
+                else if (attachedEntity instanceof ArmorStandEntity)
+                    flag = Config.ARMOR_STAND_DISPLAY.get();
             }
             return flag ? 1 : 0;
         }
