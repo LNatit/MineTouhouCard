@@ -25,11 +25,9 @@ public class AttributeCard extends AbstractCard
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (cardCollection(playerIn) && this == ItemReg.BLANK.get())
+        if (this == ItemReg.BLANK.get() && cardCollection(playerIn, itemstack))
         {
             ItemStack itemStack1 = new ItemStack(ItemReg.TENKYU_S_PACKET.get());
-            if (playerIn instanceof ServerPlayerEntity)
-                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) playerIn, itemstack);
             return ActionResult.func_233538_a_(itemStack1, worldIn.isRemote());
         }
         else return ActionResult.resultFail(itemstack);

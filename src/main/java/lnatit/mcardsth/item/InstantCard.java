@@ -27,11 +27,9 @@ public class InstantCard extends AbstractCard
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (cardCollection(playerIn) || onCardUse(playerIn))
+        if (cardCollection(playerIn, itemstack) || onCardUse(playerIn))
         {
             itemstack.shrink(1);
-            if (playerIn instanceof ServerPlayerEntity)
-                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) playerIn, itemstack);
             return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
         }
         else return ActionResult.resultFail(itemstack);

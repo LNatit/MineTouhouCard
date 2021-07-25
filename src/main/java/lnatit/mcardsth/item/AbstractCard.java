@@ -28,11 +28,9 @@ public class AbstractCard extends Item
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (cardCollection(playerIn) && playerIn.getHeldItem(Hand.OFF_HAND).getItem() == DEBUG_STICK)
+        if (playerIn.getHeldItem(Hand.OFF_HAND).getItem() == DEBUG_STICK && cardCollection(playerIn, itemstack))
         {
             itemstack.shrink(1);
-            if (playerIn instanceof ServerPlayerEntity)
-                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) playerIn, itemstack);
             return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
         }
         else return ActionResult.resultFail(itemstack);
@@ -44,12 +42,13 @@ public class AbstractCard extends Item
         return UseAction.CROSSBOW;
     }
 
-    protected boolean cardCollection(PlayerEntity playerIn)
+    protected boolean cardCollection(PlayerEntity playerIn, ItemStack stack)
     {
         if (!PlayerPropertiesUtils.doPlayerCollected(playerIn, this))
         {
             PlayerPropertiesUtils.collectCard(playerIn, this);
-            AdvancementUtils.giveAdvancement(playerIn, AdvancementUtils.getAdvIdFromAbsCard(this));
+            if (playerIn instanceof ServerPlayerEntity)
+                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) playerIn, stack);
             return true;
         }
         else return false;
