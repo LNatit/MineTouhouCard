@@ -16,13 +16,18 @@
     "background": "minecraft:textures/icons.png"
   },
   "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+    "collect": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "item": "minecardstouhou:blank"
+        }
+      }
     }
   },
   "requirements": [
     [
-      "impossible"
+      "collect"
     ]
   ]
 }

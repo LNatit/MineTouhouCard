@@ -40,14 +40,9 @@ public class ItemDesc
         if (item instanceof AbstractCard)
         {
             if (!doPlayerCollected(player, (AbstractCard) item))
-            {
-                itemStack.setDisplayName(new TranslationTextComponent("item.minecardstouhou.unknown"));
                 info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_unknown"));
-            }
             else
             {
-                itemStack.setDisplayName(new TranslationTextComponent(item.getTranslationKey()));
-
                 for (int i = 0; i < 4; i++)
                     info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1)));
             }

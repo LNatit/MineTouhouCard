@@ -1,23 +1,33 @@
 {
-    "display": {
-        "icon": {
-            "item": "minecardstouhou:blank"
-        },
-        "title": {
-            "translate": "minecardstouhou.advancements.blank_card.title"
-        },
-		"frame": "task",
-        "description": {
-            "translate": "minecardstouhou.advancements.blank_card.description"
-        },
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "minecardstouhou:root",
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:blank"
     },
-    "parent": "minecardstouhou:root",
-    "criteria": {
-        "impossible": {
-            "trigger": "minecraft:impossible"
+    "title": {
+      "translate": "advancements.minecardstouhou.blank.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.blank.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "collect": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "item": "minecardstouhou:blank"
         }
+      }
     }
+  },
+  "requirements": [
+    [
+      "collect"
+    ]
+  ]
 }

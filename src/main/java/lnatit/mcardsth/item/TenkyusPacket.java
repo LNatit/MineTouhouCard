@@ -1,5 +1,7 @@
 package lnatit.mcardsth.item;
 
+import lnatit.mcardsth.gui.PacketScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -30,7 +32,7 @@ public class TenkyusPacket extends Item
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        if (playerIn.isSneaking())
+        if (!playerIn.isSneaking())
         {
             if (doPlayersAbilityEnabled(playerIn))
             {
@@ -45,6 +47,10 @@ public class TenkyusPacket extends Item
                     playerIn.sendMessage(new TranslationTextComponent("enabled"), null);
             }
         }
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        else
+        {
+            Minecraft.getInstance().displayGuiScreen(new PacketScreen(playerIn));
+        }
+        return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
     }
 }

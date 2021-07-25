@@ -1,9 +1,8 @@
 package lnatit.mcardsth.item;
 
-import lnatit.mcardsth.utils.AdvancementUtils;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -13,11 +12,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-import static deeplake.idlframework.idlnbtutils.IDLNBTUtils.*;
+import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
+import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static net.minecraft.item.Items.DEBUG_STICK;
 
 public class AbstractCard extends Item
 {
+    public static final String UNKNOWN = "item." + MOD_ID + ".unknown";
+
     public AbstractCard(Properties properties)
     {
         super(properties);
@@ -52,5 +54,13 @@ public class AbstractCard extends Item
             return true;
         }
         else return false;
+    }
+
+    @Override
+    public String getTranslationKey()
+    {
+        if (getPlayerIdeallandBoolSafe(Minecraft.getInstance().player, this.getRegistryName().getPath()))
+            return super.getTranslationKey();
+        return UNKNOWN;
     }
 }

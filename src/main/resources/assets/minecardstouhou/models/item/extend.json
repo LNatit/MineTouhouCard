@@ -1,6 +1,14 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecardstouhou:item/extend"
-  }
+    "layer0": "minecardstouhou:item/unknown"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "minecardstouhou:extend.unlocked": 1.0
+      },
+      "model": "minecardstouhou:item/extend_unlocked"
+    }
+  ]
 }
