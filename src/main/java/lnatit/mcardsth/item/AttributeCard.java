@@ -1,5 +1,6 @@
 package lnatit.mcardsth.item;
 
+import lnatit.mcardsth.utils.AdvancementUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,7 +14,7 @@ public class AttributeCard extends AbstractCard
     public AttributeCard()
     {
         super(new Item.Properties()
-//                .group(CardGroup.CARDS)
+                      .group(CardGroup.CARDS)
                       .maxStackSize(1)
                       .rarity(Rarity.EPIC));
     }
@@ -23,10 +24,18 @@ public class AttributeCard extends AbstractCard
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (this == ItemReg.BLANK.get() && cardCollection(playerIn, itemstack))
+        if (this == ItemReg.BLANK.get())
         {
-            ItemStack itemStack1 = new ItemStack(ItemReg.TENKYU_S_PACKET.get());
-            return ActionResult.func_233538_a_(itemStack1, worldIn.isRemote());
+            if (cardCollection(playerIn, itemstack))
+            {
+                ItemStack itemStack1 = new ItemStack(ItemReg.TENKYU_S_PACKET.get());
+                return ActionResult.func_233538_a_(itemStack1, worldIn.isRemote());
+            }
+            else
+            {
+                AdvancementUtils.giveAdvancement(playerIn, "tenkyus_packet");
+                return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
+            }
         }
         else return ActionResult.resultFail(itemstack);
     }

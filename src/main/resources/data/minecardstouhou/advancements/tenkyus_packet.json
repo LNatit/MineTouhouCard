@@ -1,0 +1,28 @@
+{
+  "parent": "minecardstouhou:root",
+  "display": {
+    "icon": {
+      "item": "minecardstouhou:tenkyus_packet"
+    },
+    "title": {
+      "translate": "advancements.minecardstouhou.tenkyus_packet.title"
+    },
+    "description": {
+      "translate": "advancements.minecardstouhou.tenkyus_packet.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ]
+}

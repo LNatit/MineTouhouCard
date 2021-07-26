@@ -283,7 +283,6 @@ public class CardEntity extends Entity
                 if (!PlayerPropertiesUtils.doPlayerCollected(player, card))
                 {
                     PlayerPropertiesUtils.collectCard(player, card);
-                    //TODO optimize advancement logic
                     if (player instanceof ServerPlayerEntity)
                         CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) player, this.getCard());
                     this.interactDelay = 10;

@@ -9,6 +9,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
+import static lnatit.mcardsth.LogUtils.LOGGER;
+import static lnatit.mcardsth.LogUtils.Warn;
 import static net.minecraft.item.Items.EMERALD;
 
 public class InstantCard extends AbstractCard
@@ -72,6 +74,9 @@ public class InstantCard extends AbstractCard
                     flag = data.Extend();
                     data.Extend();
                     data.Extend();
+                    break;
+                default:
+                    Warn("trying to use an Instant card with Registry name: " + cardName);
                     break;
             }
         }
