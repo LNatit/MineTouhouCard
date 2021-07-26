@@ -3,6 +3,7 @@ package lnatit.mcardsth.handler;
 import lnatit.mcardsth.entity.CardEntity;
 import lnatit.mcardsth.entity.CardRenderer;
 import lnatit.mcardsth.entity.EntityTypeReg;
+import lnatit.mcardsth.gui.ClientGuiUtil;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.item.TenkyusPacket;
@@ -49,6 +50,7 @@ public class ClientEventHandler
                                                         );
 
         event.enqueueWork(ClientEventHandler::registerProperties);
+        ClientGuiUtil.clientInit();
     }
 
     private static void registerProperties()

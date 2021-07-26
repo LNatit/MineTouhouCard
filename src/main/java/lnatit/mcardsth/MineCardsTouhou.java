@@ -1,6 +1,7 @@
 package lnatit.mcardsth;
 
 import lnatit.mcardsth.entity.EntityTypeReg;
+import lnatit.mcardsth.gui.ContainerTypeReg;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.Config;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -21,7 +22,7 @@ public class MineCardsTouhou
     {
         ItemReg.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         EntityTypeReg.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
-
+        ContainerTypeReg.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.init());
     }
 }

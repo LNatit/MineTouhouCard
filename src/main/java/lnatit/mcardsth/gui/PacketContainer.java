@@ -17,14 +17,13 @@ import net.minecraftforge.fml.RegistryObject;
 
 import static lnatit.mcardsth.gui.PacketScreen.INVENTORY;
 
-@OnlyIn(Dist.CLIENT)
 public class PacketContainer extends Container
 {
     public final NonNullList<ItemStack> itemList = NonNullList.create();
 
-    protected PacketContainer(PlayerEntity player)
+    public PacketContainer(int windowId, PlayerInventory inv)
     {
-        super((ContainerType<?>) null, 0);
+        super(ContainerTypeReg.PACKET.get(), windowId);
         for (RegistryObject<Item> itemObj : ItemReg.ITEMS.getEntries())
         {
             Item item = itemObj.get();
@@ -32,8 +31,6 @@ public class PacketContainer extends Container
             itemList.add(new ItemStack(item));
         }
         this.InventoryInit();
-
-        PlayerInventory playerinventory = player.inventory;
 
         for (int i = 0; i < 7; ++i)
         {
@@ -44,7 +41,7 @@ public class PacketContainer extends Container
         }
 
         for (int k = 0; k < 9; ++k)
-            this.addSlot(new Slot(playerinventory, k, 8 + k * 18, 158));
+            this.addSlot(new Slot(inv, k, 8 + k * 18, 158));
     }
 
     @Override
