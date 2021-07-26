@@ -2,7 +2,6 @@ package lnatit.mcardsth.item;
 
 import lnatit.mcardsth.gui.PacketScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -10,14 +9,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import static lnatit.mcardsth.utils.PlayerPropertiesUtils.*;
+import static lnatit.mcardsth.utils.PlayerPropertiesUtils.doPlayersAbilityEnabled;
+import static lnatit.mcardsth.utils.PlayerPropertiesUtils.enablePlayerAbility;
 
 public class TenkyusPacket extends Item
 {
@@ -49,7 +45,8 @@ public class TenkyusPacket extends Item
         }
         else
         {
-            Minecraft.getInstance().displayGuiScreen(new PacketScreen(playerIn));
+            if (worldIn.isRemote)
+                Minecraft.getInstance().displayGuiScreen(new PacketScreen(playerIn));
         }
         return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
     }

@@ -11,8 +11,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-//TODO remains to be rewritten
-@Deprecated
 public class BombItemTest extends Item
 {
     public BombItemTest()

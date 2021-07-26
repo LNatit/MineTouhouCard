@@ -1,28 +1,23 @@
 package lnatit.mcardsth.gui;
 
-
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
-import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
-
-import javax.annotation.Nullable;
-
-import java.util.function.Supplier;
 
 import static lnatit.mcardsth.gui.PacketScreen.INVENTORY;
 
+@OnlyIn(Dist.CLIENT)
 public class PacketContainer extends Container
 {
     public final NonNullList<ItemStack> itemList = NonNullList.create();
@@ -44,12 +39,12 @@ public class PacketContainer extends Container
         {
             for (int j = 0; j < 9; ++j)
             {
-                this.addSlot(new LockedSlot(INVENTORY, i * 9 + j, 9 + j * 18, 18 + i * 18));
+                this.addSlot(new LockedSlot(INVENTORY, i * 9 + j, 8 + j * 18, 18 + i * 18));
             }
         }
 
         for (int k = 0; k < 9; ++k)
-            this.addSlot(new Slot(playerinventory, k, 9 + k * 18, 156));
+            this.addSlot(new Slot(playerinventory, k, 8 + k * 18, 158));
     }
 
     @Override
@@ -89,12 +84,12 @@ public class PacketContainer extends Container
     {
         int i = (this.itemList.size() + 9 - 1) / 9 - 5;
 
-        for (int k = 0; k < 5; ++k)
+        for (int k = 0; k < 7; ++k)
         {
             for (int l = 0; l < 9; ++l)
             {
                 int i1 = l + k * 9;
-                if (i1 >= 0 && i1 < this.itemList.size())
+                if (i1 < this.itemList.size())
                 {
                     INVENTORY.setInventorySlotContents(l + k * 9, this.itemList.get(i1));
                 }

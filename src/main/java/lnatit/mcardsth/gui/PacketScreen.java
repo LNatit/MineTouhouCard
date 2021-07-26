@@ -1,18 +1,18 @@
 package lnatit.mcardsth.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DisplayEffectsScreen;
-import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
+@OnlyIn(Dist.CLIENT)
 public class PacketScreen extends DisplayEffectsScreen<PacketContainer>
 {
     private static final ResourceLocation PACKET_CONTAINER_RESOURCE = new ResourceLocation(MOD_ID, "textures/gui/packet.png");
@@ -20,13 +20,14 @@ public class PacketScreen extends DisplayEffectsScreen<PacketContainer>
     private final int textureWidth = 176;
     private final int textureHeight = 182;
 
-    protected static final Inventory INVENTORY = new Inventory(54);
+    protected static final Inventory INVENTORY = new Inventory(63);
 
     public PacketScreen(PlayerEntity player)
     {
         super(new PacketContainer(player), player.inventory, new TranslationTextComponent(TITLE));
         player.openContainer = this.container;
         this.passEvents = true;
+        this.minecraft = Minecraft.getInstance();
         this.xSize = textureWidth;
         this.ySize = textureHeight;
         this.playerInventoryTitleY = this.ySize - 36;
