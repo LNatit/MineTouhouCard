@@ -1,11 +1,7 @@
 package lnatit.mcardsth.item;
 
-import lnatit.mcardsth.utils.AdvancementUtils;
 import lnatit.mcardsth.utils.PlayerData;
-import lnatit.mcardsth.utils.PlayerPropertiesUtils;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
