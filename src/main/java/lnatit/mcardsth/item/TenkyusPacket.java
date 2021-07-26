@@ -1,5 +1,6 @@
 package lnatit.mcardsth.item;
 
+import lnatit.mcardsth.gui.ClientGuiUtil;
 import lnatit.mcardsth.gui.PacketScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,10 +45,7 @@ public class TenkyusPacket extends Item
             }
         }
         else
-        {
-            if (worldIn.isRemote)
-                Minecraft.getInstance().displayGuiScreen(new PacketScreen(playerIn));
-        }
+            ClientGuiUtil.displayGuiScreen(worldIn, playerIn);
         return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
     }
 }

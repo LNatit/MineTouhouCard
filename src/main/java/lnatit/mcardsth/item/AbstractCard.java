@@ -11,9 +11,12 @@ import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import static deeplake.idlframework.idlnbtutils.IDLNBT.*;
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
+import static lnatit.mcardsth.utils.PlayerPropertiesUtils.doPlayerCollected;
 import static net.minecraft.item.Items.DEBUG_STICK;
 
 public class AbstractCard extends Item
@@ -46,7 +49,7 @@ public class AbstractCard extends Item
 
     protected boolean cardCollection(PlayerEntity playerIn, ItemStack stack)
     {
-        if (!PlayerPropertiesUtils.doPlayerCollected(playerIn, this))
+        if (!doPlayerCollected(playerIn, this))
         {
             PlayerPropertiesUtils.collectCard(playerIn, this);
             if (playerIn instanceof ServerPlayerEntity)
@@ -59,8 +62,9 @@ public class AbstractCard extends Item
     @Override
     public String getTranslationKey()
     {
-        if (getPlayerIdeallandBoolSafe(Minecraft.getInstance().player, this.getRegistryName().getPath()))
-            return super.getTranslationKey();
-        return UNKNOWN;
+        if (FMLEnvironment.dist == Dist.CLIENT)
+            if (!doPlayerCollected((PlayerEntity) (Object) Minecraft.getInstance().player, this))
+                return UNKNOWN;
+        return super.getTranslationKey();
     }
 }

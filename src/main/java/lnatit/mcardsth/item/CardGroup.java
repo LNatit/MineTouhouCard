@@ -20,6 +20,6 @@ public class CardGroup extends ItemGroup
     @OnlyIn(Dist.CLIENT)
     public ItemStack createIcon()
     {
-        return new ItemStack(ItemReg.EXTEND.get());
+        return new ItemStack(ItemReg.TENKYU_S_PACKET.get());
     }
 }

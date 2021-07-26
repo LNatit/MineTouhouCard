@@ -11,7 +11,6 @@ public class ItemReg
 {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
 
-
     public static final RegistryObject<Item> EXTEND = ITEMS.register("extend", InstantCard::new);
     public static final RegistryObject<Item> BOMB = ITEMS.register("bomb", InstantCard::new);
     public static final RegistryObject<Item> EXTEND2 = ITEMS.register("extend2", InstantCard::new);
