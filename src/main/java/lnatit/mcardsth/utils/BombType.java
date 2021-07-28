@@ -6,6 +6,7 @@ import lnatit.mcardsth.network.NetworkManager;
 import lnatit.mcardsth.network.ParticleRenderPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -28,6 +29,7 @@ public enum BombType
             {
                 boolean enhance = PlayerPropertiesUtils.doPlayerCollected(playerIn, (AbstractCard) ItemReg.MAGICSCROLL.get());
                 bombDefault(worldIn, playerIn, enhance);
+                playerIn.addStat(Stats.ITEM_USED.get(ItemReg.ABS_SPELL.get()));
             }
             return flag;
         }

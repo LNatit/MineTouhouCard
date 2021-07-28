@@ -3,10 +3,7 @@ package lnatit.mcardsth.handler;
 import lnatit.mcardsth.entity.CardEntity;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
-import lnatit.mcardsth.utils.Config;
-import lnatit.mcardsth.utils.EntityDeathUtils;
-import lnatit.mcardsth.utils.PlayerData;
-import lnatit.mcardsth.utils.PlayerPropertiesUtils;
+import lnatit.mcardsth.utils.*;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -91,7 +88,7 @@ public class PlayerMiss
                     //物品使用统计数据更新
                     player.addStat(Stats.ITEM_USED.get(EMERALD), 16);
 
-////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+                    BombType.playerBomb(player.world, player, BombType.S_STRIKE);
 
                     playerRevive(event, (ServerPlayerEntity) player, false, false);
                     playerRecover((ServerPlayerEntity) player, 8F, new EffectInstance(Effects.RESISTANCE, 20, 5));
@@ -108,10 +105,10 @@ public class PlayerMiss
                 data.canSpell();
 
                 //物品使用统计数据更新
-                player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
-                player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_BOMB.get()));
+                player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_SPELL.get()));
+                player.addStat(Stats.ITEM_USED.get(ItemReg.ABS_SPELL.get()));
 
-////            BombType.playerBomb(livingEntity.world, (PlayerEntity) livingEntity, BombType.S_STRIKE);
+                BombType.playerBomb(player.world, player, BombType.S_STRIKE);
 
                 playerRevive(event, (ServerPlayerEntity) player, false, false);
                 playerRecover((ServerPlayerEntity) player, 12F, new EffectInstance(Effects.RESISTANCE, 20, 5));

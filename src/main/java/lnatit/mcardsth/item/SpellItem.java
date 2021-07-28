@@ -11,9 +11,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class BombItemTest extends Item
+public class SpellItem extends Item
 {
-    public BombItemTest()
+    public SpellItem()
     {
         super(new Item.Properties().maxStackSize(1).rarity(Rarity.RARE));
     }

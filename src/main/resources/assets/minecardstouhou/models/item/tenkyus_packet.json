@@ -1,0 +1,31 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "minecardstouhou:item/tenkyus_packet"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "minecardstouhou:tenkyus_packet.count": 1.0
+            },
+            "model": "minecardstouhou:item/tenkyus_packet_1"
+        },
+        {
+            "predicate": {
+                "minecardstouhou:tenkyus_packet.count": 2.0
+            },
+            "model": "minecardstouhou:item/tenkyus_packet_2"
+        },
+        {
+            "predicate": {
+                "minecardstouhou:tenkyus_packet.count": 3.0
+            },
+            "model": "minecardstouhou:item/tenkyus_packet_3"
+        },        {
+            "predicate": {
+                "minecardstouhou:tenkyus_packet.count": 4.0
+            },
+            "model": "minecardstouhou:item/tenkyus_packet_4"
+        }
+    ]
+}

@@ -6,10 +6,7 @@ import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,7 +41,13 @@ public class ItemDesc
             else
             {
                 for (int i = 0; i < 4; i++)
-                    info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1)));
+                {
+                    TranslationTextComponent text = new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1));
+
+                    text.mergeStyle(TextFormatting.AQUA);
+
+                    info.add(text);
+                }
             }
         }
         else if (item instanceof TenkyusPacket)
@@ -54,7 +57,11 @@ public class ItemDesc
             for (int i = 0; i < 2; i++)
                 info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1)));
 
-            info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + 3, count));
+            TranslationTextComponent text1 = new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + 3, count);
+
+            text1.mergeStyle(TextFormatting.GOLD);
+
+            info.add(text1);
         }
 
         event.getToolTip().addAll(info);

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecardstouhou:item/unknown"
+    "layer0": "minecardstouhou:item/null"
   },
   "overrides": [
     {

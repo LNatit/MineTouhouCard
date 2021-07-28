@@ -107,11 +107,14 @@ public class ClientEventHandler
             if (entityIn instanceof PlayerEntity)
             {
                 int count = PlayerPropertiesUtils.playerCardsTotal((PlayerEntity) entityIn);
-                switch (count)
-                {
-                    case 0:
-
-                }
+                if (count < 14)
+                    return 1;
+                else if (count < 28)
+                    return 2;
+                else if (count < 42)
+                    return 3;
+                else if (count < 56)
+                    return 4;
             }
             return 0;
         }
