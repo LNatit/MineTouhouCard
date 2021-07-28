@@ -1,8 +1,6 @@
 package lnatit.mcardsth.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

@@ -5,6 +5,7 @@ import lnatit.mcardsth.item.ItemReg;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
@@ -12,11 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.RegistryObject;
 
-import static lnatit.mcardsth.gui.PacketScreen.INVENTORY;
-
 public class PacketContainer extends Container
 {
     public final NonNullList<ItemStack> itemList = NonNullList.create();
+
+    protected static final Inventory INVENTORY = new Inventory(63);
 
     public PacketContainer(int windowId, PlayerInventory inv)
     {

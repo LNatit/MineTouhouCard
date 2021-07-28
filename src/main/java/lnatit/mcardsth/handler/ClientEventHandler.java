@@ -50,7 +50,7 @@ public class ClientEventHandler
                                                         );
 
         event.enqueueWork(ClientEventHandler::registerProperties);
-        ClientGuiUtil.clientInit();
+        event.enqueueWork(ClientGuiUtil::clientInit);
     }
 
     private static void registerProperties()
