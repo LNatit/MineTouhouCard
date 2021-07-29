@@ -13,7 +13,7 @@
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false,
-    "background": "minecraft:textures/icons.png"
+    "background": "minecardstouhou:textures/adv_light.png"
   },
   "criteria": {
     "collect": {
