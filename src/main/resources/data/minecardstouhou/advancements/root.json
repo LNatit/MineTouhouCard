@@ -10,24 +10,19 @@
       "translate": "advancements.minecardstouhou.root.description"
     },
     "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
+    "show_toast": false,
+    "announce_to_chat": false,
     "hidden": false,
     "background": "minecardstouhou:textures/adv_light.png"
   },
   "criteria": {
-    "collect": {
-      "trigger": "minecraft:consume_item",
-      "conditions": {
-        "item": {
-          "item": "minecardstouhou:blank"
-        }
-      }
+    "impossible": {
+      "trigger": "minecraft:impossible"
     }
   },
   "requirements": [
     [
-      "collect"
+      "impossible"
     ]
   ]
 }

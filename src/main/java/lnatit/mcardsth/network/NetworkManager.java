@@ -2,11 +2,14 @@ package lnatit.mcardsth.network;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.commons.codec.BinaryDecoder;
 import org.lwjgl.system.CallbackI;
+
+import java.util.Optional;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
@@ -25,17 +28,19 @@ public class NetworkManager
     public static void registerPacket()
     {
         INSTANCE.registerMessage(index++,
-                NBTPacket.class,
-                NBTPacket::encode,
-                NBTPacket::decode,
-                NBTPacket::handle
+                                 NBTPacket.class,
+                                 NBTPacket::encode,
+                                 NBTPacket::decode,
+                                 NBTPacket::handle,
+                                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
 
         INSTANCE.registerMessage(index++,
-                CardActivationPacket.class,
-                CardActivationPacket::encode,
-                CardActivationPacket::decode,
-                CardActivationPacket::handle
+                                 CardActivationPacket.class,
+                                 CardActivationPacket::encode,
+                                 CardActivationPacket::decode,
+                                 CardActivationPacket::handle,
+                                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
 
 //        INSTANCE.registerMessage(index++,
@@ -46,10 +51,11 @@ public class NetworkManager
 //        );
 
         INSTANCE.registerMessage(index++,
-                ParticleRenderPacket.class,
-                ParticleRenderPacket::encode,
-                ParticleRenderPacket::decode,
-                ParticleRenderPacket::handle
+                                 ParticleRenderPacket.class,
+                                 ParticleRenderPacket::encode,
+                                 ParticleRenderPacket::decode,
+                                 ParticleRenderPacket::handle,
+                                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
     }
 

@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:root",
+  "parent": "minecardstouhou:tenkyus_packet",
   "display": {
     "icon": {
       "item": "minecardstouhou:sakuya_op2"

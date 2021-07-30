@@ -30,12 +30,11 @@ public class CardActivationPacket extends IPacket
 
     public static void handle(CardActivationPacket packet, Supplier<NetworkEvent.Context> contextSupplier)
     {
-        if (contextSupplier.get().getDirection().equals(NetworkDirection.PLAY_TO_CLIENT))
-        {
-            contextSupplier.get().enqueueWork(() -> {
-                Minecraft.getInstance().gameRenderer.displayItemActivation(packet.cardItem);
-            });
-        }
+        contextSupplier.get().enqueueWork(() ->
+                                          {
+                                              Minecraft.getInstance().gameRenderer.displayItemActivation(
+                                                      packet.cardItem);
+                                          });
 
         contextSupplier.get().setPacketHandled(true);
     }

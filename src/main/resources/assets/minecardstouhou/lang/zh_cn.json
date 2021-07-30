@@ -87,7 +87,7 @@
   "advancements.minecardstouhou.riceball.title": "",
   "advancements.minecardstouhou.rokumon.description": "",
   "advancements.minecardstouhou.rokumon.title": "",
-  "advancements.minecardstouhou.root.description": "这张奇怪的卡片散发着淡淡的彩虹色光泽，是干什么用的呢？",
+  "advancements.minecardstouhou.root.description": "获得一张奇怪的卡片",
   "advancements.minecardstouhou.root.title": "奇怪的卡片？",
   "advancements.minecardstouhou.sakuya_op.description": "",
   "advancements.minecardstouhou.sakuya_op.title": "",
@@ -102,7 +102,7 @@
   "advancements.minecardstouhou.sun.description": "",
   "advancements.minecardstouhou.sun.title": "",
   "advancements.minecardstouhou.tenkyus_packet.description": "",
-  "advancements.minecardstouhou.tenkyus_packet.title": "",
+  "advancements.minecardstouhou.tenkyus_packet.title": "熙攘市场今何在？",
   "advancements.minecardstouhou.vampire.description": "",
   "advancements.minecardstouhou.vampire.title": "",
   "advancements.minecardstouhou.warp.description": "",
@@ -117,7 +117,7 @@
   "desc.minecardstouhou.alice_op_1": "§1能力所有者：§e爱丽丝·玛格特洛依德",
   "desc.minecardstouhou.alice_op_2": "「从动作看来像是拥有自我意识，",
   "desc.minecardstouhou.alice_op_3": "  但人偶是没有自我的。大概吧……」",
-  "desc.minecardstouhou.alice_op_4": "",
+  "desc.minecardstouhou.alice_op_4": "§7§o",
   "desc.minecardstouhou.alice_op_unknown": "",
   "desc.minecardstouhou.autobomb_1": "§1能力所有者：§e八意永琳",
   "desc.minecardstouhou.autobomb_2": "「对不老不死之药心怀抗拒，但说是长寿药便会开心，",
@@ -457,5 +457,7 @@
   "item.minecardstouhou.yamawaro": "山童式购物术",
   "item.minecardstouhou.youmu_op": "半灵的一半",
   "item.minecardstouhou.yoyoko": "弹幕的亡灵",
-  "itemGroup.Mine[Touhou]Card": "卡牌"
+  "itemGroup.Mine[Touhou]Card": "卡牌",
+  "mesg.minecardstouhou.disabled": "",
+  "mesg.minecardstouhou.enabled": ""
 }

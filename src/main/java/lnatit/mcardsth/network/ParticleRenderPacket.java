@@ -36,33 +36,33 @@ public class ParticleRenderPacket extends IPacket
 
     public static void handle(ParticleRenderPacket packet, Supplier<NetworkEvent.Context> contextSupplier)
     {
-        if (contextSupplier.get().getDirection().equals(NetworkDirection.PLAY_TO_CLIENT))
-        {
-            contextSupplier.get().enqueueWork(() -> {
-                WorldRenderer renderer = Minecraft.getInstance().worldRenderer;
-                Random random = new Random();
-                BlockPos blockPos = packet.pos;
-                switch (packet.index)
-                {
-                    case 1:
-                        for(int k = 0; k < 200; ++k)
-                        {
-                            float f = random.nextFloat() * 4.0F;
-                            float f1 = random.nextFloat() * ((float)Math.PI * 2F);
-                            double d1 = (double)(MathHelper.cos(f1) * f);
-                            double d2 = 0.01D + random.nextDouble() * 0.5D;
-                            double d3 = (double)(MathHelper.sin(f1) * f);
-                            renderer.addParticle(ParticleTypes.TOTEM_OF_UNDYING,
-                                    false,
-                                    (double)blockPos.getX() + d1 * 0.1D,
-                                    (double)blockPos.getY() + 0.3D,
-                                    (double)blockPos.getZ() + d3 * 0.1D,
-                                    d1, d2, d3);
-                        };
-                        break;
-                }
-            });
-        }
+        contextSupplier.get().enqueueWork(() ->
+                                          {
+                                              WorldRenderer renderer = Minecraft.getInstance().worldRenderer;
+                                              Random random = new Random();
+                                              BlockPos blockPos = packet.pos;
+                                              switch (packet.index)
+                                              {
+                                                  case 1:
+                                                      for (int k = 0; k < 200; ++k)
+                                                      {
+                                                          float f = random.nextFloat() * 4.0F;
+                                                          float f1 = random.nextFloat() * ((float) Math.PI * 2F);
+                                                          double d1 = (double) (MathHelper.cos(f1) * f);
+                                                          double d2 = 0.01D + random.nextDouble() * 0.5D;
+                                                          double d3 = (double) (MathHelper.sin(f1) * f);
+                                                          renderer.addParticle(ParticleTypes.TOTEM_OF_UNDYING,
+                                                                               false,
+                                                                               (double) blockPos.getX() + d1 * 0.1D,
+                                                                               (double) blockPos.getY() + 0.3D,
+                                                                               (double) blockPos.getZ() + d3 * 0.1D,
+                                                                               d1, d2, d3
+                                                          );
+                                                      }
+                                                      ;
+                                                      break;
+                                              }
+                                          });
 
         contextSupplier.get().setPacketHandled(true);
     }

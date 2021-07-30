@@ -38,37 +38,43 @@ public class NBTPacket extends IPacket
 
     public static void handle(NBTPacket packet, Supplier<NetworkEvent.Context> contextSupplier)
     {
-        if (contextSupplier.get().getDirection().equals(NetworkDirection.PLAY_TO_CLIENT))
-        {
-            contextSupplier.get().enqueueWork(() -> {
-                ClientPlayerEntity player = Minecraft.getInstance().player;
-                if (player != null)
-                {
-                    String id = packet.id;
-                    switch (packet.typeIndex)
-                    {
-                        case 0:
-                            mergePlayerIdeallandTangSafe(player, packet.nbt);
-                            break;
-                        case 1:
-                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getBoolean(id));
-                            break;
-                        case 2:
-                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getInt(id));
-                            break;
-                        case 3:
-                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getString(id));
-                            break;
-                        case 4:
-                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getDouble(id));
-                            break;
-                        case 5:
-                            setPlayerIdeallandTagSafe(player, id, packet.nbt.getIntArray(id));
-                            break;
-                    }
-                }
-            });
-        }
+        contextSupplier.get().enqueueWork(() ->
+                                          {
+                                              ClientPlayerEntity player = Minecraft.getInstance().player;
+                                              if (player != null)
+                                              {
+                                                  String id = packet.id;
+                                                  switch (packet.typeIndex)
+                                                  {
+                                                      case 0:
+                                                          mergePlayerIdeallandTangSafe(player, packet.nbt);
+                                                          break;
+                                                      case 1:
+                                                          setPlayerIdeallandTagSafe(player, id,
+                                                                                    packet.nbt.getBoolean(id)
+                                                          );
+                                                          break;
+                                                      case 2:
+                                                          setPlayerIdeallandTagSafe(player, id, packet.nbt.getInt(id));
+                                                          break;
+                                                      case 3:
+                                                          setPlayerIdeallandTagSafe(player, id,
+                                                                                    packet.nbt.getString(id)
+                                                          );
+                                                          break;
+                                                      case 4:
+                                                          setPlayerIdeallandTagSafe(player, id,
+                                                                                    packet.nbt.getDouble(id)
+                                                          );
+                                                          break;
+                                                      case 5:
+                                                          setPlayerIdeallandTagSafe(player, id,
+                                                                                    packet.nbt.getIntArray(id)
+                                                          );
+                                                          break;
+                                                  }
+                                              }
+                                          });
 
         contextSupplier.get().setPacketHandled(true);
     }

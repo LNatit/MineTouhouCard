@@ -15,6 +15,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 import static lnatit.mcardsth.utils.PlayerPropertiesUtils.doPlayersAbilityEnabled;
 import static lnatit.mcardsth.utils.PlayerPropertiesUtils.enablePlayerAbility;
 
@@ -33,19 +34,19 @@ public class TenkyusPacket extends Item
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
-        if (!playerIn.isSneaking())
+        if (playerIn.isSneaking())
         {
             if (doPlayersAbilityEnabled(playerIn))
             {
                 enablePlayerAbility(playerIn, false);
                 if (!(playerIn instanceof ServerPlayerEntity))
-                    playerIn.sendMessage(new TranslationTextComponent("disabled"), null);
+                    playerIn.sendMessage(new TranslationTextComponent("mesg.minecardstouhou.disabled"), null);
             }
             else
             {
                 enablePlayerAbility(playerIn, true);
                 if (!(playerIn instanceof ServerPlayerEntity))
-                    playerIn.sendMessage(new TranslationTextComponent("enabled"), null);
+                    playerIn.sendMessage(new TranslationTextComponent("mesg.minecardstouhou.enabled"), null);
             }
         }
         else if (playerIn instanceof ServerPlayerEntity)
