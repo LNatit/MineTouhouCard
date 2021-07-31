@@ -1,6 +1,7 @@
 package lnatit.mcardsth.item;
 
 import lnatit.mcardsth.utils.AdvancementUtils;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,10 +33,7 @@ public class AttributeCard extends AbstractCard
                 return ActionResult.func_233538_a_(itemStack1, worldIn.isRemote());
             }
             else
-            {
-                AdvancementUtils.giveAdvancement(playerIn, "tenkyus_packet");
                 return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
-            }
         }
         else return ActionResult.resultFail(itemstack);
     }

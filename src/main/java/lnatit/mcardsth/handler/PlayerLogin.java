@@ -2,6 +2,7 @@ package lnatit.mcardsth.handler;
 
 import deeplake.idlframework.idlnbtutils.*;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.AdvancementUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -27,6 +28,7 @@ public class PlayerLogin
             if (!getPlayerIdeallandBoolSafe(player, IDLNBTConst.QUESTED))
             {
                 player.inventory.addItemStackToInventory(new ItemStack(ItemReg.BLANK.get()));
+                AdvancementUtils.giveAdvancement(player, "root");
                 setPlayerIdeallandTagSafe(player, IDLNBTConst.QUESTED, true);
             }
         }
