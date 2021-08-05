@@ -6,6 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import lnatit.mcardsth.item.AbstractCard;
 import lnatit.mcardsth.item.ItemReg;
+import lnatit.mcardsth.utils.AdvancementUtils;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -45,7 +46,10 @@ public class CommandEventHandler
                                           .then(Commands.literal("grantall")
                                                         .then(Commands.argument("targets", EntityArgument.players())
                                                                       .executes(executor -> executeGrantAll(
-                                                                              executor.getSource(), EntityArgument.getEntities(executor, "targets")
+                                                                              executor.getSource(),
+                                                                              EntityArgument.getEntities(executor,
+                                                                                                         "targets"
+                                                                              )
                                                                                 )
                                                                       )
                                                         )
@@ -53,7 +57,10 @@ public class CommandEventHandler
                                           .then(Commands.literal("removeall")
                                                         .then(Commands.argument("targets", EntityArgument.players())
                                                                       .executes(executor -> executeRemoveAll(
-                                                                              executor.getSource(), EntityArgument.getEntities(executor, "targets")
+                                                                              executor.getSource(),
+                                                                              EntityArgument.getEntities(executor,
+                                                                                                         "targets"
+                                                                              )
                                                                                 )
                                                                       )
                                                         )
@@ -66,7 +73,8 @@ public class CommandEventHandler
                         .register(Commands.literal("initlogin").requires(executor -> executor.hasPermissionLevel(2))
                                           .then(Commands.argument("targets", EntityArgument.players())
                                                         .executes(executor -> executeInitAll(
-                                                                executor.getSource(), EntityArgument.getEntities(executor, "targets")
+                                                                executor.getSource(),
+                                                                EntityArgument.getEntities(executor, "targets")
                                                                   )
                                                         )
                                           )
@@ -83,7 +91,8 @@ public class CommandEventHandler
                                           .then(Commands.argument("targets", EntityArgument.entities())
                                                         .requires(executor -> executor.hasPermissionLevel(2))
                                                         .executes(executor -> executeQstBook(
-                                                                executor.getSource(), EntityArgument.getEntities(executor, "targets")
+                                                                executor.getSource(),
+                                                                EntityArgument.getEntities(executor, "targets")
                                                                   )
                                                         )
                                           )
@@ -103,6 +112,9 @@ public class CommandEventHandler
                     if (item instanceof AbstractCard && item.getRegistryName() != null)
                     {
                         setPlayerIdeallandTagSafe((PlayerEntity) entity, item.getRegistryName().getPath(), true);
+                        AdvancementUtils.giveAdvancement((PlayerEntity) entity,
+                                                         item.getRegistryName().getPath() + "_card"
+                        );
                         i++;
                     }
                 }
@@ -157,7 +169,9 @@ public class CommandEventHandler
                 Set<Item> set = new HashSet<>();
                 set.add(ItemReg.TENKYU_S_PACKET.get());
 
-                if (!((PlayerEntity) entity).inventory.hasAny(set) && getPlayerIdeallandBoolSafe((PlayerEntity) entity, QUESTED))
+                if (!((PlayerEntity) entity).inventory.hasAny(set) && getPlayerIdeallandBoolSafe((PlayerEntity) entity,
+                                                                                                 QUESTED
+                ))
                     ((PlayerEntity) entity).addItemStackToInventory(new ItemStack(ItemReg.TENKYU_S_PACKET.get()));
             }
         }
