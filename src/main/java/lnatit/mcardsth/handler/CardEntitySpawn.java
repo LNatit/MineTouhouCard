@@ -50,6 +50,9 @@ public class CardEntitySpawn
                     }
                 }
             }
+        } else if (entity instanceof CardEntity)
+        {
+            entity.setCustomNameVisible(true);
         }
     }
 }
