@@ -3,6 +3,7 @@ package lnatit.mcardsth.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DisplayEffectsScreen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ResourceLocation;
@@ -10,7 +11,7 @@ import net.minecraft.util.text.ITextComponent;
 
 import static lnatit.mcardsth.MineCardsTouhou.MOD_ID;
 
-public class PacketScreen extends DisplayEffectsScreen<PacketContainer>
+public class PacketScreen extends ContainerScreen<PacketContainer>
 {
     private static final ResourceLocation PACKET_CONTAINER_RESOURCE = new ResourceLocation(MOD_ID, "textures/gui/packet.png");
     private final int textureWidth = 176;

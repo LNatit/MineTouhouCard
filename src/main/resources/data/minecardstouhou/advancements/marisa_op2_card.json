@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:tenkyus_packet",
+  "parent": "minecardstouhou:marisa_op_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:marisa_op2"
