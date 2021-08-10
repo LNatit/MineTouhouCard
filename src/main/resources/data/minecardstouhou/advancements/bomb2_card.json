@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:bomb_card",
+  "parent": "minecardstouhou:extend2_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:bomb2"

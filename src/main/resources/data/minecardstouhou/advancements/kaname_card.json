@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:tenkyus_packet",
+  "parent": "minecardstouhou:cylinder_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:kaname"

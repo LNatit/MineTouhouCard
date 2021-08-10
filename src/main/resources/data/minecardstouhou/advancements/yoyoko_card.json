@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:tenkyus_packet",
+  "parent": "minecardstouhou:mikoflash_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:yoyoko"
