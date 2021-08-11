@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:tenkyus_packet",
+  "parent": "minecardstouhou:speedqueen_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:okina_op"
@@ -10,7 +10,7 @@
     "description": {
       "translate": "advancements.minecardstouhou.okina_op.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
