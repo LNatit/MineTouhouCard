@@ -133,7 +133,7 @@ public class PlayerMiss
                     player.addPotionEffect(new EffectInstance(Effects.LUCK, 30 * 20, 3));
 
                 if (PlayerPropertiesUtils.doPlayerCollected(player, (AbstractCard) ItemReg.DEADSPELL.get()))
-                    world.addEntity(new ItemEntity(world, x, y, z, new ItemStack(ItemReg.DEADSPELL.get())));
+                    world.addEntity(new ItemEntity(world, x, y, z, new ItemStack(ItemReg.BOMB.get())));
 
                 data.ApplyAndSync(player);
                 return;
