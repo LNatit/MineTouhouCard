@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:tenkyus_packet",
+  "parent": "minecardstouhou:koishi_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:cirno_op"

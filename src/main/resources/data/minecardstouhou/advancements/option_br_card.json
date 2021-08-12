@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:tenkyus_packet",
+  "parent": "minecardstouhou:mukade_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:option_br"

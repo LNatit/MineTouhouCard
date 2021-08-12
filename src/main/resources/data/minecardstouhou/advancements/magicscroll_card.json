@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:tenkyus_packet",
+  "parent": "minecardstouhou:lily_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:magicscroll"
