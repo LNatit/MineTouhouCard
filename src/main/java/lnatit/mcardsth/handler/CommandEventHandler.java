@@ -13,12 +13,16 @@ import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -62,6 +66,23 @@ public class CommandEventHandler
                                                                                                          "targets"
                                                                               )
                                                                                 )
+                                                                      )
+                                                        )
+                                          )
+                                          .then(Commands.literal("query")
+                                                        .then(Commands.argument("targets", EntityArgument.players())
+                                                                      .executes(executor -> executeQuery(
+                                                                              executor.getSource(),
+                                                                              EntityArgument.getEntities(executor,
+                                                                                                         "targets"
+                                                                              )
+                                                                                )
+                                                                      )
+                                                        )
+                                                        .then(Commands.literal("finished")
+                                                                      .executes(executor -> executeQueryFinished(
+                                                                              executor.getSource(), ImmutableList.of(
+                                                                                      executor.getSource().assertIsEntity()))
                                                                       )
                                                         )
                                           )
@@ -143,6 +164,67 @@ public class CommandEventHandler
             }
         }
         Log(source.getName() + " executes a cardscollection removeall command");
+        return 0;
+    }
+
+    private static int executeQuery(CommandSource source, Collection<? extends Entity> targets)
+    {
+        try
+        {
+            ServerPlayerEntity executor = source.asPlayer();
+
+            for (Entity entity : targets)
+            {
+                if (entity instanceof ServerPlayerEntity)
+                {
+                    ITextComponent msg = new TranslationTextComponent("mesg.minecardstouhou.queryNameCount",
+                                                                      entity.getName(),
+                                                                      PlayerPropertiesUtils.playerCardsTotal(
+                                                                              (PlayerEntity) entity)
+                    );
+                    executor.sendMessage(msg, null);
+                }
+            }
+            Log(source.getName() + " executes a cardscollection query command");
+        }
+        catch (CommandSyntaxException e)
+        {
+            Warn(source.getName() + "can't execute this command!!");
+        }
+        return 0;
+    }
+
+    private static int executeQueryFinished(CommandSource source, Collection<? extends Entity> targets)
+    {
+        try
+        {
+            ServerPlayerEntity executor = source.asPlayer();
+
+            executor.sendMessage(new TranslationTextComponent("mesg.minecardstouhou.queryFinished"), null);
+
+            for (Entity entity : targets)
+            {
+                if (entity instanceof ServerPlayerEntity)
+                {
+                    if (PlayerPropertiesUtils.playerDataCheck((PlayerEntity) entity, true))
+                        Warn(entity.getName() + "'s data abnormal!!!");
+
+                    if (PlayerPropertiesUtils.playerCardsTotal((PlayerEntity) entity) == 56)
+                    {
+                        ITextComponent msg = new TranslationTextComponent("commands.list.nameAndId",
+                                                                          entity.getName(),
+                                                                          entity.getUniqueID()
+                        );
+                        executor.sendMessage(msg, null);
+                    }
+                }
+            }
+            Log(source.getName() + " executes a cardscollection queryfinished command");
+        }
+        catch (CommandSyntaxException e)
+        {
+            Warn(source.getName() + "can't execute this(finished) command!!");
+        }
         return 0;
     }
 

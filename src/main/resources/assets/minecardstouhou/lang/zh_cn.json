@@ -63,7 +63,7 @@
   "advancements.minecardstouhou.moon.title": "举头望明月",
   "advancements.minecardstouhou.mukade.description": "在山洞里发现「暴食的蜈蚣」",
   "advancements.minecardstouhou.mukade.title": "小心蜈蚣！",
-  "advancements.minecardstouhou.narumi.description": "在主场馆南方发现并收集「肉体强化地藏」",
+  "advancements.minecardstouhou.narumi.description": "在幻想风穴发现并收集「肉体强化地藏」",
   "advancements.minecardstouhou.narumi.title": "要供奉吗？？？",
   "advancements.minecardstouhou.nue_op.description": "在天空之城的东侧发现并收集「恼人的UFO」",
   "advancements.minecardstouhou.nue_op.title": "有UFO吗？？？",
@@ -459,6 +459,8 @@
   "item.minecardstouhou.youmu_op": "半灵的一半",
   "item.minecardstouhou.yoyoko": "弹幕的亡灵",
   "itemGroup.Mine[Touhou]Card": "卡牌",
-  "mesg.minecardstouhou.disabled": "disabled",
-  "mesg.minecardstouhou.enabled": "enabled"
+  "mesg.minecardstouhou.disabled": "§6关闭",
+  "mesg.minecardstouhou.enabled": "§6开启",
+  "mesg.minecardstouhou.queryNameCount": "玩家 %s 当前获得%d/56张卡牌",
+  "mesg.minecardstouhou.queryFinished": "全收集的在线玩家有："
 }
