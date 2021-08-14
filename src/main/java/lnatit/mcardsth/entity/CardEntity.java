@@ -228,11 +228,11 @@ public class CardEntity extends Entity
     }
 
     @Override
-    public void onKillCommand()
+    public void remove(boolean keepData)
     {
         if (isImmortal)
             return;
-        else super.onKillCommand();
+        else super.remove(keepData);
     }
 
     @Override
