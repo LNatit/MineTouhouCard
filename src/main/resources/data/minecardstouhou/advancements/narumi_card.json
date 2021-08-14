@@ -1,5 +1,5 @@
 {
-  "parent": "minecardstouhou:koishi_card",
+  "parent": "minecardstouhou:dango_card",
   "display": {
     "icon": {
       "item": "minecardstouhou:narumi"

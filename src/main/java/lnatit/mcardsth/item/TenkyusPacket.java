@@ -51,6 +51,7 @@ public class TenkyusPacket extends Item
         }
         else if (playerIn instanceof ServerPlayerEntity)
             NetworkHooks.openGui((ServerPlayerEntity) playerIn, getContainer());
+
         return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
     }
 
