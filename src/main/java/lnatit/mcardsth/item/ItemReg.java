@@ -72,6 +72,8 @@ public class ItemReg
     public static final RegistryObject<Item> BLANK = ITEMS.register("blank", AttributeCard::new);
     public static final RegistryObject<Item> MAGATAMA2 = ITEMS.register("magatama2", AttributeCard::new);
 
+    public static final RegistryObject<Item> NULL = ITEMS.register("null",EasterCard::new);
+
     public static final RegistryObject<Item> ABS_LIFE = ITEMS.register("abs_life", LifeItem::new);
     public static final RegistryObject<Item> ABS_SPELL = ITEMS.register("abs_spell", SpellItem::new);
 

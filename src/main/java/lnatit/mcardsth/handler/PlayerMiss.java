@@ -86,7 +86,7 @@ public class PlayerMiss
                     stack.shrink(loss);
 
                     //物品使用统计数据更新
-                    player.addStat(Stats.ITEM_USED.get(EMERALD), 16);
+                    player.addStat(Stats.ITEM_USED.get(EMERALD), loss);
 
                     BombType.playerBomb(player.world, player, BombType.S_STRIKE);
 

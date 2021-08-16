@@ -5,6 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import lnatit.mcardsth.item.AbstractCard;
+import lnatit.mcardsth.item.EasterCard;
 import lnatit.mcardsth.item.ItemReg;
 import lnatit.mcardsth.utils.AdvancementUtils;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
@@ -132,11 +133,13 @@ public class CommandEventHandler
                     Item item = itemObj.get();
                     if (item instanceof AbstractCard && item.getRegistryName() != null)
                     {
-                        setPlayerIdeallandTagSafe((PlayerEntity) entity, item.getRegistryName().getPath(), true);
-                        AdvancementUtils.giveAdvancement((PlayerEntity) entity,
-                                                         item.getRegistryName().getPath() + "_card"
-                        );
-                        i++;
+                        String key = item.getRegistryName().getPath();
+                        setPlayerIdeallandTagSafe((PlayerEntity) entity, key, true);
+                        if (!(item instanceof EasterCard))
+                        {
+                            AdvancementUtils.giveAdvancement((PlayerEntity) entity, key + "_card");
+                            i++;
+                        }
                     }
                 }
                 setPlayerIdeallandTagSafe((PlayerEntity) entity, COUNT, i);
@@ -157,7 +160,10 @@ public class CommandEventHandler
                 {
                     Item item = itemObj.get();
                     if (item instanceof AbstractCard && item.getRegistryName() != null)
-                        setPlayerIdeallandTagSafe((PlayerEntity) entity, item.getRegistryName().getPath(), false);
+                    {
+                        String key = item.getRegistryName().getPath();
+                        setPlayerIdeallandTagSafe((PlayerEntity) entity, key, false);
+                    }
                 }
                 setPlayerIdeallandTagSafe((PlayerEntity) entity, COUNT, 0);
                 PlayerPropertiesUtils.syncPlayerCards((PlayerEntity) entity);

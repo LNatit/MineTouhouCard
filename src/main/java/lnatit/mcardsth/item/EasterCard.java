@@ -8,9 +8,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class AttributeCard extends AbstractCard
+public class EasterCard extends AbstractCard
 {
-    public AttributeCard()
+    public EasterCard()
     {
         super(new Item.Properties()
                       .group(CardGroup.CARDS)
@@ -22,17 +22,6 @@ public class AttributeCard extends AbstractCard
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
-
-        if (this == ItemReg.BLANK.get())
-        {
-            if (cardCollection(playerIn, itemstack))
-            {
-                ItemStack itemStack1 = new ItemStack(ItemReg.TENKYU_S_PACKET.get());
-                return ActionResult.func_233538_a_(itemStack1, worldIn.isRemote());
-            }
-            else
-                return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
-        }
-        else return ActionResult.resultFail(itemstack);
+        return ActionResult.resultFail(itemstack);
     }
 }

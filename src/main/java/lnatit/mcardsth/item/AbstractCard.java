@@ -62,9 +62,8 @@ public class AbstractCard extends Item
     @Override
     public String getTranslationKey()
     {
-        if (FMLEnvironment.dist == Dist.CLIENT)
-            if (!doPlayerCollected((PlayerEntity) (Object) Minecraft.getInstance().player, this))
-                return UNKNOWN;
+        if (this instanceof EasterCard)
+            return UNKNOWN;
         return super.getTranslationKey();
     }
 }

@@ -1,6 +1,7 @@
 package lnatit.mcardsth.handler;
 
 import lnatit.mcardsth.item.AbstractCard;
+import lnatit.mcardsth.item.EasterCard;
 import lnatit.mcardsth.item.TenkyusPacket;
 import lnatit.mcardsth.utils.PlayerPropertiesUtils;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,12 +38,18 @@ public class ItemDesc
         if (item instanceof AbstractCard)
         {
             if (!doPlayerCollected(player, (AbstractCard) item))
-                info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_unknown"));
+            {
+                if (!(item instanceof EasterCard))
+                    info.add(new TranslationTextComponent(
+                            "desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_unknown"));
+                else event.getToolTip().clear();
+            }
             else
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    TranslationTextComponent text = new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1));
+                    TranslationTextComponent text = new TranslationTextComponent(
+                            "desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1));
 
                     text.mergeStyle(TextFormatting.AQUA);
 
@@ -55,9 +62,11 @@ public class ItemDesc
             int count = getPlayerIdeallandIntSafe(player, COUNT);
 
             for (int i = 0; i < 2; i++)
-                info.add(new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1)));
+                info.add(new TranslationTextComponent(
+                        "desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + (i + 1)));
 
-            TranslationTextComponent text1 = new TranslationTextComponent("desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + 3, count);
+            TranslationTextComponent text1 = new TranslationTextComponent(
+                    "desc." + MOD_ID + "." + item.getRegistryName().getPath() + "_" + 3, count);
 
             text1.mergeStyle(TextFormatting.GOLD);
 

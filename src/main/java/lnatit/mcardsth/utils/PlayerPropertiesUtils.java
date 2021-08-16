@@ -1,6 +1,7 @@
 package lnatit.mcardsth.utils;
 
 import lnatit.mcardsth.item.AbstractCard;
+import lnatit.mcardsth.item.EasterCard;
 import lnatit.mcardsth.item.ItemReg;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -48,7 +49,7 @@ public class PlayerPropertiesUtils
             return false;
         }
 
-        if (!updatePlayerCardsTotal(player))
+        if (!(card instanceof EasterCard) && !updatePlayerCardsTotal(player))
             return false;
 
         setPlayerIdeallandTagSafe(player, card.getRegistryName().getPath(), true);
@@ -112,7 +113,7 @@ public class PlayerPropertiesUtils
         {
             Item item = ItemObj.get();
             String key = item.getRegistryName().getPath();
-            if (item instanceof AbstractCard && getPlayerIdeallandBoolSafe(player, key))
+            if (item instanceof AbstractCard && !(item instanceof EasterCard) && getPlayerIdeallandBoolSafe(player, key))
             {
                 count++;
                 nbt.putBoolean(key, true);
