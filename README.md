@@ -1,2 +1,5 @@
-# MineTouhouCard
- Teacon 2021 participation mod, created and developed by M[T]c mod group
+# MineTeaConCollections
+
+ Maybe the project will reborn
+
+ Aim to become one of the TeaCon infrastructures
