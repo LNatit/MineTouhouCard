@@ -43,6 +43,11 @@ public class ProgressEntry implements INBTSerializable<CompoundTag>
     {
     }
 
+    public boolean withType(TriggerType type)
+    {
+        return (this.triggerFlag & type.getMask()) != 0;
+    }
+
     public ItemStack toItemStack()
     {
         ItemStack target = new ItemStack(this.imitateItem, 1);
@@ -94,8 +99,8 @@ public class ProgressEntry implements INBTSerializable<CompoundTag>
     {
         INTERACT("interact_with"),
         GET_ITEM("get_item"),
-        ADVANCEMENT("advancement"),
-        VISIT_DIM("visit_dimension"),
+        ADVANCEMENT("gain_adv"),
+        VISIT_DIM("visit_dim"),
         UNION("complete_on"),
         MEET("meet_with"),
         VIRAL("viral_from");

@@ -2,6 +2,7 @@ package com.lnatit.mtcc.command;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.server.packs.resources.Resource;
@@ -33,7 +34,11 @@ public class CommandRegistry
                                       .then(Commands.literal("add")
                                                     .then(Commands.argument("target", ItemArgument.item(pContext))
                                                                   .executes(CommandImpl::addEntry)
+                                                                  .then(Commands.argument("id", StringArgumentType.string())
+                                                                                .executes(CommandImpl::addEntry)
+                                                                  )
                                                     )
+                                                    .executes(CommandImpl::addEntry)
                                       )
                                       .then(Commands.literal("remove")
                                                     .then(Commands.argument("entry", StringArgumentType.string())

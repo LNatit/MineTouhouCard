@@ -17,6 +17,7 @@ import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -86,8 +87,26 @@ public class CommandImpl
 
     public static int addEntry(CommandContext<CommandSourceStack> context) throws CommandSyntaxException
     {
-        ItemStack target = ItemArgument.getItem(context, "target").createItemStack(1, false);
-        ProgressEntry entry = new ProgressEntry(target.getDescriptionId(), target);
+        String entryId;
+        ItemStack target;
+        try
+        {
+            target = ItemArgument.getItem(context, "target").createItemStack(1, false);
+        }
+        catch (IllegalArgumentException pass1)
+        {
+            // TODO
+            target = context.getSource().getPlayer().getItemInHand(InteractionHand.MAIN_HAND);
+        }
+        try
+        {
+            entryId = StringArgumentType.getString(context, "id");
+        }
+        catch (IllegalArgumentException pass2)
+        {
+            entryId = target.getDescriptionId();
+        }
+        ProgressEntry entry = new ProgressEntry(entryId, target);
         getSupplierFromContext(context).addEntry(entry);
         context.getSource().sendSuccess(() -> Component.literal("Added " + entry.getChatLink() + '!'), true);
         return 0;
